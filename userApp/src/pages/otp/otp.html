@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>
+      <span>Enter OTP</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form padding (ngSubmit)="submitForm()" [formGroup]="otp">
+    <ion-item>
+      <ion-label floating>Enter OTP sent to your mobile</ion-label>
+      <ion-input type="text" formControlName="otp"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="error" no-lines color="danger">
+      Wrong OTP entered
+    </ion-item>
+    <ion-item text-center>
+      <button ion-button large type="submit" block [disabled]="!otp.valid">Submit</button>
+    </ion-item>
+
+  </form>
+
+</ion-content>

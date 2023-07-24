@@ -1,0 +1,25 @@
+<ion-menu [content]="content" class="sidebar">
+  <ion-header style="padding: 15px 0px;">
+    <ion-list no-lines>
+      <ion-item>
+        <ion-avatar item-start>
+          <img [src]=" userService.user.picture ||  'https://images.askmen.com/1080x540/2016/01/25-021526-facebook_profile_picture_affects_chances_of_getting_hired.jpg'">
+        </ion-avatar>
+        <h2>{{userService.user.firstName}} {{userService.user.lastName}}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-header>
+
+  <ion-content>
+    <ion-list no-lines>
+      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)" class="sidebarList">
+        <ion-icon name={{p.icon}} color={{p.color}}></ion-icon>
+        <span style="margin-left: 15px; font-weight: 100;">{{p.title}}</span>
+      </button>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

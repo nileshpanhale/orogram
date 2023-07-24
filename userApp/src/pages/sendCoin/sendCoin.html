@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons start style="order: 1">
+      <button ion-button icon-only color="secondary" menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <span>Send Coin</span>
+    </ion-title>
+    
+    <ion-buttons end>
+      <notification></notification>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <form padding (ngSubmit)="submitForm()" [formGroup]="sendCoin">
+    <ion-item>
+      <ion-label floating>Receiver Address</ion-label>
+      <ion-input type="text" formControlName="address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Coin</ion-label>
+      <ion-input type="text" formControlName="coin"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="error" no-lines color="danger">
+      {{error}}
+    </ion-item>
+    <ion-item text-center no-lines>
+      <button ion-button large type="submit" block [disabled]="!sendCoin.valid">Submit</button>
+    </ion-item>
+
+  </form>
+
+    <div padding >
+    <button  style="float:right" ion-button (click)="scanQR()">Scan QR</button>
+    </div>
+  
+
+</ion-content>

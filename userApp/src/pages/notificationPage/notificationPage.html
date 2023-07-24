@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons start style="order: 1">
+      <button ion-button icon-only color="secondary" menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <span>Notification</span>
+    </ion-title>
+    
+    <ion-buttons end>
+      <notification></notification>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let n of notifications">
+    <ion-card-header color="danger">
+      <b>{{n.type.toUpperCase()}}</b>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div>You {{n.type}} {{n.numberOfCoins}} coins to wallet address:</div>
+      <b>{{n.walletAddress}}</b>
+      <p>{{n.date}}</p>
+    </ion-card-content>
+    
+  </ion-card>
+  
+</ion-content>
