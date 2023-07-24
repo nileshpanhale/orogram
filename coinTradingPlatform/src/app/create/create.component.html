@@ -1,0 +1,175 @@
+<div class="container main1">
+
+		<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop:'true', backdropBorderRadius: '3px' }"></ngx-loading>
+
+    <div class="price-card">
+            <p>1 BTC/EUR : ${{ btcPrice}} </p>
+            <p>1 Bitoro/EUR : ${{bitoroPrice}}</p>
+            <p>1 Bitoro/BTC : {{bitorobtc}}</p>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+            <a style="font-size: 20px">Create New Trade Order</a>
+            <!-- <a style="float: right" routerLink='/manage'><button>Add Bank Account</button></a> -->
+        </div>
+    </div>
+    
+    <!-- <form [formGroup]="form" (ngSubmit)="submit(form.value)" class="form-horizontal" > -->
+        <form [formGroup]="form" class="form-horizontal" >
+
+            <div class="row COrow2">
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p>Total No. of Coins</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p *ngIf="isLoading"><strong>Loading...</strong></p>
+                    <p *ngIf="!isLoading"><strong>{{coinCount}}</strong></p>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p>Coins to Trade</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <input class="COinput1" type="number" placeholder="Enter number of Coins"  [ngClass]="{'has-error': (!tradeCoin.valid && tradeCoin.touched), 'has-success': (tradeCoin.valid && tradeCoin.touched)}" [formControl]="tradeCoin" >
+                    <span *ngIf="!tradeCoin.valid && tradeCoin.touched" style="font-size:11px;color:red" >Enter Numbers Only</span> 
+                    <span *ngIf="((form.value.tradeType == 'Sell') && ((form.value.tradeCoin * 1.01)) > coinCount) || ((form.value.tradeType == 'Buy') && ((form.value.tradeCoin * 0.04)) > coinCount)" style="font-size:11px;color:red">Insufficient Coins, Need Some more coins to hold</span>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p>Total Coin Value</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <input class="COinput2" type="number" placeholder="Enter Coin Value" [ngClass]="{'has-error': (!coinValue.valid && coinValue.touched), 'has-success': (coinValue.valid && coinValue.touched)}" [formControl]="coinValue" >
+                        <span *ngIf="!coinValue.valid && coinValue.touched" style="font-size:11px;color:red" >Enter Numbers Only</span> <br>  
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p>Payment Method</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <select (click)="partialUpdate()" class="COselect1" [ngClass]="{'has-error': (!method.valid && method.touched), 'has-success': (method.valid && method.touched)}" [formControl]="method">
+                        <option value="" disabled>Select One</option>
+                        <option value="Bank Account">Bank Account</option>
+                        <option value="Wallet">Wallet</option>
+                    </select>
+                </div>
+                                        
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                    <p>Trade Country</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <select class="COselect2" [ngClass]="{'has-error': (!country.valid && country.touched), 'has-success': (country.valid && country.touched)}" [formControl]="country">
+                            <option value="" disabled>Select Country</option> 
+                            <option  *ngFor="let item of collection">{{item.name}}</option>
+                        </select>
+                </div>
+
+                <div *ngIf="form.value.method == 'Bank Account'" style="display: contents;">  
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <p>Currency</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <select class="COselect2" [ngClass]="{'has-error': (!currencyType.valid && currencyType.touched), 'has-success': (currencyType.valid && currencyType.touched)}" [formControl]="currencyType">
+                            <option value="" disabled>Select Currency</option> 
+                            <option  *ngFor="let item of currencies">{{item.AlphabeticCode}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div *ngIf="form.value.method == 'Wallet'" style="display: contents;">        
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <p>Enter Wallet Address</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <input class="COinput2" type="text" placeholder="Wallet Address" [ngClass]="{'has-error': (!wallet.valid && wallet.touched), 'has-success': (wallet.valid && wallet.touched)}" [formControl]="wallet" >
+                    </div>
+                </div>
+                <div *ngIf="form.value.method == 'Bank Account'" style="display: contents;">        
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" >
+                        <p>Select Bank Address</p>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <select class="COselect2" [ngClass]="{'has-error': (!bank.valid && bank.touched), 'has-success': (bank.valid && bank.touched)}" [formControl]="bank">
+                            <option value="" disabled>Select Bank Account</option> 
+                            <option  *ngFor="let item of accountAddresses">{{item.accountNumber}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <p>Type Of Trade</p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <select class="COselect2" [ngClass]="{'has-error': (!tradeType.valid && tradeType.touched), 'has-success': (tradeType.valid && tradeType.touched)}" [formControl]="tradeType">
+                        <option value="" disabled>Select Trade</option> 
+                        <option value="Buy">Buy</option>
+                        <option value="Sell">Sell</option>
+                    </select>
+                </div>
+
+                <div *ngIf="form.value.tradeType== 'Sell'">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <p>Select Invoice</p>
+                    </div>
+                    <div>
+                        <!-- ng2 file upload here --------------------------------------- -->
+                        <!-- <label class="custom-file-upload" for="file-upload"> Select Invoice </label> -->
+                        <input id="file-upload" name="file" type="file" ng2FileSelect [uploader]="uploader" multiple/>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                            <th width="50%">Name</th>
+                            <th>Size</th>
+                            <th>Progress</th>
+                            <th></th>
+                            <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let item of uploader.queue">
+                            <td><strong>{{ item?.file?.name }}</strong></td>
+                            <td *ngIf="uploader" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                            <td *ngIf="uploader">
+                                <div class="progress" style="margin-bottom: 0;">
+                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-xs"
+                                    (click)="item.remove()">
+                                <span class="glyphicon glyphicon-trash"></span> Remove
+                                </button>
+                            </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <br>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p>Terms of Trade</p>
+                    <textarea class="COtextarea1" rows="6" placeholder="Enter Terms of trade" [formControl]="remarks"></textarea>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                    <a>
+                        <button class="CObtn4 sbbtn" (click)="uploadImages(form.value)" [disabled]=" !uploader.queue || form.invalid || ((form.value.tradeType == 'Sell') && ((form.value.tradeCoin * 1.01)) > coinCount ) || ((form.value.tradeType == 'Buy') && ((form.value.tradeCoin * 0.04)) > coinCount )" [style.opacity]="  !uploader.queue ||form.invalid || ((form.value.tradeType == 'Sell') && ((form.value.tradeCoin * 1.01)) > coinCount)?0.5:1 || ((form.value.tradeType == 'Buy') && ((form.value.tradeCoin * 0.04)) > coinCount )">Submit</button>
+                        <!-- <button class="CObtn4 sbbtn" [ngClass]="{'buttonDisabled':buttonflag || form.invalid || !(form.value.bank || form.value.wallet) || ((form.value.tradeType == 'Sell') && (form.value.tradeCoin + (form.value.tradeCoin * 0.02)) > coinCount), 'buttonAllowed':form.valid && (form.value.bank || form.value.wallet) }" [disabled]="buttonflag || form.invalid || !(form.value.bank || form.value.wallet) || ((form.value.tradeType == 'Sell') && (form.value.tradeCoin + (form.value.tradeCoin * 0.02)) > coinCount)">Submit</button> -->
+                    </a>
+                </div>
+
+
+            </div>
+        </form>
+      
+  
+</div>
+<hr>

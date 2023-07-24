@@ -1,0 +1,93 @@
+<div class="container main1">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <!-- <a href="#" class="btn1"> -->
+          <button (click)="deactivateaccount()" class="dbtn">Deactivate Account</button>
+        <!-- </a> -->
+      </div>
+    </div>
+    <div class="row border1">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 div3 form-group">
+  
+        
+        <div class="div1 form-group">
+          <h1 class="formhead1" style="background: #f4bb09">Account Information</h1>
+        </div>
+       
+        <!-- Upload profile picture -->
+     <div  class="row text-center" style="margin-bottom:11px">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+          <img id="profileImage"  [src]="profileBaseUrl + userService.user['picture']" alt="">
+        </div>
+      </div>
+     <div class="row">   
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+            <button routerLink="/profile" class="dbtn">Go Back</button>
+          </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+            <!-- <img src="assets/no-photo.png" alt=""> -->
+        
+          <input type="file" (change)="onFileChange($event)" #fileInput style="display: none" multiple="" />
+          <button (click)="fileInput.click();" class="dbtn">{{userService.user['picture']?'Change profile picture': 'Upload profile
+            picture'}}</button>
+          <br>
+          <!-- <button (click)="uploadFile();">Upload File</button> -->
+        
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 text-center">
+            <button routerLink="/passwd" class="dbtn">Change Password</button>
+        </div>
+     </div>
+
+     <!-- upload Documents -->
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+        <br><br>
+        <input type="file" (change)="onDocChange($event)" #fileInput2 style="display: none" multiple="" />
+        <button (click)="fileInput2.click();" class="dbtn">{{userService.user['documents'].length?'Update Documents': 'Upload documents'}}</button>
+     </div>
+       
+
+      <form (ngSubmit)="submitForm()" [formGroup]="profileForm">
+        <div class="div2 form-group">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            </div>
+          </div>
+          <label for="uname"><b>First Name</b></label>
+          <input type="text" placeholder="Enter Profile Name" class="form-control"   formControlName="firstName" [ngClass]="{'has-error': (!firstName.valid && firstName.touched), 'has-success': (firstName.valid && firstName.touched)}" required >
+          
+              <div *ngIf="firstName.invalid && firstName.touched"><span style="font-size: 11px;color: red">First Name is required</span></div>
+          
+          <label for="uname"><b>Last Name</b></label>
+          <input type="text" placeholder="Enter Profile Name" class="form-control"   formControlName="lastName" [ngClass]="{'has-error': (!lastName.valid && lastName.touched), 'has-success': (lastName.valid && lastName.touched)}" required >
+              <div *ngIf="lastName.invalid && lastName.touched"><span style="font-size: 11px;color: red">Last Name is required</span></div>
+
+          <label for="uname"><b>Email</b></label>
+          <input type="email" readonly  placeholder="Enter Email address"  class="form-control"  formControlName="email"
+          required >
+
+          <label for="uname"><b>Mobile</b></label>
+          <input type="text" placeholder="Enter Mobile Number" class="form-control"   formControlName="mobile" [ngClass]="{'has-error': (!mobile.valid && mobile.touched), 'has-success': (mobile.valid && mobile.touched)}" required >
+              <div *ngIf="mobile.invalid && mobile.touched"><span style="font-size: 11px;color: red">Mobile Number is required</span></div>
+              
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+              <!-- <a href="/home"> -->
+                <button class="button2 dbtn" type="submit"  [style.opacity]="profileForm.invalid?0.5:1" [ngClass]="{'buttonDisabled': profileForm.invalid || mobile.invalid}" [disabled]="profileForm.invalid || !mobile.valid">Save</button>
+              <!-- </a> -->
+                </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+              <a>
+                <button type="button"  class="button2 dbtn" routerLink="/profile">Cancel</button>
+              </a>
+            </div>
+          </div>
+        </div>
+  
+  
+      </form>
+  
+      </div>
+    </div>
+  </div>
+  

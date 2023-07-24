@@ -1,0 +1,243 @@
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+  integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+<div class="container-fluid main1">
+  <div class="row">
+
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 BCdiv1 text-center">
+      <a style="position: relative;"><button [routerLink]="'/buy'" class="BCbtn1">Buy Crypto</button>
+        <span *ngIf="notifications?.openTradeBuy > 0" class="notification">{{notifications?.openTradeBuy}}</span>
+      </a>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 BCdiv2 text-center">
+      <!-- <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="bselect">
+            <option value="" disabled>Items Per page</option>
+            <option values="5">5</option>
+            <option values="10">10</option>
+            <option values="15">15</option>
+          </select> -->
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 BCdiv2 text-center">
+      <a style="position: relative;"><button [routerLink]="'/sell'" class="BCbtn2">Sell Crypto</button>
+        <span *ngIf="notifications?.openTradeSell > 0" class="notification">{{notifications?.openTradeSell}}</span>
+      </a>
+    </div>
+
+  </div>
+
+
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop:'true', backdropBorderRadius: '3px' }"></ngx-loading>
+
+  <div class="price-card">
+    <p>1 BTC/EUR : ${{ btcPrice}} </p>
+    <p>1 Orogram/EUR : ${{bitoroPrice}}</p>
+    <p>1 Orogram/BTC : {{bitorobtc}}</p>
+  </div>
+
+  <div>
+    <div class="row BCrow2">
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <input class="BCinput1" type="text" placeholder="Enter Amount" [(ngModel)]="amount">
+        <span *ngIf="tokenError" style="font-size:11px;color:red">{{tokenError}}</span>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <select class="BCselect1" [(ngModel)]="country">
+          <option disabled value=''>Select Country</option>
+          <option *ngFor="let item of collection">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        <select class="BCselect3" [(ngModel)]="transactionMethod">
+          <option disabled value=''>Select Method</option>
+          <option value="Bank">Bank</option>
+          <option value="Wallet">Wallet</option>
+        </select>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <a style="margin: 0px 10px;"><button (click)="filterData()" class="BCbtn3">GO</button></a>
+        <a style="margin: 0px 10px;"><button (click)="resetValue()" class="BCbtn3">Reset</button></a>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        <select class="BCselect3" [(ngModel)]="filterCurrency" (ngModelChange)="applyCurrencyFilter()">
+          <option value=''>Select Currency</option>
+          <option *ngFor="let currency of currencies" [value]="currency.AlphabeticCode">{{currency.AlphabeticCode}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+        <h3>Buy Crypto Online</h3>
+      </div>
+    </div>
+
+    <div *ngIf="(!container?.length) && (!loading)" class="noData"> There is no record to show</div>
+
+    <div class="row" *ngIf="loading">
+      <div class="col-6">
+        <div style="float: right;">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="(container?.length && (!loading))">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+        <table id="myTable" class="table table-bordered">
+          <thead>
+            <tr class="header">
+              <th>Transaction Id</th>
+              <th>Seller Orogram Wallet</th>
+              <th>Country</th>
+              <th>Payment Method</th>
+              <th>Cost Per<br> Orogram</th>
+              <th>Total Orogram</th>
+              <th>Total Price</th>
+              <!-- <th>Currency</th> -->
+              <th>Price (EUR)</th>
+              <th>Date</th>
+
+              <th colspan="3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="myTable3" *ngFor="let item of container | filter : 'user' : selectedName ; let i = index">
+            <tr *ngIf="!item.isContract">
+              <td (click)="popup(i)"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;min-width: 150px;width: 150px;max-width: 150px;">
+                {{item._id}}</td>
+              <td (click)="popup(i)"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;min-width: 150px;width: 150px;max-width: 150px;">
+                {{item.senderWallet}}</td>
+              <td (click)="popup(i)">{{item.country}}</td>
+              <td (click)="popup(i)">{{ ((item.tradeType == 'wallet') ? 'Bitcoin' : item.tradeType) | uppercase}}</td>
+              <td (click)="popup(i)"
+                style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;min-width: 150px;width: 150px;max-width: 150px;">
+                {{item.amount | filterPrice : ((item.coins)) }} {{item.currency ? item.currency :
+                "BTC"}}</td>
+              <td (click)="popup(i)">{{(item.coins)}}<img src="../../assets/orogram_logo.jpeg" width="25px"
+                  height="25px" /></td>
+              <td (click)="popup(i)">{{(item.amount | filterPrice : ((item.coins)))*((item.coins))}} {{item.currency ?
+                item.currency :
+                "BTC"}}</td>
+              <!-- <td (click)="popup(i)">{{item.currency ? item.currency : "Btc"}}</td> -->
+              <td *ngIf="item.tradeType == 'bank'" (click)="popup(i)">{{ (convertToEuro(item.currency, (item.amount |
+                filterPrice : (intToDecimal(item.coins)))*(intToDecimal(item.coins)))).toFixed(2) }} EUR</td>
+              <td *ngIf="item.tradeType == 'wallet'" (click)="popup(i)">{{ (amountEuro((item.amount | filterPrice :
+                (intToDecimal(item.coins)))*(intToDecimal(item.coins)))).toFixed(2)}} EUR</td>
+
+              <td (click)="popup(i)">{{item.createdAt.split('T')[0]}}</td>
+              <td><button class="buybtn" placeholder="Buy" (click)="set(i)">Buy & Sign</button></td>
+              <td><button [disabled]="item.status == 'cancel' || item.status == 'confirm'" class="buychatbtn"
+                  placeholder="Chat" (click)="chat(i, $event)">Chat <span><i
+                      *ngIf="(item.isNotification && item.tempNotification)" class="fa fa-bell"
+                      style="font-size:18px;color:red"></i></span></button></td>
+              <td><button class="buychatbtn" placeholder="Details" (click)="popup(i)">Details </button></td>
+
+            </tr>
+          </tbody>
+        </table>
+        <!--<div style="display:inline-block">
+        <ul class="navmainlist1" *ngIf="count > perPage" style="list-style:none;display:flex;">
+            <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)"
+                [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+        </ul>
+         <a *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)">{{pageNum}}&nbsp;&nbsp;</a> 
+    </div> <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a> -->
+      </div>
+
+    </div>
+    <div *ngIf="display">
+      <div class="backdrop"></div>
+    </div>
+
+    <div class="modal fade backdrop" id="myModal" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Transaction Data</h4>
+
+            <button type="button" class="close" data-dismiss="modal" (click)="close()">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <div>Price:{{chosenContainer.amount}}</div>
+              <div>Total Coin: {{(chosenContainer.coins)}}<img src="../../assets/orogram_logo.jpeg" width="25px"
+                  height="25px" /></div>
+              <!-- <div>
+              <select [(ngModel)]="pay_method"  (click)="setMethod()">
+                <option value='' disabled>Select</option>
+                <option value="Wallet">Wallet</option>
+                <option value="Bank">Bank</option>
+              </select>
+            </div> -->
+              <div>Payment Method:{{chosenContainer.tradeType | uppercase}}</div>
+              <div *ngIf="chosenContainer.tradeType == 'bank'">
+                <label>Select Bank Address:</label>
+                <select [(ngModel)]="pay_bank">
+                  <option value='' disabled>Select</option>
+                  <option *ngFor="let item of accountAddresses">{{item.accountNumber}}</option>
+                </select>
+              </div>
+              <div *ngIf="chosenContainer.tradeType=='wallet'">
+                <label>Enter Wallet Address:</label>
+                <input placeholder="Wallet Address" [(ngModel)]="walletAddress">
+              </div>
+              <!-- <div>Description: {{chosenContainer.remarks}}</div> -->
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal"
+              [disabled]="!(walletAddress || pay_bank)" (click)="trade()">Submit</button>
+            <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal" (click)="close()">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- new chat ui here -------------------------------------- -->
+    <div class="popup-outer">
+      <div class="popup-wrapper">
+        <span class="chatclose"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        <ul>
+          <li style="position: relative;" *ngFor="let user of chatRoom; let i = index"><a href="javascript:void(0);"
+              (click)="chatnew(i)">{{user.roomNo}}</a>
+            <span class="badge badge-danger">{{user.count}}</span>
+          </li>
+
+        </ul>
+      </div>
+      <a href="javascript:void(0);" class="chat-control">Chat Box <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+    </div>
+
+    <div class="chatbox-container" *ngIf="chatBooleanmultiple">
+      <div class="chat-header">
+        <p>TranId <span style="font-size: 13px;">{{transactionId}}</span></p>
+        <span><i class="fa fa-times-circle" aria-hidden="false" (click)="closeChat()"></i></span>
+      </div>
+      <div class="chat-body">
+        <a class="btn" style="border-radius: 5px; font-size: 13px; background-color: #f8c546;"
+          (click)="notifyAdminNeeded()">Contact Admin</a>
+        <div *ngFor="let message of messages"
+          [ngClass]="{'sender-wrapper':message.self == false,'receiver-wrapper':message.self == true}">
+          <p class="msg">{{message.text}}</p>
+          <span class="sender-name">{{message.name}}</span>
+        </div>
+
+
+      </div>
+      <form action="">
+        <div class="type-area">
+          <input type="text" name='msg' placeholder="Type your Message.." class="inputtext" [(ngModel)]="replyMessage">
+          <span><i class="fa fa-paper-plane" (click)="reply()"></i></span>
+        </div>
+      </form>
+    </div>

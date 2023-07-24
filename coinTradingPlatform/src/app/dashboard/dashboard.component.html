@@ -1,0 +1,85 @@
+<div class="container main1">
+            
+                
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 div1">
+      <h2 class="divhd1"  style="background: #f4bb09">User Profile</h2>
+      <div class="row">
+      
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center formdiv">
+                <!--<img src="assets/no-photo.png" alt=""><br>-->
+                <img id="profileImage" [src]="profileBaseUrl + userService.user['picture']" alt="" style="width:200px;height:150px;"> <br><br>
+                <a style="display: block;">
+                  <button class="btn btn1" routerLink="/editProfile">Edit Profile</button>
+                </a>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center formdiv">
+                <img src="assets/Trade.png" alt=""><br>
+                <a style="display: block;">
+                  <a style="position: relative;"><button class="btn btn2" routerLink="/trade">Trade History</button>
+                    <span class="notification" *ngIf="historyNotifications?.tradeHistory > 0">{{historyNotifications?.tradeHistory}}</span>
+                  </a>
+                  <a style="position: relative;"><button class="btn btn2" routerLink="/tradecontract">Contract History</button>
+                    <span class="notification" *ngIf="historyNotifications?.contractHistory > 0">{{historyNotifications?.contractHistory}}</span>
+                  </a>
+                  <a style="position: relative;"><button class="btn btn2" routerLink="/tradecontractclosed">Private Contract History</button>
+                    <span class="notification" *ngIf="historyNotifications?.privateContractHistory > 0">{{historyNotifications?.privateContractHistory}}</span>
+                  </a>
+                  <a style="position: relative;"><button class="btn btn2" routerLink="//transaction">Land Contract History</button>
+                    <span class="notification" *ngIf="historyNotifications?.privateContractHistory > 0">{{historyNotifications?.privateContractHistory}}</span>
+                  </a>
+                </a>
+              </div>
+              
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+      <div class="row" *ngIf="name">
+          <div class="col-md-3 col-md-offset-1">
+              <label>Name</label>
+            </div>
+            <div class="col-md-3 ">
+              {{name}}
+            </div>
+      </div>
+      <div class="row">
+          <div class="col-md-3 ">
+              <label>Email</label>
+            </div>
+            <div class="col-md-3 ">
+              {{email}}
+            </div>
+      </div>
+      <div class="row" *ngIf="mobile">
+          <div class="col-md-3 ">
+              <label>Mobile No.</label>
+            </div>
+            <div class="col-sm-6 ">
+              {{mobile}}
+            </div>
+      </div>
+      <div class="row">
+          <div class="col-md-3 ">
+              <label>Unique ID</label>
+            </div>
+            <div class="col-md-3 ">
+              {{id}}
+            </div>
+      </div>
+    </div>
+  </div>
+      </div>
+
+
+
+
+              
+          <!-- </div>
+          <button style="float:right;margin:20px" routerLink='/manage'> Manage Account </button>
+    </div> -->
+    
+  </div>
+
+
+

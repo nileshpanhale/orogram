@@ -1,0 +1,15 @@
+<div class="container acdiv">
+                            
+    <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center acdiv1">
+                    <h2 class="achd1">Google Authentication</h2>
+                    <p class="actext1">Please Enter the Verification Code you can see on Google Authenticator</p>
+                    <input class="acinput1" [(ngModel)]="googleCode" type="tel" placeholder="Enter Code Here">
+                    <a ><button (click)="navigate()" type="button" [disabled]="!googleCode" class="acbtn1">Submit</button></a>
+                        
+                            
+                           
+                </div>
+    </div>
+
+</div>

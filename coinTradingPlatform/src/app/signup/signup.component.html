@@ -1,0 +1,120 @@
+<section style=" padding-bottom: 30px; padding:0px !important">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12 col-md-12" style="padding: 30px 200px 0px 200px;">
+        <form class="modal-content" style="width: 100%; margin: 0px;" (ngSubmit)="submitForm(signupForm.value)" [formGroup]="signupForm">
+          <div class="container-fluid">
+            <div class="row" style="padding: 25px; text-align: center; background-color: #f4bb09;">
+              <div class="col-lg-12">
+                <h1>Sign Up</h1>
+              </div>
+            </div>
+            <div class="row" style="padding: 25px;">
+              <div class="col-lg-6 form-group">
+                <label for="fname"><b>First Name</b></label>
+                <input type="text" placeholder="Enter First Name"  class="form-control"   [formControl]="firstName"
+                [ngClass]="{'has-error': (!firstName.valid && firstName.touched), 'has-success': (firstName.valid && firstName.touched)}"
+                />
+                <!-- <span *ngIf="!firstName.valid && firstName.touched" style="font-size:11px;color:red" >Numbers and Special Characters not allowed</span>  -->
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="lname"><b>Last Name</b></label>
+                <input type="text" placeholder="Enter Last Name" class="form-control"   [formControl]="lastName"
+                [ngClass]="{'has-error': (!lastName.valid && lastName.touched), 'has-success': (lastName.valid && lastName.touched)}"
+                />
+                <!-- <span *ngIf="!lastName.valid && lastName.touched" style="font-size:11px;color:red" >Numbers and Special Characters not allowed</span> -->
+              </div>
+            </div>
+            <div class="row" style="padding: 25px;">
+              <div class="col-lg-12 form-group">
+                <label for="email"><b>Enter Desired User ID<span style="color:red; font-size: 15px"><sup>*</sup></span></b></label>
+                <input type="text" placeholder="Enter User ID Here" class="form-control"  [formControl]="email"
+                [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}"
+                />
+                <span *ngIf="!email.valid && email.touched"  style="font-size:11px;color:red" >User ID Required</span> 
+              </div>
+            </div>
+
+            <div class="row" style="padding: 25px 0px 0px 25px;">
+
+            <div class="col-lg-6 form-group">
+              <label for="tel"><b>Select Country Code <span style="color:red; font-size: 15px"><sup>*</sup></span></b></label>
+              <select class="COselect2" [ngClass]="{'has-error': (!countrycode.valid && countrycode.touched), 'has-success': (countrycode.valid && countrycode.touched)}" [formControl]="countrycode">
+                  <option value="" disabled>Select Country Code</option> 
+                  <option  *ngFor="let item of collection">{{item.Name}} ({{item.Code}})</option>
+              </select>
+            </div>
+
+            <!-- <div class="row" style="padding: 25px 0px 0px 25px;"> -->
+              <div class="col-lg-6 form-group">
+                <label for="tel"><b>Mobile No.<span style="color:red; font-size: 15px"><sup>*</sup></span></b></label>
+                <input type="tel" placeholder="10 Digit Mobile Number"  class="form-control"   [formControl]="mobile"
+                [ngClass]="{'has-error': (!mobile.valid && mobile.touched), 'has-success': (mobile.valid && mobile.touched)}"
+                >
+                <span *ngIf="!mobile.valid && mobile.touched" style="font-size:11px;color:red" >Enter Numbers within 15 digits</span>
+              </div>
+            <!-- </div> -->
+
+            </div>
+            <!-- <div class="row" style="padding: 25px;">
+              <div class="col-lg-11 form-group">
+                
+              </div>
+            </div> -->
+            <div class="row" style="padding: 25px;">
+              <div class="col-lg-6 form-group">
+                <label for="psw"><b>Password<span style="color:red; font-size: 15px"><sup>*</sup></span></b></label>
+                <input type="password" placeholder="8-Digit Password" [formControl]="password"  class="form-control"  
+                [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}"
+                />
+                <span *ngIf="!password.valid && password.touched" style="font-size:11px;color:red" >Password should be minimum 8 characters long and contain special character, alphabet and number</span>
+              </div>
+              <div class="col-lg-6 form-group">
+                <label for="psw"><b>Confirm Password<span style="color:red; font-size: 15px"><sup>*</sup></span></b></label>
+                <input type="password" placeholder="Repeat Password"  [formControl]="confirmPassword"  class="form-control"
+                [ngClass]="{'has-error': (!confirmPassword.valid && confirmPassword.touched), 'has-success': (confirmPassword.valid && confirmPassword.touched)}"
+                />
+                <span *ngIf="!confirmPassword.valid && confirmPassword.touched" style="font-size:11px;color:red" >Password should be minimum 8 characters long and contain special character, alphabet and number</span><br>
+                <span *ngIf="!passwords.valid && (password.touched || confirmPassword.touched)" style="font-size:11px;color:red">Passwords don't match.</span>
+              </div>
+            </div>
+            <div class="row" style="padding: 25px;">
+              <div class="col-lg-12 form-group">
+                  <input type="checkbox" required name=" terms" (change)="terms($event)" id="field_terms"/>  I agree with the <a href="/terms" title="You may read our terms and conditions by clicking on this link">terms and conditions</a> for Registration.<br>
+                </div>                   
+              </div>
+
+              <div class="row" style="padding: 25px 0px 0px 25px;">
+              <re-captcha
+              (resolved)="resolved($event)"
+              siteKey="6Lem8MoUAAAAAOx-OBs_gK3ntQy9JvVGjwOk1teq"
+            ></re-captcha>
+            </div>
+
+            <br>
+            <!-- <div class="row" style="padding: 25px;">
+                <div class="col-lg-12 form-group">
+                <label>    
+                  <input type="checkbox" (click)="verify()">
+                  Verify Mobile No  
+                </label>
+                
+                </div>
+            </div> -->
+            
+            <div class="row" style="padding: 25px 0px 70px 0px;">
+              <div class="col-lg-4">
+              </div>
+              <!--  block [disabled]="!signupForm.valid" -->
+              <div class="col-lg-4 ">
+                <button style="width: 100%;  border-radius: 5px; padding:15px;" [ngClass]="{'buttonDisabled':!signupForm.valid || isChecked || isCaptch, 'buttonAllowed':signupForm.valid && !(isChecked) && !(isCaptch)}"  [disabled]="(!signupForm.valid || isChecked || isCaptch)" type="submit">Submit</button>
+              </div>
+              <div class="col-lg-4">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

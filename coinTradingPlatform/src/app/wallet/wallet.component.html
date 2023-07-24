@@ -1,0 +1,119 @@
+<div class="container main1">
+
+
+  <div class="row">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 div1">
+      <h2 class="divhd1" style="background: #f4bb09">Wallet</h2>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+          <label>Wallet Address</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          <label>Total No. Of Orogram Coins</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          <label>Admin Holded Coins</label>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          <label>Remaining Coins</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 text-center">
+          {{walletAddress}}
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          {{(totalCoin).toFixed(2)}}<img src="../../assets/orogram_logo.jpeg" width="25px" height="25px" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          {{(holdedCoin).toFixed(2)}}<img src="../../assets/orogram_logo.jpeg" width="25px" height="25px" />
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 text-center">
+          {{(remainingCoins).toFixed(2)}}<img src="../../assets/orogram_logo.jpeg" width="25px" height="25px" />
+        </div>
+      </div>
+
+    </div>
+
+    <!-- </div>
+          <button style="float:right;margin:20px" routerLink='/manage'> Manage Account </button>
+    </div> -->
+    <div class="col-12">
+      <h3 class="heading1">User Wallet History</h3>
+    </div>
+
+    <div *ngIf="(count == 0) && (!loading)" class="noData"> There is no record to show</div>
+
+    <div class="col-12" *ngIf="loading">
+      <div style="text-align: -webkit-center;;">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+
+    <div class="row colsend" *ngIf="(count > 0) && (!loading)">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+        <table id="myTable" class="table table-bordered">
+
+          <thead>
+            <tr class="header">
+              <th (click)="sort('walletaddress')">Transaction ID
+                <span class="glyphicon sort-icon" *ngIf="key =='walletaddress'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <!-- <th (click)="sort('txnType')">Transaction Type
+                <span class="glyphicon sort-icon" *ngIf="key =='txnType'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th> -->
+              <!-- <th>User Address</th> -->
+              <th>Sender</th>
+              <th>Receiver</th>
+              <th width=300px>Price in Orogram
+                <span class="glyphicon sort-icon" *ngIf="key =='noOfcoins'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+
+          <tbody id="myTable4">
+            <tr *ngFor="let i of container">
+              <td>
+                {{i._id}}
+                <!-- <div *ngIf="walletAddress == i.senderAccount">{{i.recipientId}}</div> -->
+              </td>
+              <!-- <td>
+                <div *ngIf="walletAddress == i.recipientId">Received From</div>
+                <div *ngIf="walletAddress == i.senderId">Sent to</div>{{i.type | uppercase}}
+              </td> -->
+              <!-- <td>
+                  <div>{{(walletAddress == i.recipientId)?i.senderId:i.recipientId}}</div>
+                  <div *ngIf="i.transaction.message != null">({{i.transaction.message}})</div>
+              </td> -->
+              <td>{{i.senderWallet}}</td>
+              <td>{{i.receiverWallet}}</td>
+              <td>{{(i.coins)}}<img src="../../assets/orogram_logo.jpeg" width="25px" height="25px" />
+              </td>
+              <!-- <td>{{intoDateFormat(i.updatedAt)}}</td> -->
+              <td>{{intoDateFormat(i.updatedAt)}}</td>
+
+              <!-- <td>{{new Date(i.timestamp)|date:'yyyy-MM-dd'}}</td> -->
+            </tr>
+          </tbody>
+
+        </table>
+        <div style="display:inline-block">
+          <ul class="navmainlist1" *ngIf="count > perPage" style="list-style:none;display:flex;">
+            <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)"
+              [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+          </ul>
+        </div>
+
+        <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next
+        </a>
+        <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+      </div>
+    </div>
+
+  </div>
+</div>

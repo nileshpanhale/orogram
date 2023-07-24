@@ -1,0 +1,289 @@
+<header>
+  <!-- <div *ngIf = "tradeclicked">
+    <div (clickOutside)="onClickedOutside($event)"></div>
+  </div> -->
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2b2a28;" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" style="width:70px;height:auto">
+        <img src="assets/Untitled-1.png" routerLink="/home" style="width:100%;height:auto">
+      </a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" routerLink="/earth-map" routerLinkActive="active">
+              <i class="fas fa-qutradeSelectedestion-circle"></i> <span translate> Map</span></a>
+          </li>
+          <li class="nav-item" *ngIf="!authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger" routerLink="/about" routerLinkActive="active">
+              <i class="fas fa-qutradeSelectedestion-circle"></i> <span translate> About</span></a>
+          </li>
+          <!-- <li class="nav-item">
+                   <a class="nav-link js-scroll-trigger" routerLink="/services" routerLinkActive="active" >
+                    <i class="fas fa-balance-scale"></i> <span translate>Services</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" routerLink="/portfolio" routerLinkActive="active" >
+                  <i class="fas fa-align-left"></i><span translate>Portfolio</span> </a>
+                </li> -->
+
+          <!-- <li class="nav-item" *ngIf="!authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger" routerLink="/tradecontractall" routerLinkActive="active">
+              <i class="fa fa-exchange"></i><span translate> Contract History</span></a>
+          </li> -->
+
+
+          <li class="nav-item" *ngIf="!authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger" routerLink="/contact" routerLinkActive="active">
+              <i class="fas fa-phone-square"></i><span translate> Contact</span></a>
+          </li>
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger dropdown-toggle" data-toggle="dropdown" routerLinkActive="active">
+              <i class="fas fa-edit"></i><span translate> Create</span>
+            </a>
+            <div class="dropdown-menu">
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/create-contract"
+                  routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Open Contract</span>
+                </a>
+              </p>
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/create" routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Trade Order</span>
+                </a>
+              </p>
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/create-contract-closed"
+                  routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Private Contract</span>
+                </a>
+              </p>
+            </div>
+          </li>
+
+          <!-- ------------------------------- -->
+
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger dropdown-toggle" data-toggle="dropdown" routerLinkActive="active">
+              <i class="fa fa-credit-card-alt"></i><span translate> Buy/Sell</span>
+            </a>
+            <div class="dropdown-menu">
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/purchaseCrypto"
+                  routerLinkActive="active">
+                  <i class="fa fa-credit-card-alt"></i><span translate> Purchase</span>
+                </a>
+              </p>
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/sellCryptoAdmin"
+                  routerLinkActive="active">
+                  <i class="fa fa-credit-card-alt"></i><span translate> Sell to Orogram</span>
+                </a>
+              </p>
+
+            </div>
+          </li>
+
+
+          <!-- --------------------------------------- -->
+
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link js-scroll-trigger dropdown-toggle" data-toggle="dropdown" routerLinkActive="active"
+              style="position: relative;">
+              <i class="fa fa-exchange"></i><span translate> Trade Option</span><span *ngIf="notifications?.total > 0"
+                class="notification">{{notifications?.total}}</span>
+            </a>
+            <div class="dropdown-menu">
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/buy" routerLinkActive="active"
+                  style="position: relative;">
+                  <i class="fa fa-exchange"></i><span translate> Open Trades</span>
+                  <span *ngIf="(notifications?.openTradeSell > 0) || (notifications?.openTradeBuy > 0)"
+                    class="notification">
+                    {{notifications?.openTradeSell+notifications?.openTradeBuy}}
+                  </span>
+                </a>
+              </p>
+
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/buy-contract" routerLinkActive="active"
+                  style="position: relative;">
+                  <i class="fa fa-exchange"></i><span translate> Open Contracts</span>
+                  <span class="notification"
+                    *ngIf="(notifications?.openContractSell > 0) || (notifications?.openContractBuy > 0)">
+                    {{notifications?.openContractSell+notifications?.openContractBuy}}
+                  </span>
+                </a>
+              </p>
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/buy-contract-closed"
+                  routerLinkActive="active" style="position: relative;">
+                  <i class="fa fa-exchange"></i><span translate> Private Contracts</span>
+                  <span class="notification"
+                    *ngIf="(notifications?.privateContractSell > 0) || (notifications?.privateContractBuy > 0)">
+                    {{notifications?.privateContractSell+notifications?.privateContractBuy}}
+                  </span>
+                </a>
+              </p>
+              <!-- <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/tradecontractall" routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Open Contracts All</span>
+                </a>
+              </p> -->
+
+
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/verifyhash" routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Verify Hash All</span>
+                </a>
+              </p>
+
+
+
+
+              <p *ngIf="authenticationService.isAuthenticated()">
+                <a class="nav-link js-scroll-trigger dropdown-item" routerLink="/transaction" routerLinkActive="active">
+                  <i class="fa fa-exchange"></i><span translate> Land Transaction</span>
+                </a>
+              </p>
+
+            </div>
+          </li>
+
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link " routerLink='/send-tokens' routerLinkActive="active" style="cursor: pointer;">
+              <i class="fa fa-arrow-up"></i><span translate> Send</span>
+            </a>
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link " routerLink='/wallet' routerLinkActive="active" style="cursor: pointer;">
+              <i class="fas fa-wallet"></i><span translate> Wallet</span>
+            </a>
+
+
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link " routerLink='/manage' routerLinkActive="active" style="cursor: pointer;">
+              <i class="fa fa-university"></i><span translate> Accounts</span>
+            </a>
+            <!-- <ul class="dropdown-menu">
+                      <li><a routerLink='/create'>Create Order</a></li>
+                      <li><a routerLink='/manage'>Add Account</a></li>
+                    </ul> -->
+          </li>
+
+          <li class="nav-item" *ngIf="!authenticationService.isAuthenticated()">
+            <a class="nav-link" routerLink="/login" style="cursor: pointer;">
+              <i class="fas fa-sign-in-alt"></i><span translate> Login</span></a>
+          </li>
+
+          <li class="nav-item" *ngIf="!authenticationService.isAuthenticated()">
+            <a class="nav-link" routerLink="/signup" routerLinkActive="active" style="cursor: pointer;">
+              <i class="fas fa-thumbs-up"></i> <span translate> Sign Up</span></a>
+          </li>
+          <li class="nav-item dropdown" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link" routerLink="/profile" data-toggle="dropdown" routerLinkActive="active"
+              style="position: relative;">
+              <i class="fas fa-user-alt"></i>
+              <span translate> {{firstName}}</span>
+              <span class="notification" *ngIf="historyNotifications?.total > 0">{{historyNotifications?.total}}</span>
+            </a>
+          </li>
+
+          <li class="nav-item" *ngIf="authenticationService.isAuthenticated()">
+            <a class="nav-link" (click)="logout()" style="cursor: pointer;">
+              <i class="fas fa-sign-out-alt"></i><span translate> Logout</span></a>
+          </li>
+
+
+          <div id="id01" class="modal">
+
+            <form class="modal-content animate" action="#">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close"
+                  title="Close Modal">&times;</span>
+                <img src="assets/Untitled-1.png" alt="Logo" class="logo">
+              </div>
+
+              <div class="container">
+                <label for="email"><b>Email</b></label>
+                <input type="email" placeholder="Enter Email Address" name="email" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label>
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+                <span class="psw"><a href="#" style="color: #000;">Forgot password?</a></span>
+
+                <button style="display: inherit; width: 100%;" type="submit">Login</button>
+              </div>
+            </form>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- </div> -->
+  <!-- </nav> -->
+</header>
+
+<!-- <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #f4bb09;" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="Project.html"><img src="images/logoInverse.png"></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger navg" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger navg" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger navg" href="#portfolio">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger navg" href="#contact">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navg" onclick="document.getElementById('id01').style.display='block'" style="cursor: pointer;">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navg" href="Sign Up.html" style="cursor: pointer;">Sign Up</a>
+          </li>
+          <div id="id01" class="modal">
+            <form class="modal-content animate" action="#">
+              <div class="imgcontainer">
+                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="images/logoInverse.png" alt="Logo" class="logo">
+              </div>
+              <div class="container">
+                <label for="email"><b>Email</b></label>
+                <input type="email" placeholder="Enter Email Address" name="email" required>
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <label>
+                  <input type="checkbox" checked="checked" name="remember"> Remember me
+                </label>
+                <span class="psw"><a href="#" style="color: #000;">Forgot password?</a></span>
+                <button style="display: inherit; width: 100%;" type="submit">Login</button>
+              </div>
+            </form>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav> -->

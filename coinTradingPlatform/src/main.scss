@@ -1,0 +1,32 @@
+/*
+ * Entry point of global application style.
+ * Component-specific style should not go here and be included directly as part of the components.
+ */
+
+// Theme variables, must be included before the libraries to allow overriding defaults
+@import "theme/theme-variables";
+
+// 3rd party libraries
+@import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-brands.scss";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-regular.scss";
+@import "~@fortawesome/fontawesome-free-webfonts/scss/fa-solid.scss";
+
+// Theme customization
+@import "theme/theme";
+
+.swal2-popup.swal2-modal.sweetalert-lg.swal2-show {
+    // height: 100% !important;
+    justify-content: space-between;
+}
+
+.swal2-image {
+    height: 250px;
+    // object-fit: contain;
+    width: 100%;
+}
+
+.swal2-container.swal2-bottom {
+    align-items: center !important;
+}

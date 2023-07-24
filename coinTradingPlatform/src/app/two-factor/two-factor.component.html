@@ -1,0 +1,56 @@
+<div class="container main3" style="border: 1px solid #ccc;">
+  <div class="row">                           
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center" style="padding: 0;">
+        <button style="width: 100%; padding: 10px;" class="" (click)="change(1)" id="defaultOpen">Download App</button>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center" style="padding: 0;">
+          <button style="width: 100%; padding: 10px;" class="" (click)="change(2)">Scan QR Code</button>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center" style="padding: 0;">
+            <button style="width: 100%; padding: 10px;" class="" (click)="change(3)">Backup Key</button>
+          </div>
+    </div>
+  <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <!-- <div class="tab">
+                      <button class="tablinks" (click)="change(1)" id="defaultOpen">Download App</button>
+                      <button class="tablinks" (click)="change(2)">Scan QR Code</button>
+                      <button class="tablinks" (click)="change(3)">Backup Key</button>
+                    </div> -->
+                    
+                    <div id="Download App" *ngIf="tabSet=='tab1'" class="" style="display: block;">
+                      <p>Download and Install Google Authentication APP</p>
+                      <div>
+                        <a target="_blank" href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en_IN"><img src="assets/googleStore.png" style="width: 116px; height: 40px;" alt="Google Store" ></a>
+                        <a target="_blank" href="https://itunes.apple.com/in/app/google-authenticator/id388497605?mt=8"><img src="assets/appleStore.png" style="width: 116px; height: 40px;" alt="Apple Store" ></a>
+                      </div>
+                      <div class="gasubdiv2 pull-right" style="margin-bottom: 10px;">
+                          <p class="gatext5">I have installed the APP</p>
+                          <a (click)="change(2)"><button>Next Step ></button></a>
+                      </div>
+
+                    </div>
+                    
+                    <div id="Scan QR Code" class="" *ngIf="tabSet=='tab2'" style="display: block;">
+                          <p>If you have any problem with scanning the QR code enter this code manually into the APP.</p>
+                          <div style="text-align: center" [innerHtml]="qrCode | sanitizer">
+                          </div>
+                          <a (click)="change(1)"><button class="gabtn6"> Previous Step </button></a>
+                          <div class="gasubdiv3">
+                              <p class="gatext5">I have Scanned the QR code</p>
+                              <a (click)="change(3)"><button>Next Step ></button></a>
+                          </div>
+                    </div>
+                    
+                    <div id="Backup Key" class="" *ngIf="tabSet=='tab3'" style="display: block;">
+                          <p>{{key}}<br>Please save this key on paper. This key will allow you to recover your Google Authentication in case of phone loss.</p>
+                          <p class="gatext9">Resetting your Google Authentication requires opening a support ticket and takes at least 7 days to process.</p>
+                          <a (click)="change(2)"><button class="gabtn6"> Previous Step </button></a>
+                          <div class="gasubdiv3">
+                              <p class="gatext5">I have already written down the 16-digit key</p>
+                              <a (click)="navigate()"><button>Next Step ></button></a>
+                          </div>
+                    </div>
+
+      </div>
+  </div>
