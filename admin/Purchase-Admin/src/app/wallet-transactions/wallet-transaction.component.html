@@ -1,0 +1,80 @@
+<div class="content-wrapper main1">
+
+  <div>
+    <h2 class="divhd1" style="background: #f4bb09">Wallet History</h2>
+  </div>
+  <br><br>
+
+  <div *ngIf="(count == 0) && (!loading)" class="noData"> There is no record to show</div>
+
+  <!-- <div class="col-12" *ngIf="loading">
+      <div style="text-align: -webkit-center;;">
+        <div class="loader"></div>
+      </div>
+    </div> -->
+
+  <!-- these was removed from the below condition *ngIf="(count > 0)" -->
+  <div class="row colsend">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+      <table id="myTable" class="table table-bordered">
+
+        <thead>
+          <tr class="header">
+            <th (click)="sort('walletaddress')">Transaction ID
+              <span class="glyphicon sort-icon" *ngIf="key =='walletaddress'"
+                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <!-- <th (click)="sort('txnType')">Transaction Type
+                <span class="glyphicon sort-icon" *ngIf="key =='txnType'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th> -->
+            <!-- <th>User Address</th> -->
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th width=300px>Orogram Amount
+              <span class="glyphicon sort-icon" *ngIf="key =='noOfcoins'"
+                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+
+        <tbody id="myTable4">
+          <tr
+            *ngFor="let i of container | customerEmailFilter:'sendToken':description | paginate: { itemsPerPage: 20, currentPage: p }">
+            <td>
+              <div>{{i._id}}</div>
+              <!-- <div *ngIf="walletAddress == i.senderAccount">{{i.recipientId}}</div> -->
+            </td>
+            <!-- <td>
+                <div *ngIf="walletAddress == i.recipientId">Received From</div>
+                <div *ngIf="walletAddress == i.senderId">Sent to</div>{{i.type | uppercase}}
+              </td> -->
+            <!-- <td>
+                  <div>{{(walletAddress == i.recipientId)?i.senderId:i.recipientId}}</div>
+                  <div *ngIf="i.transaction.message != null">({{i.transaction.message}})</div>
+              </td> -->
+            <td>{{i.senderWallet}}</td>
+            <td>{{i.receiverWallet}}
+              <div *ngIf="i?.transaction?.message != null">({{i?.transaction?.message}})</div>
+            </td>
+            <td>{{(i.coins)}}<img src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" /></td>
+            <td>{{intoDateFormat(i.updatedAt)}}</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+      <!-- <div style="display:inline-block">
+          <ul class="navmainlist1" *ngIf="count > perPage" style="list-style:none;display:flex;">
+            <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+          </ul>
+        </div> 
+        <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a> -->
+
+    </div>
+  </div>
+
+</div>
+<!-- </div> -->

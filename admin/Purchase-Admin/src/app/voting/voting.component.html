@@ -1,0 +1,118 @@
+  
+<div class="container-fluid main1">
+    
+  <div class="row tabdiv2">
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
+      <div class="votediv">
+          <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6"> 
+              <h3 style="margin-top: 10px;">Vote Delegates</h3>
+          </div>
+      <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+        <select [(ngModel)]="perPageUpvote" class="selectvote">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>               
+      </div>             
+    <table id="myTable" class="table table-bordered">
+        <div *ngIf = "isDelegateLoading">Loading...</div>
+        <thead>
+            <tr class="header">
+              <th>Upvote</th>
+              <th>Name  
+              </th>
+            </tr>
+        </thead>
+
+        <tbody *ngFor = "let item of initialDelegate | paginate: {  itemsPerPage:perPageUpvote, currentPage: p, id:'first' };let i = index">
+          <tr>
+            <td><input type="checkbox"  (change)="toggleEditable($event,i)"></td>
+            <td>{{item.name}}</td>
+          </tr>
+        </tbody>
+        
+          </table>  
+          <span style="float: right"><button (click)="toUpvote()" class="votesmt">Submit</button></span>
+          <pagination-controls  id="first"  (pageChange)="p = $event"></pagination-controls>  
+        </div>
+    </div>
+
+  <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 votecol">
+    <div class="votediv">
+      <div class="col-md-3 col-lg-3" style="float: right;">
+          <select [(ngModel)]="perPageDownvote" class="selectvote">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>               
+        </div> 
+        <table id="myTable" class="table table-bordered">
+            <div *ngIf = "isUpvotedLoading">Loading...</div>                                  
+          <thead>
+              <tr class="header">
+                <th>Downvote</th>
+                <th>Name  
+                </th>
+              </tr>
+          </thead>
+  
+          <tbody *ngFor = 'let item of votedUsers | paginate: { id:"some1", itemsPerPage:perPageDownvote, currentPage: pageDown };let t = index'>
+            <tr>
+              <td><input type="checkbox" (change)="toggleDownvote($event , t)"></td>
+              <td>{{item.name}}</td>
+            </tr>
+          </tbody>
+          
+            </table>  
+            <span style="float: right"><button (click)="downvoteSubmit()" class="votesmt">Submit</button></span>
+            <pagination-controls id="some1" (pageChange)="pageDown = $event"></pagination-controls>
+    </div>
+  </div>
+
+  </div>
+
+  <div class="row tabdiv2">
+
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12"> 
+        <div class="votediv1a">
+          <div class="col-md-6 col-lg-6" style="float: left;">
+              <h3>Register User as Delegate</h3>        
+            </div>   
+          <div class="col-md-3 col-lg-3" style="float: right;">
+              <select [(ngModel)]="perPageCreate">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+              </select>               
+            </div>                                       
+          <table id="myTable" class="table table-bordered">
+              <div *ngIf = "isUserLoading">Loading...</div>
+              <thead>
+                  <tr class="header">
+                    <th>Name  
+                    </th>
+                    <th>Create Delegate</th>
+                  </tr>
+              </thead>
+      
+              <tbody *ngFor = 'let item of concatenatedList | paginate: { id:"some", itemsPerPage:perPageCreate, currentPage: userPage };let num = index'>
+                <tr>
+                  <td>{{item.firstName}} {{item.lastName}}</td>
+                  <td><button (click)="createDelegate(num)" class="votesmt">Create Delegate</button></td>
+                </tr>
+              </tbody>
+              
+              </table>  
+                <pagination-controls id="some" (pageChange)="userPage = $event"></pagination-controls>
+        </div>
+        </div>
+    
+  </div>
+  
+  
+</div>
+  
+          
+          
+  
+  

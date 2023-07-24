@@ -1,0 +1,1015 @@
+.main1{
+    margin-top: 90px;
+}
+.text1{
+    font-size: 42px;
+    color: #fff;
+}
+input[type=email]{
+    width: 50%;
+padding: 12px;
+border: 1px solid #ccc;
+border-radius: 4px;
+resize: vertical;
+}
+.div1{
+width: 100%;
+}
+.div2{
+
+padding: 100px 0px 170px 0px;
+}
+.img1, .img9, .img10, .img3{
+float: left;
+max-height: 100px;
+}
+.section-heading::before, .section-heading::after{
+  height: 1px;
+  background-color: #000;
+  display: inline-block;
+  content: "";
+  vertical-align: middle;
+  width: 45%;
+  position: relative;
+}
+.section-heading:before {
+right: 0.5em;
+margin-left: -50%;
+}
+.section-heading:after {
+left: 0.5em;
+margin-right: -50%;
+}
+.section-heading{
+text-align: center;
+}
+.hometext{
+    display: inline-block;
+}
+.img2{
+width: 60%;
+}
+.img4, .img5, .img6{
+max-width: 30%;
+}
+
+
+
+
+
+.imgg1, .imgg2, .imgg3{
+    width: 100%;
+}
+.section-heading2::before, .section-heading2::after{
+height: 1px;
+background-color: #000;
+display: inline-block;
+content: "";
+vertical-align: middle;
+width: 45.5%;
+position: relative;
+}
+.section-heading2:before {
+right: 0.5em;
+margin-left: -50%;
+}
+.section-heading2:after {
+left: 0.5em;
+margin-right: -50%;
+}
+.section-heading2{
+text-align: center;
+}
+.section-heading3::before, .section-heading3::after{
+height: 1px;
+background-color: #000;
+display: inline-block;
+content: "";
+vertical-align: middle;
+width: 41%;
+position: relative;
+}
+.section-heading3:before {
+right: 0.5em;
+margin-left: -50%;
+}
+.section-heading3:after {
+left: 0.5em;
+margin-right: -50%;
+}
+.section-heading3{
+text-align: center;
+}
+
+
+
+
+
+.section-heading4::before, .section-heading4::after{
+    height: 1px;
+    background-color: #000;
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+    width: 44%;
+    position: relative;
+    }
+    .section-heading4:before {
+    right: 0.5em;
+    margin-left: -50%;
+    }
+    .section-heading4:after {
+    left: 0.5em;
+    margin-right: -50%;
+    }
+    .section-heading4{
+    text-align: center;
+    }
+    .mapouter{
+        text-align:right;
+        height:500px;
+      }
+      .gmap_canvas {
+        overflow:hidden;
+        background:none!important;
+        height:500px;
+      } 
+      .imgg4{
+          width: 170px;
+          float: left;
+      }
+      .input11, .input12, .textarea1{
+          width: 100% !important;
+          padding: 12px 20px !important;
+          margin: 8px 0 !important;
+          display: inline-block !important;
+          border: 1px solid #ccc !important;
+          box-sizing: border-box !important;
+          border-radius: 4px;
+      }
+      .formdivv{
+          border: 1px solid #ddd;
+          padding-left: 0px;
+          padding-right: 0px;
+      }
+      .secondrow{
+          margin-top: 30px;
+          padding-right: 15px;
+          margin-bottom: 50px;
+      }
+      .hdsub{
+          text-align: center;
+          background-color: #ddd;
+          margin-top: 0px;
+          padding: 15px;
+          
+      }
+      .contactform{
+          padding: 15px;
+      
+      }
+      .inputbtn{
+          margin-bottom: 15px;
+      }
+
+
+
+
+      .accordion {
+        background-color: #eee;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: center;
+        outline: none;
+        font-size: 20px;
+        transition: 0.4s;
+    }
+    
+    .active, .accordion:hover {
+        background-color: #ccc;
+    }
+    
+    .accordion:after {
+        content: '\002B';
+        color: #777;
+        font-weight: bold;
+        float: left;
+        margin-left: 5px;
+    }
+    
+    .accordion.active:after {
+        content: "\2212";
+    }
+    
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        margin-bottom: 10px !important;
+    } 
+         
+    .section-heading5::before, .section-heading5::after{
+        height: 1px;
+        background-color: #000;
+        display: inline-block;
+        content: "";
+        vertical-align: middle;
+        width: 42%;
+        position: relative;
+        }
+        .section-heading5:before {
+        right: 0.5em;
+        margin-left: -50%;
+        }
+        .section-heading5:after {
+        left: 0.5em;
+        margin-right: -50%;
+        }
+        .section-heading5{
+        text-align: center;
+        }
+
+
+
+
+
+        .section-heading6::before, .section-heading6::after{
+            height: 1px;
+            background-color: #000;
+            display: inline-block;
+            content: "";
+            vertical-align: middle;
+            width: 44%;
+            position: relative;
+            }
+            .section-heading6:before {
+            right: 0.5em;
+            margin-left: -50%;
+            }
+            .section-heading6:after {
+            left: 0.5em;
+            margin-right: -50%;
+            }
+            .section-heading6{
+            text-align: center;
+            }
+
+
+
+
+
+
+            .section-heading7::before, .section-heading7::after{
+                height: 1px;
+                background-color: #000;
+                display: inline-block;
+                content: "";
+                vertical-align: middle;
+                width: 42.5%;
+                position: relative;
+                }
+                .section-heading7:before {
+                right: 0.5em;
+                margin-left: -50%;
+                }
+                .section-heading7:after {
+                left: 0.5em;
+                margin-right: -50%;
+                }
+                .section-heading7{
+                text-align: center;
+                }
+                .faqtext{
+                  font-size: 25px;
+                  margin-top: 35px;
+                }
+                .faqinput2, .faqemail2{
+                  width: 100% !important;
+        padding: 12px 20px !important;
+        margin: 8px 0 !important;
+        display: inline-block !important;
+        border: 1px solid #ccc !important;
+        box-sizing: border-box !important;
+                }
+                .faqbtn{
+                  width: 100%;
+        border-radius: 5px;
+        border: 1px solid;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 8px 20px;
+        margin: 5px 0px 0px 0px;
+                }
+                .faqbtndiv{
+                  margin-top: 30px;
+                }
+                .faqrow1{
+                  padding: 25px;
+                  border: 1px solid;
+                  margin-left: 0px;
+                  margin-right: 0px;
+                  background-color: #eee;
+                  margin-top: 35px;
+                }
+                .accordion2 {
+        background-color: #fff;
+        color: #444;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 20px;
+        transition: 0.4s;
+        
+    }
+    
+    .active, .accordion2:hover, .accordion2:focus, .accordion2:visited {
+        background-color: #fff;
+        outline: none !important;
+    }
+    
+    .accordion2:after {
+        content: '\2192';
+        color: #777;
+        font-weight: bold;
+        float: left;
+        margin-left: 5px;
+    }
+    
+    .accordion2.active:after {
+        content: "\2193";
+    }
+    
+    .panel2 {
+        padding: 0 18px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+        padding-left: 60px;
+    } 
+    .faqrow{
+      padding-top: 35px;
+    }
+    .faqtxt2{
+      font-size: 20px;
+    }
+
+
+
+
+
+
+
+
+    .signupinput{
+        width: 100% !important;
+        padding: 12px 20px !important;
+        margin: 8px 0 !important;
+        display: inline-block !important;
+        border: 1px solid #ccc !important;
+        box-sizing: border-box !important;
+        }
+        .signupdivv1{
+    padding: 0px 30px 20px 30px;
+        }
+        .signuphd1{
+            text-align: center;
+            margin-top: 0;
+            background-color: #ddd;
+            padding: 20px;
+            
+        }
+        .signuprow1{
+            border: 1px solid;
+        }
+        .signuprow2{
+            margin-top: 50px;
+        }
+        .signupbtn1{
+            padding: 10px 70px 10px 70px;
+            border-radius: 5px;
+            border: 1px solid #000;
+        }
+
+
+
+
+
+
+
+
+        .OTPinput{
+            width: 50% !important;
+            padding: 12px 20px !important;
+            margin: 8px 0 !important;
+            display: inline-block !important;
+            border: 1px solid #ccc !important;
+            box-sizing: border-box !important;
+            }
+            .otpbtn1{
+                margin: 25px auto;
+                padding: 10px 50px;
+                border-radius: 5px;
+                border: 1px solid #000;
+                
+            }
+            .otpbtn2{
+                margin-bottom: 25px;
+                padding: 10px 50px;
+                border-radius: 5px;
+                border: 1px solid #000;
+            }
+            .otptext{
+                font-size: 25px;
+            }
+            .otprow2{
+                margin-top: 100px;
+            }
+
+
+
+
+
+
+            .regtext2{
+                position: absolute; bottom: 0; right: 0;
+            }
+            .regrow2{
+                margin-top: 150px;
+            }
+
+
+
+
+
+
+
+
+
+            .signinput1, .signinput2{
+                width: 100% !important;
+                padding: 12px 20px !important;
+                margin: 8px 0 !important;
+                display: inline-block !important;
+                border: 1px solid #ccc !important;
+                box-sizing: border-box !important;
+                }
+            .signlbl{
+                float: right;
+            }
+            .signcol{
+                padding: 0px 50px;
+            }
+            .signbtn1{
+                border: 1px solid #000;
+                padding: 10px 50px;
+                border-radius: 5px;
+                margin-bottom: 30px;
+            }
+            .signtext2{
+                text-align: center;
+                font-size: 16px;
+                margin-top: 15px;
+            }
+
+
+
+
+
+
+            .fpbtn1{
+                border-radius: 5px;
+                padding: 10px 30px;
+                border: 1px solid #000;
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+            }
+            .fpinput{
+                width: 100% !important;
+                    padding: 12px 20px !important;
+                    margin: 8px 0 !important;
+                    display: inline-block !important;
+                    border: 1px solid #ccc !important;
+                    box-sizing: border-box !important;
+            }
+            .fpcol{
+                padding: 0px 133px;
+            }
+
+
+
+
+
+
+
+            .rpinput1{
+                width: 100% !important;
+                    padding: 12px 20px !important;
+                    margin: 8px 0 !important;
+                    display: inline-block !important;
+                    border: 1px solid #ccc !important;
+                    box-sizing: border-box !important;
+            }
+            .rpinput2{
+                width: 100% !important;
+                    padding: 12px 20px !important;
+                    margin: 8px 0 !important;
+                    display: inline-block !important;
+                    border: 1px solid #ccc !important;
+                    box-sizing: border-box !important;
+            }
+            .rpbtn1{
+                border-radius: 5px;
+                padding: 10px 80px;
+                border: 1px solid #000;
+                margin-top: 20px;
+                margin-bottom: 20px;
+    
+            }
+
+
+
+
+
+/* 
+            .main3{
+                margin-top: 90px;
+            } */
+    
+    
+    
+    
+    
+    
+    
+    
+            /* Style the tab */
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+    
+    /* Style the buttons inside the tab */
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+    
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+    
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+    
+    /* Style the tab content */
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    .tablinks{
+        width: 25%;
+    }
+    .gasubdiv2{
+        margin-top: 50px;
+    }
+    .gatext5{
+        display:inline;
+    }
+    .gasubdiv3{
+        
+        position: absolute;
+        right: 25px;
+        bottom: 5px;
+    }
+    .gabtn6{
+        margin-top: 30px;
+    }
+    .gatext9{
+        color: red;
+    }
+    .gainput1, .gainput2, .gainput3 {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+
+
+
+
+
+
+    .acdiv{
+        margin-top: 90px;
+    }
+
+    .acdiv1{
+        border: 1px solid #000;
+        width: 50%;
+        margin: auto;
+    }
+    .achd1, .actext1, .acinput1{
+        margin-bottom: 30px;
+    }
+    .acinput1{
+        width: 100%;
+        padding: 5px;
+    }
+    .acbtn1{
+        margin-bottom: 30px;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border:1px solid #000;
+
+    }
+.acrow2{
+margin-top: 200px;
+}
+
+
+
+
+
+
+
+
+#myInput {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+  }
+  
+  #myTable2 {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+  }
+  
+  #myTable2 th, #myTable2 td {
+    text-align: center;
+    padding: 12px;
+  }
+  
+  #myTable2 tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  #myTable2 tr.header, #myTable2 tr:hover {
+    background-color: #f1f1f1;
+  }
+  #myTable2>tbody>tr>td, #myTable2>thead>tr>th{
+      text-align: center;
+  }
+  .tabdiv1, .tabdiv2{
+      padding: 0px 50px 0px 50px;
+  }
+  .btn3, .btn4{
+      padding: 17px;
+  }
+  .btn3>a{
+  float: right;
+  border-radius: 10px;
+  }
+  .btn4>a{
+  float: left;
+  border-radius: 10px;
+  }
+  .btn3>a>button{
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  color: #000;
+  }
+  .btn4>a>button{
+  border-radius: 10px;
+  border: 0px;
+  padding: 10px;
+  color: #000;
+  }
+  select{
+      width: 100%;
+  }
+  th{
+      text-align: center;
+  }
+
+
+
+
+
+
+
+
+  .BCdiv1, .BCdiv2{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.BCbtn1{
+    float: right;
+    padding: 10px 50px;
+    color: #000;
+}
+.BCbtn2{
+    float: left;
+    padding: 10px 50px;
+    color: #000;
+}
+.BCinput1, .BCselect1, .BCselect2, .BCselect3{
+    width: 100%;
+padding: 5px 10px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+.BCbtn3{
+    margin: 8px 0;
+    padding: 5px 20px;
+    border-radius: 5px;
+    color: #000;
+    border: 1px solid #000;
+}
+.BCrow2{
+    margin-top: 20px;
+}
+.BCtable1{
+    border-collapse: collapse;
+width: 100%;
+border: 1px solid #ddd;
+font-size: 18px;
+}
+.BCtable1>thead>tr>th, .BCtable1>tbody>tr>td{
+    text-align: center;
+}
+.BCinput3, .BCinput4, .BCtxtarea1{
+    width: 64%;
+    padding: 5px 10px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+.BCtxtarea1{
+    width: 100% !important;
+}
+.BClbl1, .BClbl2{
+    margin: 12px 0;
+}
+.modal-backdrop{
+    display: none;
+}
+.BChd1{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.BCbtn5, .BCbtn6, .BCbtn7, .BCbtn8, .BCbtn9, .BCbtn10, .BCbtn11
+{
+    width: 100%;
+    border-radius: 5px;
+    color: #000;
+    border: 1px solid #000;
+}
+
+
+
+
+
+
+
+
+.SCselect1{
+    margin: 12px 0;
+}
+
+
+
+
+
+
+
+
+
+.dashbtn1, .dashbtn2, .dashbtn3{
+    padding: 10px 30px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    color: #000;
+    
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    border-top: 0px;
+}
+.dashdiv1>table>tbody>tr>td{
+    text-align: center;
+}
+.dashrow1{
+    text-align: center;
+    background-color: #ddd;
+    margin-top: 0;
+    padding: 20px 20px;
+    margin-bottom: 30px;
+}
+.dashmain1{
+    border: 1px solid #000;
+    margin-top: 30px;
+}
+.dashrow2{
+    margin-top: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.AIhd1{
+    text-align: center;
+    margin-top: 0;
+    padding: 20px 20px;
+    background-color: #ddd;
+}
+.AIrow1{
+    border: 1px solid #000;
+}
+.AIbtn1, .AIbtn2{
+    color: #000;
+    border: 1px solid #000;
+    padding: 10px 30px;
+    margin-bottom: 30px;
+    border-radius:5px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.editbtn1, .editbtn2, .editbtn3, .editbtn4, .editbtn5, .editbtn6, .editbtn7{
+    color: #000;
+border: 1px solid #000;
+padding: 10px 30px;
+margin-bottom: 30px;
+border-radius:5px;
+}
+.editbtn3{
+    float: right;
+}
+.editinput1, .editinput2, .editinput3, .editinput4, .editinput5{
+    width: 100%;
+padding: 5px 10px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+.editbtn6, .editbtn7{
+    padding: 10px 70px !important;
+}
+.edithd1{
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 30px 30px;
+    background-color: #ddd;
+}
+.editrow1{
+    border: 1px solid #000;
+}
+
+
+
+
+
+
+
+
+
+
+.CObtn1, .CObtn2, .CObtn3, .CObtn4{
+    color: #000;
+border: 1px solid #000;
+padding: 10px 30px;
+margin-bottom: 30px;
+border-radius:5px;
+}
+.COinput1, .COinput2, .COselect1, .COselect2, .COtextarea1{
+    width: 100%;
+padding: 5px 10px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+.COrow2{
+    border: 1px solid #000;
+    padding: 20px 40px;
+}
+
+
+
+
+
+
+.mbabtn1, .mbabtn2, .mbabtn3{
+    
+    color: #000;
+border: 1px solid #000;
+padding: 10px 30px;
+margin-bottom: 30px;
+border-radius:5px;
+}
+.mbabtn1{
+    float: left;
+}
+.mbacol1{
+    border: 1px solid #000;
+}
+.mbarow2{
+    margin-top: 50px;
+}
+.mbainput1, .mbainput2, .mbainput3, .mbainput4, .mbainput5{
+    width: 100%;
+padding: 5px 10px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+.mbatxt1, .mbatxt2, .mbatxt3, .mbatxt4, .mbatxt5{
+    margin-top: 10px;
+}
+.mbabtn3{
+    margin-top: 20px;
+}
+
+
+/* loader css */
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #f6c646;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* end loader css */
+
+
+            

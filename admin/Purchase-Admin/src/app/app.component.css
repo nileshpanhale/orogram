@@ -1,0 +1,28 @@
+.page-header{
+    border: none!important;
+    height: 30px;
+}
+
+
+
+.nav-pills > .active > a, .nav-pills > .active > a:focus {
+    transition: 0.6s ease;
+    background-color:  rgb(0, 27, 57);
+    color:whitesmoke;
+
+}
+
+.nav-pills li{
+
+    color: whitesmoke;
+
+}
+
+.nav-pills a{
+    color: whitesmoke;
+}
+.nav-pills a:hover{
+    transition: 0.6s ease;
+    background-color:  rgb(0, 27, 57);
+    color: whitesmoke;
+}

@@ -1,0 +1,154 @@
+<app-header></app-header>
+<div class="agm-container">
+  <agm-map [zoom]="zoom" [latitude]="lat" [longitude]="lng" (mapReady)="onMapReady($event)"
+  >
+  <!-- (mapClick)="selectMarker($event)" -->
+
+    <agm-marker *ngFor="let marker of markers" [latitude]="marker.lat" [longitude]="marker.lng" [iconUrl]="marker.icon"
+      [markerDraggable]="true" [animation]="BOUNCE" (markerClick)="selectMarker($event,marker)">
+      <agm-info-window [disableAutoPan]="false" #infoWindow>
+        <div [ngSwitch]="true">
+          <div *ngSwitchCase="marker._id == 0" class="markerClass">
+            <div class="modal-body">
+              <div style="background-color: rgb(186, 248, 191); text-align: center"><b>Contract Details</b><br /></div>
+              <div><b>Contract Id : {{marker?._id}}</b></div>
+              <p><strong>Contract Terms: </strong></p>
+              <pre><span [innerHTML]="marker?.remarks"></span></pre>
+
+              <div id="content" *ngFor="let image of marker?.picture">
+                <img *ngIf="pdfExtmatch(image)" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+                  oncontextmenu="return false;" />
+                <iframe *ngIf="!pdfExtmatch(image)" [src]="
+                  this.sanitized.bypassSecurityTrustResourceUrl(
+                    baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0'
+                  )
+                " type="application/pdf" width="100%" height="300px"></iframe>
+              </div>
+
+              <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Overview</b><br></div>
+
+              <div class="modal-body">
+
+                <div *ngIf="marker"><b>Contract Hash :
+                    {{(marker.contractStatus)?.length>1?marker?.contractStatus[1].contractHash:'Contract Not
+                    Accepted'}}</b></div>
+                <!-- <div><b>Contract Description : {{marker?.remarks}}</b></div> -->
+                <div><b>Contract Status : {{marker?.status}}</b></div>
+                <div><b>Creator Account: {{marker?.creator}}</b></div>
+                <!--<div><b>Acceptor Account: {{(marker?.transactionType)=='buy'?marker?.receiverAccount:marker?.senderAccount}}</b></div> -->
+                <div><b>Total Orogram: {{marker?.coins}} <img src="../../assets/orogram_logo.jpeg" width="25px"
+                      height="25px" /></b></div>
+                <div><b>Price In Gold (24k): {{(marker?.coins)}} g</b></div>
+                <div><b>Total Amount (EUR): {{ amountEuro(marker?.coins) }}</b></div>
+                <!-- <div><b>Transaction Fee: {{ (marker?.adminFee) }} Orogram</b></div> -->
+                <div *ngIf="marker?.status=='confirm'">
+                  <div><b>Transaction Fee(EUR): {{(marker?.adminFee) * this.bitoroPrice}} EUR</b></div>
+                  <div><b>Transaction Fee(Gold): {{(marker?.adminFee)}} g</b></div>
+                </div>
+                <!-- <div><b>Transaction Fee(EUR): {{(marker?.adminFee)* this.bitoroPrice}} EUR</b></div>
+              <div><b>Transaction Fee(Gold): {{(marker?.adminFee)}} Grams</b></div> -->
+
+                <div *ngIf="(marker?.contractStatus)?.length>1"><b>Contract Accepted Date : {{
+                    dateCalculation(marker?.contractDate,marker?.contractDays)}}</b></div>
+                <div><b>Delivery : {{(marker?.contractStatus)?.length>1?(marker?.contractDate |
+                    date):marker?.contractDays + " Days"}}</b></div>
+                <div><b>Country : {{marker?.country}}</b></div>
+                <div id="content" *ngFor="let image of selectedContract?.picturePaid">
+                  <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>   -->
+                  <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+                    oncontextmenu="return false;" />
+                  <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+                  <iframe *ngIf="!(pdfExtmatch(image))"
+                    [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+                    type="application/pdf" width="100%" height="300px"></iframe>
+                </div>
+
+                <br>
+
+              </div>
+
+              <!-- <div style="background-color: rgb(186, 236, 248); text-align: center"><b>Seller Details</b><br /></div>
+            <div>
+              <b>Seller Orogram Wallet : {{ selectedContract?.senderWallet }}</b>
+            </div>
+            <div>
+              <b>Contract Status : {{ selectedContract?.status }}</b>
+            </div>
+            <div>
+              <b
+                >Contract Expiry :
+                {{
+                  (selectedContract?.contractStatus).length > 1
+                    ? (selectedContract?.contractDate | date)
+                    : selectedContract?.contractDays + " Days"
+                }}</b
+              >
+            </div>
+            <div>
+              <b>Country : {{ selectedContract?.country }}</b>
+            </div> -->
+            </div>
+            <a routerLinkActive="active"
+              ariaCurrentWhenActive="page">https://orogram.io/earth-map?lat={{marker.lat}}&lng={{marker.lng}}</a>
+            <button (click)="clickMe()">Contract Details</button>
+            <button (click)="connect()">
+              Connect
+            </button>
+          </div>
+          <div *ngSwitchCase="marker._id == -1">
+            <div class="markerClass">
+              create Contract here?
+              <button (click)="removeMarker()">Remove this Marker</button>
+              <button (click)="buyNow($event)">
+                Create
+              </button>
+              <button (click)="connect()">
+                Connect
+              </button>
+            </div>
+          </div>
+          <div *ngSwitchCase="marker._id == -2">
+            <div class="markerClass">
+              <div><b>Owner : {{marker?.data?.data?.owner}}</b></div>
+              <div><b>Area : {{marker?.data?.data?.area}}</b></div>
+
+            </div>
+          </div>
+          <div *ngSwitchDefault>
+            <div class="markerClass">
+              create Contract here?
+              <button (click)="removeMarker()">Remove this Marker</button>
+              <button (click)="buyNow($event)">
+                Create
+              </button>
+              <button (click)="connect()">
+                Connect
+              </button>
+            </div>
+          </div>
+        </div>
+      </agm-info-window>
+    </agm-marker>
+    <agm-polygon *ngFor='let path of pathways' [fillColor]="red" [fillOpacity]="0.5" [strokeColor]="blue"
+      [strokeOpacity]="0.6" [strokeWeight]="2" [visible]="true" [zIndex]="0.9" [strokeColor]="rgb(10, 149, 48)"
+      [strokeWeight]="4" [paths]="path">
+    </agm-polygon>
+  </agm-map>
+  <br />
+
+  <div *ngIf="pointList?.length > 0" class="display-flex">
+    <button mat-stroked-button color="warn" (click)="deleteSelectedShape()">Clear</button>
+  </div>
+
+  <ul role="list">
+    <li role="listitem" *ngFor="let point of pointList">
+      {{ point.lat.toPrecision(5) }}, {{ point.lng.toPrecision(5) }}
+    </li>
+  </ul>
+  <div *ngIf="selectedArea > 0">
+    <span> Selected Area: {{ selectedArea.toPrecision(5) }}m<sup>2</sup> </span>
+  </div>
+  <div>
+  </div>
+
+</div>

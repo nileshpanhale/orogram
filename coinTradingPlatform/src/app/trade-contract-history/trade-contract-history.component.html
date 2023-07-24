@@ -1,0 +1,412 @@
+<div class="container-fluid main1">
+  <div class="row tabdiv1">
+    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">
+      <h3>Contract History</h3>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6 btn3">
+      <button (click)="downloadpdf()" class="tradebtn1a">Export as PDF</button>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6 btn4">
+      <button (click)="downloadcsv()" class="tradebtn1a">Export in CSV</button>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12 btn4">
+      <button routerLink="/create" class="tradebtn1a">Create Order</button>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+      <input class="CPinput1" type="text" id="myInput" style="margin: 15px" [(ngModel)]="description" (keyup)="search()"
+        placeholder="Search.." title="Search">
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+      <!-- <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+        <option value=""  disabled>Items Per page</option>
+        <option values="5">5</option>
+        <option values="10">10</option>
+        <option values="15">15</option>
+      </select> -->
+    </div>
+  </div>
+  <div *ngIf="(count == 0) && (!loading)" class="noData"> There is no record to show</div>
+
+  <div class="row" *ngIf="loading">
+    <div class="col-6">
+      <div style="float: right;">
+        <div class="loader"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row tabdiv2" *ngIf="(count > 0) && (!loading)">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+      <table id="myTable" class="table table-bordered">
+        <thead>
+          <tr class="header">
+            <th>Contract Id</th>
+            <th>Image</th>
+            <th>Contract Type</th>
+            <th>Seller Orogram<br> Address</th>
+            <th>Buyer Orogram<br> Address</th>
+            <th>Terms of Trade</th>
+            <th>Total<br> Orogram</th>
+            <th>Total<br>Amount<br>(EUR)</th>
+            <th>Date</th>
+            <th>Request Status</th>
+            <th colspan="3">Action</th>
+          </tr>
+        </thead>
+        <tbody id="myTable3" *ngFor="let item of container;   let i = index">
+          <tr *ngIf="!item.isClosedContract">
+            <td (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong">{{item._id}}</td>
+            <td>
+              <img *ngIf="(pdfExtmatch(item.picture[0]))" [src]="baseurlip + '/' + item.picture[0]" width="150px"
+                height="150px" />
+              <iframe *ngIf="!(pdfExtmatch(item.picture[0]))"
+                [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + item.picture[0] + '#toolbar=0&navpanes=0&scrollbar=0')"
+                type="application/pdf" width="150px" height="150px"></iframe>
+            </td>
+            <td (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong">{{item.transactionType |
+              uppercase}}</td>
+            <td
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;min-width: 75px;width: 75px;max-width: 75px;">
+              {{item.senderAccount || item.senderWallet}}</td>
+            <td
+              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;min-width: 75px;width: 75px;max-width: 75px;">
+              {{item.receiverAccount || item.receiverWallet}}</td>
+            <td (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong"
+              style="word-wrap: break-word; -webkit-line-clamp: 5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; min-height: 175px;">
+              {{item.remarks}}
+            </td>
+            <!-- <td (click)="showBankDetails(i)">{{item.tradeType | uppercase}}</td> -->
+            <td (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong">{{(item.coins)}}<img
+                src="../../assets/orogram_logo.jpeg" width="25px" height="25px" />
+            </td>
+            <td (click)="showBankDetails(i)">{{ (amountEuro(item.coins)).toFixed(2)}}<br> EUR</td>
+            <td (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong">
+              {{item.createdAt.split('T')[0]}}</td>
+            <td (click)="showBankDetails(i)">{{item.status | uppercase}}</td>
+            <td>
+              <div *ngIf="item.status=='pending' || item.status=='paid'">
+                <!-- && item.transactionType =='buy' && item.creator == userIdCurrent -->
+                <select (change)="change(i)" [(ngModel)]="action">
+                  <!-- <option value="" disabled>Select</option>  -->
+                  <option value="" disabled>Select</option>
+                  <option value="Pending">Pending</option>
+                  <option
+                    *ngIf="(item.transactionType=='sell' && item.status=='pending' && item.receiverAccount  && item.receiver!=null)"
+                    value="paid">Upload BOL</option>
+
+                  <!-- old code -->
+                  <!-- <option *ngIf="(item.transactionType=='sell' && item.receiver!=null)" value="Confirm">Confirm</option>
+          <option *ngIf="(item.transactionType=='sell' && item.receiver!=null)" value="Dispute">Dispute</option> -->
+
+                  <option *ngIf="(item.transactionType=='buy' && item.sender!=null)" value="Confirm">Confirm</option>
+                  <option
+                    *ngIf="((item.transactionType=='buy'  && (item.status=='paid' || item.status =='pending')) && item.sender!=null)"
+                    value="Dispute">Dispute</option>
+                  <option *ngIf="((item.transactionType=='sell' && item.status=='paid' ) && item.sender!=null )"
+                    value="Dispute">Dispute</option>
+                  <option
+                    *ngIf="((item.transactionType=='sell' && !item.receiverAccount) || (item.transactionType=='buy' && !item.senderAccount) && item.status == 'pending')"
+                    value="Cancel">Cancel</option>
+                </select>
+              </div>
+              <div *ngIf="item.status=='confirm'">
+                CONFIRMED
+              </div>
+              <div *ngIf="item.status=='dispute'">
+                DISPUTED
+              </div>
+              <div *ngIf="item.status=='cancel'">
+                CANCELLED
+              </div>
+              <!-- <div *ngIf="(item.status =='paid' && item.transactionType =='sell' ) ">
+          PAID
+        </div> -->
+
+
+              <!-- && item.creator == userIdCurrent && item.transactionType =='sell' -->
+            <td><button [disabled]="item.status == 'cancel' || item.status == 'confirm'" class="buychatbtn"
+                placeholder="Chat" (click)="chat(i, $event)">Chat <span
+                  *ngIf="(item.isNotification && item.tempNotification)"><i class="fa fa-bell"
+                    style="font-size:18px;color:red"></i></span></button></td>
+            <td><button class="buychatbtn" placeholder="Details" (click)="showDetails(item)" data-toggle="modal"
+                data-target="#exampleModalLong">Details </button></td>
+
+          </tr>
+        </tbody>
+      </table>
+      <div style="display:inline-block">
+        <!-- <ul class="navmainlist1" *ngIf="count > perPage" style="list-style:none;display:flex;">
+              <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+          </ul>
+      </div> <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a> -->
+        <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- new chat ui here -------------------------------------- -->
+  <div class="popup-outer">
+    <div class="popup-wrapper">
+      <span class="chatclose"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+      <ul>
+        <li style="position: relative;" *ngFor="let user of chatRoom; let i = index"><a href="javascript:void(0);"
+            (click)="chatnew(i)">{{user.roomNo}}</a>
+          <span class="badge badge-danger">{{user.count}}</span>
+        </li>
+
+      </ul>
+    </div>
+    <a href="javascript:void(0);" class="chat-control">Chat Box <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+  </div>
+
+  <div class="chatbox-container" *ngIf="chatBooleanmultiple">
+    <div class="chat-header">
+      <p>ContractId <span style="font-size: 13px;">{{transactionId}}</span></p>
+      <span><i class="fa fa-times-circle" aria-hidden="false" (click)="closeChat()"></i></span>
+    </div>
+    <div class="chat-body">
+      <a class="btn" style="border-radius: 5px; font-size: 13px; background-color: #f8c546;"
+        (click)="notifyAdminNeeded()">Contact Admin</a>
+      <div *ngFor="let message of messages"
+        [ngClass]="{'sender-wrapper':message.self == false,'receiver-wrapper':message.self == true}">
+        <p class="msg">{{message.text}}</p>
+        <span class="sender-name">{{message.name}}</span>
+      </div>
+
+
+    </div>
+    <form action="">
+      <div class="type-area">
+        <input type="text" name='msg' placeholder="Type your Message.." class="inputtext" [(ngModel)]="replyMessage">
+        <span><i class="fa fa-paper-plane" (click)="reply()"></i></span>
+      </div>
+    </form>
+  </div>
+
+  <!--Dilogue Modal -->
+  <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Contract Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Overview</b><br></div>
+
+        <div class="modal-body">
+
+          <div *ngIf="selectedContract"><b>Contract Hash:
+              {{(selectedContract.contractStatus).length>1?selectedContract?.contractStatus[1].contractHash:'Contract
+              Not Accepted'}}</b></div>
+          <!-- <div><b>Contract Description : {{selectedContract?.remarks}}</b></div> -->
+          <div><b>Contract Status: {{selectedContract?.status}}</b></div>
+          <!-- <div><b>Creator Account: {{selectedContract?.creator}}</b></div>-->
+          <div><b>Creator Account:
+              {{(selectedContract?.transactionType)=='buy'?selectedContract?.senderAccount:selectedContract?.receiverAccount}}</b>
+          </div>
+          <div><b>Acceptor Account:
+              {{(selectedContract?.transactionType)=='buy'?selectedContract?.receiverAccount:selectedContract?.senderAccount
+              ||
+              (selectedContract?.transactionType)=='buy'?selectedContract?.senderAccount:selectedContract?.receiverAccount}}</b>
+          </div>
+          <div><b>Total Orogram: {{selectedContract?.coins}}<img src="../../assets/orogram_logo.jpeg" width="25px"
+                height="25px" /></b></div>
+          <div><b>Price In Gold (24k): {{(selectedContract?.coins)}} g</b></div>
+          <div><b>Total Amount (EUR): {{ amountEuro((selectedContract?.coins)) }} EUR</b></div>
+          <div *ngIf="selectedContract?.status=='confirm'">
+            <div><b>Transaction Fee(EUR): {{(selectedContract?.adminFee) * this.bitoroPrice}} EUR</b></div>
+            <div><b>Transaction Fee(Gold): {{(selectedContract?.adminFee)}} g</b></div>
+          </div>
+          <!-- <div><b>Transaction Fee(EUR): {{(selectedContract?.adminFee)* this.bitoroPrice}} EUR</b></div> -->
+          <!-- ((this.container[i].adminFee) * this.bitoroPrice) -->
+          <!-- <div><b>Transaction Fee(Gold): {{(selectedContract?.adminFee)}} Grams</b></div> -->
+
+
+          <div *ngIf="(selectedContract?.contractStatus).length>1"><b>Contract Accepted Date : {{
+              dateCalculation(selectedContract?.contractDate,selectedContract?.contractDays)}}</b></div>
+          <div><b>Delivery: {{(selectedContract?.contractStatus).length>1?(selectedContract?.contractDate |
+              date):selectedContract?.contractDays + " Days"}}</b></div>
+          <div><b>Country: {{selectedContract?.country}}</b></div>
+          <br><br>
+
+
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Seller Details</b><br></div>
+          <br>
+
+          <div><b>Seller : {{selectedContract?.sender}}</b></div>
+          <div><b>Seller Orogram Address : {{selectedContract?.senderAccount || selectedContract?.senderWallet}}</b>
+          </div>
+          <div><b>Seller Description :</b>
+            <!-- <pre>{{selectedContract?.remarks}}</pre> -->
+            <pre><span [innerHTML]="selectedContract?.remarks"></span></pre>
+          </div>
+
+          <br>
+          <div><b>Contract Seller Uploaded Images</b><br></div>
+          <div id="content" *ngFor="let image of selectedContract?.picture">
+            <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+            <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+              oncontextmenu="return false;" />
+            <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+            <iframe *ngIf="!(pdfExtmatch(image))"
+              [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+              type="application/pdf" width="100%" height="300px"></iframe>
+          </div>
+          <br>
+
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Buyer Details</b><br></div>
+          <br>
+          <div><b>Name : {{selectedContract?.nameReciever}}</b></div>
+          <div><b>Contact : {{selectedContract?.contactReciever}}</b></div>
+          <div><b>Address : {{selectedContract?.addressReciever}}</b></div>
+
+          <br>
+          <div><b>Buyer : {{selectedContract?.receiver}}</b></div>
+          <div><b>Buyer Orogram Address : {{selectedContract?.receiverAccount || selectedContract?.receiverAccount}}</b>
+          </div>
+          <div><b>Buyer Description :</b>
+            <!-- <pre>{{selectedContract?.remarksReciever}}</pre> -->
+            <pre><span [innerHTML]="selectedContract?.remarksReciever"></span></pre>
+          </div>
+          <br>
+          <div><b>Contract Buyer Uploaded Images</b><br></div>
+
+          <div id="content" *ngFor="let image of selectedContract?.pictureReciever">
+            <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+            <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+              oncontextmenu="return false;" />
+            <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+            <iframe *ngIf="!(pdfExtmatch(image))"
+              [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+              type="application/pdf" width="100%" height="300px"></iframe>
+          </div>
+
+          <br>
+
+          <!-- new added -->
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Seller Payment
+              Recipts</b><br></div>
+
+          <div id="content" *ngFor="let image of selectedContract?.picturePaid">
+            <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+            <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+              oncontextmenu="return false;" />
+            <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+            <iframe *ngIf="!(pdfExtmatch(image))"
+              [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+              type="application/pdf" width="100%" height="300px"></iframe>
+          </div>
+
+          <br>
+
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          <!-- {{(selectedContract.contractStatus).length>1?selectedContract?.contractDate | date : selectedContract?.contractDays'}} -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- model to upload image new ------------------------------------------------->
+  <div class="modal fade backdrop" id="myModalupload" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Upload Payment Recipt</h4>
+
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div>
+
+
+
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <p>Upload Paid Recipt Images</p>
+
+            </div>
+
+            <!-- ng2 file upload here --------------------------------------- -->
+            <label class="custom-file-upload" for="file-upload"> SelectFiles </label>
+            <input id="file-upload" name="file" type="file" ng2FileSelect [uploader]="uploader" multiple />
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">Name</th>
+                  <th>Size</th>
+                  <th>Progress</th>
+                  <th></th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                  <td><strong>{{ item?.file?.name }}</strong></td>
+                  <td *ngIf="uploader" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                  <td *ngIf="uploader">
+                    <div class="progress" style="margin-bottom: 0;">
+                      <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                    <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                    <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td>
+                  <td>
+                    <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                      <span class="glyphicon glyphicon-trash"></span> Remove
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <br>
+
+
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal" [disabled]="0 >= uploader.queue"
+            (click)="uploadImages()" [style.opacity]="0 >= uploader.queue ?0.5:1">Submit</button>
+          <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- confirmation dialog here -->
+  <div class="modal" tabindex="-1" role="dialog" id="confirm">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to confirm ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="confirm_final()">Confirm</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>

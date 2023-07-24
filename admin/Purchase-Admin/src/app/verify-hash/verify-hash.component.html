@@ -1,0 +1,354 @@
+<div class="container main1">
+  <div class="getContractDetail">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="thumbnail div5">
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+            <h3 class="heading1">Verify Contract Hash</h3>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="address">Enter Contract Transaction Hash</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <input type="text" id="address" name="address" placeholder="Contract Hash.." [formControl]="address"
+                  [ngClass]="{ 'is-invalid': submitted && f.address.errors }" />
+              </div>
+            </div>
+
+            <div class="row">
+              <button data-toggle="modal" style="float: right; margin-top: 10px; margin-right: 18px">
+                Verify Contract
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Dilogue Modal for getContractDetail -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Contract Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div style="background-color: rgb(186, 236, 248); text-align: center">
+        <b>Contract Creator Details</b><br />
+      </div>
+
+      <div class="modal-body">
+        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+        <div *ngIf="selectedContract">
+          <b>Contract Hash :
+            {{
+            selectedContract.contractStatus.length > 1
+            ? selectedContract?.contractStatus[1].contractHash
+            : "Contract Not
+            Accepted"
+            }}</b>
+        </div>
+        <div>
+          <b>Contract Description :
+            <!-- <pre>{{ selectedContract?.remarks }}</pre> -->
+            <pre><span [innerHTML]="selectedContract?.remarks"></span></pre>
+          </b>
+        </div>
+        <div>
+          <b>Contract Status : {{ selectedContract?.status }}</b>
+        </div>
+        <!-- <div><b>Creator Account: {{selectedContract?.creator}}</b></div>-->
+        <div>
+          <b>Creator Account:
+            {{
+            selectedContract?.transactionType == "buy"
+            ? selectedContract?.receiverAccount
+            : selectedContract?.senderAccount ||
+            selectedContract?.transactionType == "buy"
+            ? selectedContract?.senderAccount
+            : selectedContract?.receiverAccount
+            }}</b>
+        </div>
+        <div>
+          <b>Acceptor Account:
+            {{
+            selectedContract?.transactionType == "buy"
+            ? selectedContract?.senderAccount
+            : selectedContract?.receiverAccount
+            }}</b>
+        </div>
+        <div>
+          <b>Total Orogram: {{ selectedContract?.coins }}<img src="../../assets/images/orogram_logo.jpeg" width="25px"
+              height="27px" /></b>
+        </div>
+        <!-- <div><b>Price: {{(selectedContract?.coins)}}</b></div> -->
+        <div *ngIf="(selectedContract?.contractStatus).length > 1">
+          <b>Contract Accepted Date :
+            {{
+            dateCalculation(
+            selectedContract?.contractDate,
+            selectedContract?.contractDays
+            )
+            }}</b>
+        </div>
+        <div>
+          <b>Delivery :
+            {{
+            (selectedContract?.contractStatus).length > 1
+            ? (selectedContract?.contractDate | date)
+            : selectedContract?.contractDays + " Days"
+            }}</b>
+        </div>
+        <div>
+          <b>Country : {{ selectedContract?.country }}</b>
+        </div>
+        <br /><br />
+
+        <div style="background-color: rgb(186, 236, 248); text-align: center">
+          <b>Seller Details</b><br />
+        </div>
+        <br />
+        <div>
+          <b>Seller : {{ selectedContract?.sender }}</b>
+        </div>
+        <div>
+          <b>Seller Orogram Address :
+            {{
+            selectedContract?.senderAccount || selectedContract?.senderWallet
+            }}</b>
+        </div>
+        <br />
+        <div><b>Contract Seller Uploaded Images</b><br /></div>
+        <div id="content" *ngFor="let image of selectedContract?.picture">
+          <img *ngIf="pdfExtmatch(image)" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+            oncontextmenu="return false;" />
+          <iframe *ngIf="!pdfExtmatch(image)" [src]="
+              this.sanitized.bypassSecurityTrustResourceUrl(
+                baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0'
+              )
+            " type="application/pdf" width="100%" height="300px"></iframe>
+        </div>
+
+        <br />
+
+        <div style="background-color: rgb(186, 236, 248); text-align: center">
+          <b>Buyer Details</b><br />
+        </div>
+        <br />
+        <div>
+          <b>Name : {{ selectedContract?.nameReciever }}</b>
+        </div>
+        <div>
+          <b>Contact : {{ selectedContract?.contactReciever }}</b>
+        </div>
+        <div>
+          <b>Address : {{ selectedContract?.addressReciever }}</b>
+        </div>
+        <br />
+        <div>
+          <b>Buyer : {{ selectedContract?.receiver }}</b>
+        </div>
+        <div>
+          <b>Buyer Orogram Address :
+            {{
+            selectedContract?.receiverAccount ||
+            selectedContract?.receiverAccount
+            }}</b>
+        </div>
+        <div>
+          <b>Contract Description :
+            <!-- <pre>{{ selectedContract?.remarksReciever }}</pre> -->
+            <pre><span [innerHTML]="selectedContract?.remarksReceiver"></span></pre>
+          </b>
+        </div>
+        <br />
+        <div><b>Contract Buyer Uploaded Images</b><br /></div>
+        <div id="content" *ngFor="let image of selectedContract?.pictureReciever">
+          <img *ngIf="pdfExtmatch(image)" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+            oncontextmenu="return false;" />
+          <iframe *ngIf="!pdfExtmatch(image)" [src]="
+              this.sanitized.bypassSecurityTrustResourceUrl(
+                baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0'
+              )
+            " type="application/pdf" width="100%" height="300px"></iframe>
+        </div>
+        <br />
+
+        <!-- new added -->
+        <div style="background-color: rgb(186, 236, 248); text-align: center">
+          <b>Contract Seller Payment Recipts</b><br />
+        </div>
+        <div id="content" *ngFor="let image of selectedContract?.picturePaid">
+          <img *ngIf="pdfExtmatch(image)" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+            oncontextmenu="return false;" />
+          <iframe *ngIf="!pdfExtmatch(image)" [src]="
+              this.sanitized.bypassSecurityTrustResourceUrl(
+                baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0'
+              )
+            " type="application/pdf" width="100%" height="300px"></iframe>
+        </div>
+        <br />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- new code for getTradeDetail -->
+<div class="container main2">
+  <div class="getTradeDetail">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="thumbnail div5">
+          <form [formGroup]="formTrade" (ngSubmit)="onSubmitTradeDetail(formTrade.value)">
+            <h3 class="heading1">Verify Trade Hash</h3>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="address">Enter Trade Transaction Hash</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <input type="text" id="addressTrade" name="addressTrade" placeholder="Trade Hash.."
+                  [formControl]="addressTrade" [ngClass]="{
+                    'is-invalid': submitted && f1.addressTrade.errors
+                  }" />
+              </div>
+            </div>
+            <div class="row">
+              <button data-toggle="modal" style="float: right; margin-top: 10px; margin-right: 18px">
+                Verify Trade
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Dilogue Modal for getTradeDetail -->
+<div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLongTitle">
+          <strong>Trade Details</strong>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" id="print-index-invoice">
+        <div>
+          <b>Invoice Number :</b> {{ selectedTrade?.transactionId }}<br />
+        </div>
+        <div><b>Transaction Id :</b> {{ selectedTrade?._id }}<br /></div>
+        <div><b>Creator Address :</b> {{selectedTrade?.receiverWallet}}<br></div>
+        <div><b>Acceptor Address :</b> {{selectedTrade?.senderWallet}}<br></div>
+        <div><b>Trade Terms :</b>
+          <!-- <pre>{{ selectedTrade?.remarks }}</pre> -->
+          <pre><span [innerHTML]="selectedTrade?.remarks"></span></pre><br />
+        </div>
+        <div><b>Trade Country :</b> {{ selectedTrade?.country }}<br /></div>
+        <div><b>Trade Type :</b> {{ selectedTrade?.tradeType }}<br /></div>
+        <div><b>Currency :</b> {{ selectedTrade?.currency || "NA" }}<br /></div>
+        <br />
+        <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Seller Account Details</b></div>
+        <div>
+          <b>Sender Orogram Address :</b> {{ selectedTrade?.senderWallet || "NA"
+          }}<br />
+        </div>
+        <div>
+          <b>Sender Wallet Address/Account Number : </b>{{ selectedTrade?.senderAccount || "NA" }}<br />
+        </div>
+        <br />
+        <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Buyer Account Details</b></div>
+        <div>
+          <b>Receipent Orogram Address : </b>{{ selectedTrade?.receiverWallet || "NA" }}<br />
+        </div>
+        <div>
+          <b>Receiver Wallet Address/Account Number :</b>
+          {{ selectedTrade?.receiverAccount || "NA" }}<br />
+        </div>
+        <br />
+        <div><b>Orogram Coin Amount :</b> {{ selectedTrade?.coins }}<img src="../../assets/images/orogram_logo.png"
+            width="25px" height="25px" /><br /></div>
+        <div><b>Fiat Amount :</b> {{ selectedTrade?.amount }} EUR<br /></div>
+        <div class="capitalize" *ngIf="selectedTrade?.status == 'dispute'">
+          <b>Disputed By : {{ selectedTrade?.disputedBy }}</b>
+        </div>
+        <!-- <div><b>Transaction Fee :</b> {{selectedTrade?.adminFee}} Orogram<br></div> -->
+        <div *ngIf="selectedTrade?.status == 'confirm'">
+          <div>
+            <b>Transaction Fee(EUR):
+              {{ selectedTrade?.adminFee * this.bitoroPrice }} EUR</b>
+          </div>
+          <div>
+            <b>Transaction Fee(Gold): {{ selectedTrade?.adminFee }} g</b>
+          </div>
+        </div>
+
+        <!-- <div><b>Transaction Id :</b> {{selectedTrade?._id}}<br></div> <br> -->
+        <div><b>Receipt Images: </b><br /></div>
+        <div id="content" *ngFor="let image of selectedTrade?.picturePaid">
+          <img *ngIf="pdfExtmatch(image)" [src]="baseurlip + '/' + image" width="300px" height="300px" />
+          <iframe *ngIf="!pdfExtmatch(image)" [src]="
+              this.sanitized.bypassSecurityTrustResourceUrl(
+                baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0'
+              )
+            " type="application/pdf" width="850px" height="300px"></iframe>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="modal-footer">
+        <button type="submit" (click)="printDiv()">Print</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- new code for getAdminTxDetail -->
+<div class="container main3">
+  <div class="getAdminTxDetail">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="thumbnail div5">
+          <form [formGroup]="formAdmin" (ngSubmit)="onSubmitAdminDetail(formAdmin.value)">
+            <h3 class="heading1">Verify Admin Hash</h3>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="address">Enter Admin Transaction Hash</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <input type="text" id="addressAdmin" name="addressAdmin" placeholder="Admin Hash.."
+                  [formControl]="addressAdmin" [ngClass]="{ 'is-invalid': submitted && f2.addressAdmin.errors }" />
+              </div>
+            </div>
+
+            <div class="row">
+              <button style="float: right; margin-top: 10px; margin-right: 18px">Verify Admin</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

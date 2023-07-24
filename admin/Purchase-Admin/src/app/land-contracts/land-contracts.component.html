@@ -1,0 +1,357 @@
+<div class="container-fluid main1">
+  <div class="row tabdiv1">
+      <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+          <h3>Land Purchase Contracts</h3>
+      </div>
+      <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4 btn3">
+          <a><button (click)="downloadpdf()">Export as PDF</button></a>
+      </div>
+      <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4 btn4">
+          <a><button (click)="downloadcsv()">Export in CSV</button></a>
+      </div>
+
+      <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4">
+          <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+              <option value="" disabled>Items Per page</option>
+              <option values="5">5</option>
+              <option values="10">10</option>
+              <option values="15">15</option>
+          </select>
+      </div>
+      <br><br><br><br><br><br>
+      <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              <input class="BCinput1" type="text" placeholder="Enter Wallet" [(ngModel)]="wallet"
+                  (keyup)="searchWallet(wallet)">
+              <span *ngIf="tokenError" style="font-size:11px;color:red">{{tokenError}}</span>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+              <a><button class="BCbtn3 sbtn" (click)="applyFilter()">GO</button></a>
+          </div>
+      </div>
+
+  </div>
+  <br><br>
+  <div *ngIf="count == 0" class="noData"> There is no record to show</div>
+
+  <div class="row tabdiv2" *ngIf="count > 0">
+      <div class="col-12" *ngIf="loading">
+          <div style="text-align: -webkit-center;;">
+              <div class="loader"></div>
+          </div>
+      </div>
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+          <table id="myTable" class="table table-bordered">
+              <tr>
+                  <th (click)="sort('transaction')">Transaction Id
+                      <span class="glyphicon sort-icon" *ngIf="key =='transaction'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  
+                  <!-- <th (click)="sort('receipent')">Seller Orogram address
+                      <span class="glyphicon sort-icon" *ngIf="key =='senderBank'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th> -->
+                  <th (click)="sort('receipent')">Buyer Orogram address
+                      <span class="glyphicon sort-icon" *ngIf="key =='recipientBank'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <!-- <th (click)="sort('paymode')">Payment Method
+                      <span class="glyphicon sort-icon" *ngIf="key =='paymode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th> -->
+                  <th (click)="sort('tradeprice')">Coin Amount
+                      <span class="glyphicon sort-icon" *ngIf="key =='coinAmount'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th>Total Amount<br> (EUR)
+                      <span class="glyphicon sort-icon" *ngIf="key =='tradeprice'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <!-- <th (click)="sort('date')">Expiry
+                      <span class="glyphicon sort-icon" *ngIf="key =='date'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th> -->
+                  <th>Expiry</th>
+                  <th (click)="sort('date')">Date
+                      <span class="glyphicon sort-icon" *ngIf="key =='date'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th (click)="sort('status')">Request Status
+                      <span class="glyphicon sort-icon" *ngIf="key =='status'"
+                          [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  </th>
+                  <th>
+                      Action
+                  </th>
+                  <th colspan="2">Details</th>
+              </tr>
+              <tbody
+                  *ngFor="let i of container | orderBy: key : reverse | paginate: { itemsPerPage: perPage, currentPage: p };let s=index">
+                  <!-- *ngIf="i.isClosedContract" -->
+                  <!-- (click)="popup(i)" -->
+                  <tr >
+                      <td >{{i._id}}</td>
+
+                      <!-- <td>{{i.senderWallet || "NA"}}</td> -->
+                      <!-- <td>{{i.senderAccount || "NA"}}</td> -->
+                      <!-- <td>{{i.receiverWallet || "NA"}}</td> -->
+                      <td>{{i.receiverWallet || "NA"}}</td>
+
+                      <td>{{(i.coins)}}<img src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" />
+                      </td>
+                      <td>{{ amountEuro((i.coins)) }}<br> EUR</td>
+                      <!-- <td>{{ (i?.contractStatus).length ? (i?.contractDate | date) : i?.contractDays + " Days"}}</td> -->
+                      <td>{{i?.contractDays + " Days"}}</td>
+                      <td>{{i.createdAt.split('T')[0]}}</td>
+                      <td>{{i.status | uppercase}}</td>
+                      <td>
+                          <div *ngIf="i.status == 'pending'">
+                              <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                  <option value="">Select Status</option>
+                                  <!-- <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm
+                                  </option> -->
+                                  <option value="Confirm">Confirm</option>
+                                  <option value="Cancel">Cancel</option>
+                              </select>
+                          </div>
+                          <!-- <div *ngIf="i.status == 'dispute'"> -->
+                              <!--<button (click)="changeState(s)">Confirm</button> -->
+                              <!-- <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                  <option value="">Select Status</option>
+                                  <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm
+                                  </option>
+                                  <option value="Pending">Pending</option>
+                                  <option value="Cancel">Cancel</option>
+                              </select>
+                          </div> -->
+                          <div *ngIf="i.status == 'confirm'">
+                              CONFIRMED
+                          </div>
+                          <div *ngIf="i.status == 'paid'">
+                              <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                  <option value="">Select Status</option>
+                                  <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm
+                                  </option>
+                                  <option value="Pending">Pending</option>
+                                  <option value="Cancel">Cancel</option>
+                              </select>
+                          </div>
+                          <div *ngIf="i.status == 'cancel'">
+                              CANCELLED
+                          </div>
+                      </td>
+                      <!-- <td><button [disabled]="i.status == 'cancel' || i.status == 'confirm'" class="buychatbtn" placeholder="Chat" (click)="chat(i, $event)">Chat <span *ngIf="i.isNotification && i.tempNotification"><i class="fa fa-bell" style="font-size:18px;color:red"></i></span></button></td> -->
+                      <td><button class="buychatbtn" placeholder="Details" (click)="showDetails(i)"
+                              data-toggle="modal" data-target="#exampleModalLong">Details </button></td>
+                  </tr>
+              </tbody>
+          </table>
+
+          <!-- <div style="display:inline-block">
+              <ul class="navmainlist1" style="list-style:none;display:flex;" *ngIf="count > perPage">
+                  <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+              </ul>
+          </div>  -->
+          <!-- <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a> -->
+          <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+      </div>
+
+  </div>
+</div>
+
+<!-- new chat ui here -------------------------------------- -->
+<div class="popup-outer">
+  <div class="popup-wrapper">
+      <span class="chatclose"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+      <ul>
+          <li style="position: relative;" *ngFor="let user of chatRoom let i = index"><a href="javascript:void(0);"
+                  (click)="chatnew(i)">{{user.roomNo}}</a>
+              <span class="badge badge-danger">{{user.count}}</span>
+          </li>
+
+      </ul>
+  </div>
+  <!-- <a href="javascript:void(0);" class="chat-control">Chat Box <i class="fa fa-angle-up" aria-hidden="true"></i></a> -->
+</div>
+
+<div class="chatbox-container" *ngIf="chatBooleanmultiple">
+  <div class="chat-header">
+      <p>TranId <span style="font-size: 13px;">{{transactionId}}</span></p>
+      <span><i class="fa fa-times-circle" aria-hidden="false" (click)="closeChat()"></i></span>
+  </div>
+  <div class="chat-body">
+      <div *ngFor="let message of messages"
+          [ngClass]="{'sender-wrapper':message.self == false,'receiver-wrapper':message.self == true}">
+          <p class="msg">{{message.text}}</p>
+          <span class="sender-name">{{message.name}}</span>
+      </div>
+  </div>
+  <form action="">
+      <div class="type-area">
+          <input type="text" name='msg' placeholder="Type your Message.." class="inputtext"
+              [(ngModel)]="replyMessage">
+          <span><i class="fa fa-paper-plane" (click)="reply()"></i></span>
+      </div>
+  </form>
+</div>
+
+<!--Dilogue Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Contract Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Creator Details</b><br>
+          </div>
+
+          <div class="modal-body" id="print-index-invoice">
+
+              <!-- <div *ngIf="selectedContract"><b>Contract Hash : {{(selectedContract.contractStatus).length>1?selectedContract?.contractStatus[1].contractHash:'Contract Not Accepted'}}</b><br></div>  
+          <br>
+
+          <div><b>Contract Creator Terms : {{selectedContract?.remarks}}</b><br></div>
+          <div><b>Contract Country : {{selectedContract?.country}}</b><br></div>
+          <br>                
+          <div><b>Contract Creator Uploaded Images</b><br></div>
+          <div id="content" *ngFor="let image of selectedContract?.picture">
+              <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>          
+          </div>
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Accepter Details</b><br></div>
+          <div><b>Name : {{selectedContract?.nameReciever}}</b><br></div>
+          <div><b>Contact : {{selectedContract?.contactReciever}}</b><br></div>
+          <div><b>Address : {{selectedContract?.addressReciever}}</b><br><br></div>
+          <div><b>Contract Acceptor Terms : {{selectedContract?.remarksReciever}}</b><br></div>
+          <div><b>Contract Acceptor Uploaded Images</b><br></div>
+          <div id="content" *ngFor="let image of selectedContract?.pictureReciever">
+              <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>          
+          </div>
+          <br> -->
+              <!-- new added -->
+              <!-- <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Accepter Payment Recipts</b><br></div>
+          <div id="content" *ngFor="let image of selectedContract?.picturePaid">
+              <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>          
+          </div>
+          <br>
+          <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Details</b><br></div>
+          <div><b>Contract Owner Address : {{selectedContract?.creator}}</b><br><br></div>
+          <div><b>Contract Status        : {{selectedContract?.status}}</b><br><br></div>
+          <div><b>Contract Expiry  : {{(selectedContract?.contractStatus).length>1?(selectedContract?.contractDate | date):selectedContract?.contractDays}}</b><br><br></div> -->
+
+              <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> -->
+
+
+              <div *ngIf="selectedContract"><b>Contract Hash :
+                      {{(selectedContract.contractStatus).length>1?selectedContract?.contractStatus[1].contractHash:'Contract
+                      Not Accepted'}}</b></div>
+              <div><b>Contract Description :
+                      <!-- <pre>{{selectedContract?.remarks}}</pre> -->
+                      <pre><span [innerHTML]="selectedContract?.remarks"></span></pre>
+                  </b></div>
+              <div><b>Contract Status : {{selectedContract?.status}}</b></div>
+              <!-- <div><b>Creator Account: {{selectedContract?.creator}}</b></div>-->
+              <div><b>Creator Account:
+                      {{(selectedContract?.transactionType)=='buy'?selectedContract?.receiverAccount:selectedContract?.senderAccount
+                      ||
+                      (selectedContract?.transactionType)=='buy'?selectedContract?.senderAccount:selectedContract?.receiverAccount}}</b>
+              </div>
+              <div><b>Acceptor Account:
+                      {{(selectedContract?.transactionType)=='buy'?selectedContract?.senderAccount:selectedContract?.receiverAccount}}</b>
+              </div>
+              <div><b>Total Orogram: {{selectedContract?.coins}}<img src="../../assets/images/orogram_logo.jpeg"
+                          width="25px" height="25px" /></b></div>
+              <div><b>Price In Gold (24k): {{(selectedContract?.coins)}} g</b></div>
+              <div><b>Total Amount (EUR) : {{ amountEuro(selectedContract?.coins)}}</b></div>
+              <div class="capitalize" *ngIf="selectedContract?.status=='dispute'"><b>Disputed By : {{
+                      selectedContract?.disputedBy }}</b></div>
+              <!-- <div><b>Transaction Fee : {{ selectedContract?.adminFee}} Orogram</b></div> -->
+              <div *ngIf="selectedContract?.status=='confirm'">
+                  <div><b>Transaction Fee(EUR): {{(selectedContract?.adminFee)* this.bitoroPrice}} EUR</b></div>
+                  <div><b>Transaction Fee(Gold): {{(selectedContract?.adminFee)}} g</b></div>
+              </div>
+
+              <!-- <div><b>Transaction Fee(EUR): {{(selectedContract?.adminFee)* this.bitoroPrice}} EUR</b></div>
+          <div><b>Transaction Fee(Gold): {{(selectedContract?.adminFee)}} g</b></div> -->
+
+              <div *ngIf="(selectedContract?.contractStatus).length>1"><b>Contract Accepted Date : {{
+                      dateCalculation(selectedContract?.contractDate,selectedContract?.contractDays)}}</b></div>
+              <div><b>Delivery : {{(selectedContract?.contractStatus).length>1?(selectedContract?.contractDate |
+                      date):selectedContract?.contractDays + " Days"}}</b></div>
+              <div><b>Country : {{selectedContract?.country}}</b></div>
+              <br><br>
+
+              <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Seller Details</b><br></div>
+              <br>
+              <div><b>Seller : {{selectedContract?.sender}}</b></div>
+              <div><b>Seller Orogram Address : {{selectedContract?.senderAccount ||
+                      selectedContract?.senderWallet}}</b></div>
+              <br>
+              <div><b>Contract Seller Uploaded Images</b><br></div>
+              <div id="content" *ngFor="let image of selectedContract?.picture">
+                  <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+                  <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+                      oncontextmenu="return false;" />
+                  <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+                  <iframe *ngIf="!(pdfExtmatch(image))"
+                      [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+                      type="application/pdf" width="100%" height="300px"></iframe>
+              </div>
+              <br>
+
+              <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Buyer Details</b><br></div>
+              <br>
+              <div><b>Name : {{selectedContract?.nameReciever}}</b></div>
+              <div><b>Contact : {{selectedContract?.contactReciever}}</b></div>
+              <div><b>Address : {{selectedContract?.addressReciever}}</b></div>
+              <br>
+              <div><b>Buyer : {{selectedContract?.receiver}}</b></div>
+              <div><b>Buyer Orogram Address : {{selectedContract?.receiverAccount ||
+                      selectedContract?.receiverAccount}}</b></div>
+              <div><b>Contract Description :
+                      <!-- <pre>{{selectedContract?.remarksReciever}}</pre> -->
+                      <pre><span [innerHTML]="selectedContract?.remarksReciever"></span></pre>
+                  </b></div>
+              <br>
+              <div><b>Contract Buyer Uploaded Images</b><br></div>
+              <div id="content" *ngFor="let image of selectedContract?.pictureReciever">
+                  <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+                  <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+                      oncontextmenu="return false;" />
+                  <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+                  <iframe *ngIf="!(pdfExtmatch(image))"
+                      [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+                      type="application/pdf" width="100%" height="300px"></iframe>
+
+              </div>
+              <br>
+
+              <!-- new added -->
+              <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Seller Payment
+                      Recipts</b><br></div>
+              <div id="content" *ngFor="let image of selectedContract?.picturePaid">
+                  <!-- <img [src]="baseurlip + '/' + image" alt="Georges" class="images" oncontextmenu="return false;"/>           -->
+                  <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" alt="Georges" class="images"
+                      oncontextmenu="return false;" />
+                  <!-- <embed *ngIf="!(pdfExtmatch(image))" [src]="createUrl(baseurlip , image)" type="application/pdf" /> -->
+                  <iframe *ngIf="!(pdfExtmatch(image))"
+                      [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+                      type="application/pdf" width="100%" height="300px"></iframe>
+              </div>
+              <br>
+
+          </div>
+
+
+          <div class="modal-footer">
+              <input type='button' id='btn' value='Print' (click)='printDiv();'>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+.navbar-brand{
+    position: relative;
+    padding: 0;
+    }
+.navbar-brand>img{
+    height: 100%;
+    width: 100%;
+}
+.navbar-collapse{
+    padding: 10px 0px 10px 0px !important;
+}
+/* .navbar-nav{
+    margin-left: 30px;
+} */
+
+@media (min-width: 768px){
+    .navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+         margin-left: 0px; 
+    }
+    }
+    
+.navbar {
+    min-height: 110px;
+    border-radius: 0px;
+}
+@media screen and (max-width: 768px) {
+    .navbar-header{
+    padding-bottom: 20px;
+}    
+}
+.main1{
+    margin-top: 115px;
+}
+
+body {font-family: Arial, Helvetica, sans-serif;}
+
+input[type=text], input[type=password] {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+box-sizing: border-box;
+}
+
+button {
+background-color: #4CAF50;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+cursor: pointer;
+width: 100%;
+border-radius: 25px;
+}
+
+button:hover {
+opacity: 0.8;
+}
+
+.cancelbtn {
+width: auto;
+padding: 10px 18px;
+background-color: #f44336;
+}
+
+
+
+
+.container {
+padding: 35px;
+}
+
+span.psw {
+float: right;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+span.psw {
+display: block;
+float: none;
+}
+.cancelbtn {
+width: 100%;
+}
+}
+.div1{
+margin-top: 90px;
+border: 1px solid;
+}
+
+
+.hover{
+    cursor:pointer;
+}

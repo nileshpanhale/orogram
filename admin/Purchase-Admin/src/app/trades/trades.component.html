@@ -1,0 +1,360 @@
+<div class="container-fluid main1">
+    <div class="row tabdiv1">
+        <div class="col-md-3 col-lg-3 col-sm-4 col-xs-4">
+            <h3>Trades</h3>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4 btn3">
+            <a><button (click)="downloadpdf()">Export as PDF</button></a>
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4 btn4">
+            <a><button (click)="downloadcsv()">Export in CSV</button></a>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+            <!-- <input class="CPinput1" type="text" id="myInput" style="margin: 15px" [(ngModel)]="description" placeholder="Search.."
+                title="Search"> -->
+        </div>
+        <div class="col-md-2 col-lg-2 col-sm-4 col-xs-4">
+            <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+                <option value="" disabled>Items Per page</option>
+                <option values="5">5</option>
+                <option values="10">10</option>
+                <option values="15">15</option>
+            </select>
+        </div>
+        <div class="row BCrow2">
+            <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                    <input class="BCinput1" type="text" placeholder="Enter Amount" [(ngModel)]="amount" (keyup)="amountEntered(amount)">
+                    <span *ngIf="tokenError" style="font-size:11px;color:red" >{{tokenError}}</span>
+                </div> -->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <select class="BCselect1" [(ngModel)]="country" (change)="countryChanged(country)">
+                    <option disabled value=''>Select Country</option>
+                    <option *ngFor="let item of collection" [value]="item.name">{{item.name}}</option>
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <input class="BCinput1" type="text" placeholder="Enter Wallet" [(ngModel)]="wallet"
+                    (keyup)="searchWallet(wallet)">
+                <span *ngIf="tokenError" style="font-size:11px;color:red">{{tokenError}}</span>
+            </div>
+            <!-- <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <select class="BCselect2" [(ngModel)]="codes">
+                            <option disabled>Select Currency</option>
+                            <option *ngFor="let symbol of currencies">{{symbol.AlphabeticCode}}</option>
+                            </select>
+                </div> -->
+            <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <select class="BCselect3" [(ngModel)]="transactionMethod">
+                                <option disabled>Select Method</option>
+                                <option value="All Online Offers">All Online Offers</option>
+                                <option value="Newest First">Newest First</option>
+                                <option value="Online Payment Modes">Online Payment Modes</option>
+                                <option value="Cash Transactions">Cash Transactions</option>
+                            </select>
+                </div> -->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <!-- <select class="BCselect3" [(ngModel)]="transactionMethod">
+                        <option disabled value=''>Select Method</option>
+                        <option value="Bank">Bank</option>
+                        <option value="Wallet">Wallet</option>
+                    </select> -->
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a><button class="BCbtn3 sbtn" (click)="applyFilter()">GO</button></a>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <a><button class="BCbtn3 sbtn" (click)="resetFilter()">Reset</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="count == 0" class="noData"> There is no record to show</div>
+    <div class="row tabdiv2" *ngIf="count > 0">
+        <div class="col-12" *ngIf="loading">
+            <div style="text-align: -webkit-center;;">
+                <div class="loader"></div>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+            <table id="myTable" class="table table-bordered">
+                <tr>
+                    <th (click)="sort('transaction')">Transaction Id
+                        <span class="glyphicon sort-icon" *ngIf="key =='transaction'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+
+                    <th (click)="sort('sender')">Sender Orogram Address
+                        <span class="glyphicon sort-icon" *ngIf="key =='sender'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('receipent')">Recipient Orogram Address
+                        <span class="glyphicon sort-icon" *ngIf="key =='receipent'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('receipent')">Sender btc/bank address
+                        <span class="glyphicon sort-icon" *ngIf="key =='senderBank'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('receipent')">Recipient btc/bank address
+                        <span class="glyphicon sort-icon" *ngIf="key =='recipientBank'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('paymode')">Payment Method
+                        <span class="glyphicon sort-icon" *ngIf="key =='paymode'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th>Country</th>
+                    <th>Currency</th>
+                    <th>Terms of Trade</th>
+                    <th (click)="sort('tradeprice')">Coin Amount
+                        <span class="glyphicon sort-icon" *ngIf="key =='coinAmount'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('tradeprice')">Trade Price EUR
+                        <span class="glyphicon sort-icon" *ngIf="key =='tradeprice'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('date')">Date
+                        <span class="glyphicon sort-icon" *ngIf="key =='date'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('status')">Request Status
+                        <span class="glyphicon sort-icon" *ngIf="key =='status'"
+                            [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                    <th colspan="2">
+                        Action
+                    </th>
+                </tr>
+                <tr *ngFor="let i of container
+                | orderBy: key : reverse 
+                
+                | paginate: { itemsPerPage: perPage, currentPage: p };let s=index">
+                    <td (click)="popup(i)">{{i._id}}</td>
+                    <td>{{i.senderWallet || "NA"}}</td>
+                    <td>{{i.receiverWallet || "NA"}}</td>
+                    <td>{{i.senderAccount || "NA"}}</td>
+                    <td>{{i.receiverAccount || "NA"}}</td>
+                    <td>{{i.tradeType || "NA"}}</td>
+                    <td>{{i.country}}</td>
+                    <td>{{i.currency}}</td>
+                    <td style="-webkit-line-clamp: 5;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    word-wrap: break-word; min-height: 155px;">{{i.remarks}}</td>
+                    <td>{{i.coins}}<img src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" /></td>
+                    <td>{{i.amount}} EUR</td>
+                    <td>{{i.createdAt.split("T")[0]}}</td>
+                    <td>{{i.status | uppercase}}</td>
+                    <td>
+                        <div *ngIf="i.status == 'pending'">
+                            <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                <option value="">Select Status</option>
+                                <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                        </div>
+                        <div *ngIf="i.status == 'paid'">
+                            <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                <option value="">Select Status</option>
+                                <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm</option>
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                        </div>
+
+                        <div *ngIf="i.status == 'dispute'">
+                            <!-- <button (click)="changeState(s)">Confirm</button> -->
+                            <select [(ngModel)]="txnStatus" (click)="changeStatus(s)">
+                                <option value="">Select Status</option>
+                                <option *ngIf="(i.sender!=null && i.receiver!=null)" value="Confirm">Confirm</option>
+                                <!-- <option value="Pending">Pending</option> -->
+                                <option value="Cancel">Cancel</option>
+                            </select>
+                        </div>
+
+                        <div *ngIf="i.status == 'confirm'">
+                            CONFIRMED
+                        </div>
+                        <div *ngIf="i.status == 'cancel'">
+                            CANCELLED
+                        </div>
+                    </td>
+                    <td><button [disabled]="i.status == 'cancel' || i.status == 'confirm'" class="buychatbtn"
+                            placeholder="Chat" (click)="chat(i, $event)">Chat <span
+                                *ngIf="i.isNotification && i.tempNotification"><i class="fa fa-bell"
+                                    style="font-size:18px;color:red"></i></span></button></td>
+                    <td><button class="buychatbtn" placeholder="Details" (click)="showDetails(i)" data-toggle="modal"
+                            data-target="#exampleModalLong">Details </button></td>
+                </tr>
+            </table>
+            <!-- <div style="display:inline-block">
+                <ul class="navmainlist1" style="list-style:none;display:flex;" *ngIf="count > perPage">
+                    <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+                </ul>
+            </div> 
+            <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a> -->
+            <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+        </div>
+
+    </div>
+</div>
+
+<!-- new chat ui here -------------------------------------- -->
+<div class="popup-outer">
+    <div class="popup-wrapper">
+        <span class="chatclose" (click)="closeRooms()"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+        <ul>
+            <li style="position: relative;" *ngFor="let user of chatRoom; let i = index"><a href="javascript:void(0);"
+                    (click)="chatnew(user, i)">{{user.roomNo}}</a>
+                <span class="badge badge-danger">{{user.count}}</span>
+            </li>
+
+        </ul>
+    </div>
+    <a href="javascript:void(0);" class="chat-control">Chat Box <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+</div>
+
+<div class="chatbox-container" *ngIf="chatBooleanmultiple">
+    <div class="chat-header">
+        <p>TranId <span style="font-size: 13px;">{{transactionId}}</span></p>
+        <span><i class="fa fa-times-circle" aria-hidden="false" (click)="closeChat()"></i></span>
+    </div>
+    <div class="chat-body">
+        <div *ngFor="let message of messages"
+            [ngClass]="{'sender-wrapper':message.self == false,'receiver-wrapper':message.self == true}">
+            <p class="msg">{{message.text}}</p>
+            <span class="sender-name">{{message.name}}</span>
+        </div>
+    </div>
+    <form action="">
+        <div class="type-area">
+            <input type="text" name='msg' placeholder="Type your Message.." class="inputtext"
+                [(ngModel)]="replyMessage">
+            <span><i class="fa fa-paper-plane" (click)="reply()"></i></span>
+        </div>
+    </form>
+</div>
+<!--Dilogue Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLongTitle"><strong>Trade Details</strong></h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" id="print-index-invoice">
+                <div><b>Invoice Number :</b> {{selectedTrade?.transactionId}}<br></div>
+                <div><b>Transaction Id :</b> {{selectedTrade?._id}}<br></div>
+                <div><b>Creator Address :</b> {{selectedTrade?.receiverWallet}}<br></div>
+                <div><b>Acceptor Address :</b> {{selectedTrade?.senderWallet}}<br></div>
+                <div><b>Trade Terms :</b>
+                    <!-- <pre>{{selectedTrade?.remarks}}</pre><br> -->
+                    <pre><span [innerHTML]="selectedTrade?.remarks"></span></pre>
+                </div>
+                <div><b>Trade Country :</b> {{selectedTrade?.country}}<br></div>
+                <div><b>Currency :</b> {{selectedTrade?.currency || "NA"}}<br></div> <br>
+                <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Seller Account Details</b></div>
+                <div><b>Sender Orogram Address :</b> {{selectedTrade?.senderWallet || "NA"}}<br></div>
+                <div><b>Sender Wallet Address/Account Number : </b>{{selectedTrade?.senderAccount || "NA"}}<br></div>
+                <div><b>Trade Type :</b> {{selectedTrade?.tradeType}}<br></div>
+                <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Buyer Account Details</b></div>
+                <div><b>Receipent Orogram Address : </b>{{selectedTrade?.receiverWallet || "NA"}}<br></div>
+                <div><b>Receiver Wallet Address/Account Number :</b> {{selectedTrade?.receiverAccount || "NA"}}<br>
+                </div>
+                <div><b>Trade Type :</b> {{selectedTrade?.tradeType}}<br></div>
+                <br>
+                <div><b>Orogram Coin Amount :</b> {{selectedTrade?.coins}}<img
+                        src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" /><br></div>
+                <div><b>Fiat Amount :</b> {{selectedTrade?.amount}} EUR<br></div>
+                <div class="capitalize" *ngIf="selectedTrade?.status=='dispute'"><b>Disputed By : {{
+                        selectedTrade?.disputedBy }}</b></div>
+                <!-- <div><b>Transaction Fee :</b> {{selectedTrade?.adminFee}} Orogram<br></div> -->
+                <div *ngIf="selectedTrade?.status=='confirm'">
+                    <div><b>Transaction Fee(EUR): {{(selectedTrade?.adminFee)* this.bitoroPrice}} EUR</b></div>
+                    <div><b>Transaction Fee(Gold): {{(selectedTrade?.adminFee)}} g</b></div>
+                </div>
+
+
+                <!-- <div><b>Transaction Id :</b> {{selectedTrade?._id}}<br></div> <br> -->
+                <div><b>Receipt Images: </b><br></div>
+                <div id="content" *ngFor="let image of selectedTrade?.picturePaid">
+                    <!-- <img [src]="baseurlip + '/' + image" alt="Georges" width="750" height= "400" class="images" oncontextmenu="return false;"/> -->
+                    <!-- {{pdfExtmatch(image)}} -->
+                    <img *ngIf="(pdfExtmatch(image))" [src]="baseurlip + '/' + image" width="300px" height="300px" />
+                    <iframe *ngIf="!(pdfExtmatch(image))"
+                        [src]="this.sanitized.bypassSecurityTrustResourceUrl(baseurlip + '/' + image + '#toolbar=0&navpanes=0&scrollbar=0')"
+                        type="application/pdf" width="850px" height="300px"></iframe>
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <!-- <ng-container *ngIf="showprint == true" class="modal-content modalIndexInvoicePreview" id="print-index-invoice">
+            <div>
+                <div class="container col-md-12">
+                <div class="text-center">
+                This is right aligned!
+                <img src="https://www.gstatic.com/webp/gallery3/1.png" class=" rounded mx-auto d-block" alt="...">
+                </div>
+                </div>
+                    <div class="modal-header div-logo">
+                      <div>
+                        <b>Invoice|Receipt|Attachment</b>
+                        
+                        
+              
+                      </div>
+                    </div>
+                  </div>
+
+        </ng-container> -->
+
+
+            <div class="modal-footer">
+
+
+
+                <!-- <ng-container *ngIf="showprint == true" class="modal-content modalIndexInvoicePreview" id="print-index-invoice">
+
+                <div><b>Transaction Id :</b> {{selectedTrade?._id}}<br></div>
+                <div><b>Trade Terms :</b> {{selectedTrade?.remarks}}<br></div>
+                <div><b>Trade Country :</b> {{selectedTrade?.country}}<br></div>
+                <div><b>Trade Type :</b> {{selectedTrade?.tradeType}}<br></div>
+                <div><b>Currency :</b> {{selectedTrade?.currency || "NA"}}<br></div> <br>
+                <div><b>Sender Orogram Address :</b> {{selectedTrade?.senderWallet || "NA"}}<br></div>
+                <div><b>Receipent Orogram Address : </b>{{selectedTrade?.receiverWallet || "NA"}}<br></div>
+                <div><b>Sender Wallet Address/Account Number : </b>{{selectedTrade?.senderAccount || "NA"}}<br></div>
+                <div><b>Receiver Wallet Address/Account Number :</b> {{selectedTrade?.receiverAccount || "NA"}}<br></div> <br>
+                <div><b>Coin Amount :</b> {{intToDecimal(selectedTrade?.coins)}}<br></div>
+                <div><b>Amount :</b> {{selectedTrade?.amount}}<br></div>
+                <div><b>Transaction Id :</b> {{selectedTrade?._id}}<br></div> <br>
+                <div><b>Receipt Images</b><br></div>
+                <div id="content" *ngFor="let image of selectedTrade?.picturePaid">
+                    <img [src]="baseurlip + '/' + image" alt="Georges" width="750" height= "400" class="images" oncontextmenu="return false;"/>          
+                </div>
+        
+               
+            </ng-container> -->
+
+                <!-- modal-content modalIndexInvoicePreview -->
+                <button type='submit' (click)='printDiv()'>Print</button>
+                <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Print</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+            </div>
+        </div>
+    </div>
+</div>

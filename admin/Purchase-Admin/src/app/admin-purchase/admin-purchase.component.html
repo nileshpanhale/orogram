@@ -1,0 +1,410 @@
+
+<div class="container main1">
+    
+
+
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 maindiv1a"  style="padding-left: 0px;">
+                
+            <form style="border: 1px solid #000;" [formGroup]="purchaseCoinForm" (ngSubmit)="submitForm()" novalidate>
+                <h1 class="PChd12">Purchase Coin</h1>
+                <div class="row rrow1">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+                            <div class="alert alert-danger" [hidden]="!errorMsg" translate>
+                                {{errorMsg}}
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                        <label for="amount" style="padding: 10px;">Unique Id</label>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                        <input style="width: 100%;" class="iinput1" placeholder="Enter Unique Id" type="tel" formControlName="uniqueId" required>
+                                        <small class="text-danger" *ngIf="purchaseCoinForm.controls.uniqueId.invalid && purchaseCoinForm.controls.uniqueId.touched">
+                                                Unique Id is required
+                                            </small>
+                                    </div>
+                            </div>
+                                <!-- <label for="amount">Unique Id</label>&nbsp;&nbsp;
+                                <input class="iinput1" placeholder="Enter Unique Id" type="tel" formControlName="uniqueId" required>
+                                <small class="text-danger" *ngIf="purchaseCoinForm.controls.uniqueId.invalid && purchaseCoinForm.controls.uniqueId.touched">
+                                    Unique Id is required
+                                </small> -->
+                            </div>
+                            <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 dddiv1">
+                                    <label for="currency">Currency</label>&nbsp;&nbsp;
+                                    <select formControlName="currency">
+                                        <option value="usd">USD</option>
+                                        <option value="inr">INR</option>
+                                        <option value="eur">EUR</option>
+                                    </select>
+                                    <small class="text-danger" [hidden]="purchaseCoinForm.controls.currency.valid || purchaseCoinForm.controls.currency.untouched">
+                                        currency is required
+                                    </small>
+                                </div> -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+
+                                        <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;">Amount</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <input style="width: 100%;" class="iinput1" type="text" placeholder="Enter Amount" formControlName="amount" required>
+                                                        <small class="text-danger" *ngIf="purchaseCoinForm.controls.amount.invalid && purchaseCoinForm.controls.amount.touched">
+                                                            Amount is required
+                                                        </small>
+                                                    </div>
+                                            </div>
+                                </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;">User's Email ID</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <input style="width: 100%;" class="iinput1" type="text" placeholder="Enter user's Email Id" formControlName="usremail" required>
+                                                        <p style="font-size: 13px;">For user details like email & account info, select User Details from menu </p>
+                                                    </div>
+                                            </div>
+<!-- 
+                                        <label>Amount</label>&nbsp;&nbsp;
+                                        <input class="iinput1" type="text" placeholder="Enter Amount" formControlName="amount" required>
+                                        <small class="text-danger" *ngIf="purchaseCoinForm.controls.amount.invalid && purchaseCoinForm.controls.amount.touched">
+                                            Amount is required
+                                        </small> -->
+                                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+
+                            <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                            <label style="padding: 10px;" for="type">Payment mode</label>
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                            <select style="width: 50%;" formControlName="type" (change)="paymentModeChanged()">
+                                                    <option value="" disabled>Select Type</option>
+                                                    <option value="btc">BTC</option>
+                                                    <option value="wire">Wire transfer</option>
+                                                </select><div>
+                                                <small class="text-danger" [hidden]="purchaseCoinForm.controls.type.valid || purchaseCoinForm.controls.type.untouched">
+                                                    Payment mode is required
+                                                </small></div>
+                                        </div>
+                                </div>
+
+
+                            <!-- <label for="type">Payment mode</label>&nbsp;&nbsp;
+                            <select formControlName="type">
+                                <option value="" disabled>Select Type</option>
+                                <option value="btc">BTC</option>
+                                <option value="wire">Wire transfer</option>
+                            </select><div>
+                            <small class="text-danger" [hidden]="purchaseCoinForm.controls.type.valid || purchaseCoinForm.controls.type.untouched">
+                                Payment mode is required
+                            </small></div> -->
+                            </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1" *ngIf="purchaseCoinForm.value.type == 'btc'" style="display: contents;">
+                            
+
+
+
+
+                            <form [formGroup]="btcForm" style="width: 100%;">        
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+
+
+                                <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                <label style="padding: 10px;" for="receiverAccount">Wallet address</label>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                <input style="width: 100%;" class="iinput2" type="text" placeholder="Btc wallet address" formControlName="walletAddress" required>
+                                                <small class="text-danger" *ngIf="btcForm.controls.walletAddress.invalid && btcForm.controls.walletAddress.touched">
+                                                        Address is required
+                                                    </small>
+                                            </div>
+                                    </div>
+
+
+<!-- 
+                                <label for="receiverAccount">Wallet address</label>&nbsp;&nbsp;
+                                <input class="iinput2" type="text" placeholder="Btc wallet address" formControlName="walletAddress" required>
+                                <small class="text-danger" *ngIf="btcForm.controls.walletAddress.invalid && btcForm.controls.walletAddress.touched">
+                                        Address is required
+                                    </small> -->
+                            </div>
+                            
+                            </form>
+                            
+                            </div>
+
+
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1" *ngIf="purchaseCoinForm.value.type == 'wire'" style="display: contents;">
+                                    <form [formGroup]="wireForm">        
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+                                        <label for="receiverAccount">Beneficiary</label>&nbsp;&nbsp;
+                                        <input class="iinput2" type="text" placeholder="Btc wallet address" formControlName="walletAddress" required>
+                                    </div>
+                                    
+                                    </form>
+                                    
+                                    </div>     -->
+
+
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1" *ngIf="purchaseCoinForm.value.type == 'wire'" style="display: contents;">
+                                <form [formGroup]="wireForm" style="width: 100%;">        
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+                                            <div class="row">
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                            <label style="padding: 10px;" for="receiverAccount">Beneficiary</label>
+                                                    </div>
+                                                    <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                            <input style="width: 100%;" class="iinput2" type="text" placeholder="Beneficiary Name" formControlName="beneficiary" required>
+                                                            <div><small class="text-danger" *ngIf="wireForm.controls.beneficiary.invalid && wireForm.controls.beneficiary.touched">
+                                                                    Beneficiary Name is required
+                                                                </small></div>
+                                                        </div>
+                                                </div>
+
+
+                                    <!-- <label for="receiverAccount">Beneficiary</label>&nbsp;&nbsp;
+                                    <input class="iinput2" type="text" placeholder="Beneficiary Name" formControlName="beneficiary" required>
+                                    <div><small class="text-danger" *ngIf="wireForm.controls.beneficiary.invalid && wireForm.controls.beneficiary.touched">
+                                            Beneficiary Name is required
+                                        </small></div> -->
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+                                        <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;" for="receiverAccount">Swift Code</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <input style="width: 100%;" class="iinput2" type="text" placeholder="Swift Code" formControlName="swiftCode" required>
+                                                        <div><small class="text-danger" *ngIf="wireForm.controls.swiftCode.invalid && wireForm.controls.swiftCode.touched">
+                                                                SwiftCode is required
+                                                            </small></div>
+                                                    </div>
+                                            </div>
+
+
+
+                                    <!-- <label for="receiverAccount">Swift Code</label>&nbsp;&nbsp;
+                                    <input class="iinput2" type="text" placeholder="Swift Code" formControlName="swiftCode" required>
+                                    <div><small class="text-danger" *ngIf="wireForm.controls.swiftCode.invalid && wireForm.controls.swiftCode.touched">
+                                            SwiftCode is required
+                                        </small></div> -->
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+
+                                        <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;" for="uniqueId">Bank</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <input style="width: 100%;" class="iinput2" type="text" placeholder="Bank Name" formControlName="bankName" required>
+                                                        <div><small class="text-danger" *ngIf="wireForm.controls.bankName.invalid && wireForm.controls.bankName.touched">
+                                                                Bank name is required
+                                                            </small></div>
+                                                    </div>
+                                            </div>
+
+
+
+                                    <!-- <label for="uniqueId">Bank</label>&nbsp;&nbsp;
+                                    <input class="iinput2" type="text" placeholder="Bank Name" formControlName="bankName" required>
+                                    <div><small class="text-danger" *ngIf="wireForm.controls.bankName.invalid && wireForm.controls.bankName.touched">
+                                            Bank name is required
+                                        </small></div> -->
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+                                        <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;" for="uniqueId">Account No.</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <input style="width: 100%;" class="iinput2" type="text" placeholder="Account Number" formControlName="accountNumber" required>
+                                                        <div><small class="text-danger" *ngIf="wireForm.controls.accountNumber.invalid && wireForm.controls.accountNumber.touched">
+                                                                Account No. is required
+                                                            </small></div>
+                                                    </div>
+                                            </div>
+
+
+<!-- 
+                                        <label for="uniqueId">Account No.</label>&nbsp;&nbsp;
+                                        <input class="iinput2" type="text" placeholder="Account Number" formControlName="accountNumber" required>
+                                        <div><small class="text-danger" *ngIf="wireForm.controls.accountNumber.invalid && wireForm.controls.accountNumber.touched">
+                                                Account No. is required
+                                            </small></div> -->
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1">
+
+                                        <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                                                        <label style="padding: 10px;" for="uniqueId">Currency</label>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-6">
+                                                        <select style="width: 50%;"  formControlName="currencyType">
+                                                                <option value="" disabled>Select Currency</option> 
+                                                                <option  *ngFor="let item of currencies">{{item.AlphabeticCode}}</option>
+                                                            </select>
+                                                        <div><small class="text-danger" *ngIf="wireForm.controls.currencyType.invalid && wireForm.controls.currencyType.touched">
+                                                                Select a currency
+                                                            </small></div>
+                                                    </div>
+                                            </div>
+                                    </div>
+                                    
+                                </form>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dddiv1"> <button style="background-color: #f6c647; color: #000; border: none; border-radius: 10px" [ngClass]="{'abledClass':((purchaseCoinForm.valid) && (btcForm.valid || wireForm.valid)),'disabledClass':!((purchaseCoinForm.valid) && (btcForm.valid || wireForm.valid))}" [disabled]="(purchaseCoinForm.invalid && (btcForm.invalid || wireForm.invalid))" type="submit" class="submitButton">Buy</button></div>
+                    </div>
+                    <div class="col-12" *ngIf="loading">
+                        <div style="text-align: -webkit-center;;">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border: 1px solid #000; padding: 0px;">
+                        <h1 class="PChd12">Account Info</h1>
+                        <div style="padding-left: 15px; padding-right: 15px;">
+                    <!--<label><b>BTC Wallet Address:</b></label>
+                    <label>{{btc}}</label><br/><br/>
+                    <label><b>Account information:</b></label><br/> -->
+                    <label>Account Information:&nbsp;</label>
+                    <label><pre>{{accountName}}</pre></label><br/>
+                    <!--<label>Account Number:&nbsp;</label>
+                    <label>{{accountNumber}}</label><br/>
+                    <label>IFSC code:&nbsp;</label>
+                    <label>{{ifsc}}</label><br/>
+                    <label>Swift code:&nbsp;</label>
+                    <label>{{swift}}</label><br/>
+                    <label>Address:&nbsp;</label>
+                    <label>{{accountAddress}}</label> -->
+                    </div>
+                    
+
+                </div>
+
+
+        </div>
+
+    <div class="row">
+        <div class="divv2" style="width:100%; margin: 0px !important; margin-top: 20px !important;">
+        <!-- Purchase coin form -->
+        <!-- <div class="thumbnail col-sm-5 puchaseCoinForm">
+            <h3 class="text-center">Puchase coin</h3>
+            <div class="alert alert-danger" [hidden]="!errorMsg" translate>
+                {{errorMsg}}
+            </div>
+            
+            <form class="form-inline" [formGroup]="purchaseCoinForm" (ngSubmit)="submitForm()" novalidate>
+                <div class="form-group">
+                    <label for="amount">Amount</label>&nbsp;&nbsp;
+                    <input type="tel" class="form-control" formControlName="amount" required>
+                    <small class="text-danger" [hidden]="purchaseCoinForm.controls.amount.valid || purchaseCoinForm.controls.amount.untouched">
+                        Amount is required
+                    </small>
+                </div>
+                &nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="currency">Currency</label>&nbsp;&nbsp;
+                    <select formControlName="currency">
+                        <option value="usd">USD</option>
+                        <option value="inr">INR</option>
+                        <option value="eur">EUR</option>
+                    </select>
+                    <small class="text-danger" [hidden]="purchaseCoinForm.controls.currency.valid || purchaseCoinForm.controls.currency.untouched">
+                        currency is required
+                    </small>
+                </div>
+                <div class="form-group">
+                    <label for="type">Payment mode</label>&nbsp;&nbsp;
+                    <select formControlName="type">
+                        <option value="btc">BTC</option>
+                        <option value="wire">Wire transfer</option>
+                    </select>
+                    <small class="text-danger" [hidden]="purchaseCoinForm.controls.type.valid || purchaseCoinForm.controls.type.untouched">
+                        Payment mode is required
+                    </small>
+                </div>
+                <div class="form-group">
+                        <label for="receiverAccount">Account no. / Wallet address</label>&nbsp;&nbsp;
+                        <input type="text" class="form-control" formControlName="receiverAccount" required>
+                    </div>&nbsp;&nbsp;
+                <div class="form-group">
+                    <label for="uniqueId">UniqueId</label>&nbsp;&nbsp;
+                    <input type="text" class="form-control" formControlName="uniqueId" required>
+                </div>&nbsp;&nbsp;
+                <button type="submit">Buy</button>
+            </form>
+        </div> -->
+        <!-- Coin purchase history -->
+                        <h1 class="PChd12">Purchase Coin History</h1>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="CPdiv3">
+                                <select class="CPselect1" style="margin:15px" [(ngModel)]="status" placeholder="Select" (change)="statusChange()">
+                                    <option value=""  selected>--Select your option--</option>
+                                    <option value="confirm">Confirm</option>
+                                    <option value="pending">Pending</option>
+                                </select>
+                                <select [(ngModel)]="perPage" (change)="perPageChange()" style="margin-right: 15px;">
+                                    <option value=""  disabled>Items Per page</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                </select>
+                                <button style="padding: 5px 30px; border: none; border-radius: 10px; cursor: pointer; background-color: #f6c647;     color: #000;" (click)="getTransactions()">Refresh</button>
+                                <a><button style="padding: 5px 30px; border: none; border-radius: 10px; cursor: pointer; background-color: #f6c647;     color: #000; float: right;margin:15px 5px" (click)="downloadpdf()">Download PDF</button></a> 
+                                <a><button (click)="downloadcsv()" style="padding: 5px 30px; border: none; border-radius: 10px; cursor: pointer;     color: #000; background-color: #f6c647; float:right;margin:15px 5px">Export as CSV</button></a> 
+                            </div>
+                        </div>
+                    </div>
+<div *ngIf="count == 0" class="noData"> There is no record to show</div>
+
+                            <div class="table-responsive" *ngIf="count > 0">
+                            <table id="myTable" class="table table-bordered">
+                                        <tr>
+                                            <th *ngFor="let column of columns">{{column}}</th>
+                                        </tr>
+                                        
+                                        <tr *ngFor="let transaction of transactions">
+                                            
+                                            <td (click)="showPopup(transaction)">{{transaction.createdAt | date}}</td>
+                                            <td (click)="showPopup(transaction)">{{transaction.remarks || '-'}}</td>
+                                            <td (click)="showPopup(transaction)">{{transaction.transactionType}}</td>
+                                            <td (click)="showPopup(transaction)">{{transaction.amount}}</td>
+                                            <td (click)="showPopup(transaction)">{{transaction.type}}</td>
+                                            <td (click)="showPopup(transaction)">
+                                                    <div *ngIf="transaction.receiverAccount">
+                                                {{transaction.receiverAccount}}</div>
+
+                                                <div *ngIf="transaction.bankAccount">{{transaction.bankAccount.number}}</div>
+                                            </td>
+                                            <td (click)="showPopup(transaction)"[ngClass]="{'text-success': transaction.status=='confirm', 'text-warning':transaction.status == 'pending'}">{{transaction.status}}</td>
+                                        </tr>
+                            </table>
+                            </div>
+                            <div style="display:inline-block">
+                                <ul class="navmainlist1" *ngIf="count > perPage">
+                                    <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+                                    </ul>
+                                <!-- <a *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)">{{pageNum}}&nbsp;&nbsp;</a>  -->
+                            </div> <a (click)="pageChange()"  *ngIf="count > perPage" class="nxtbtn">Next</a> 
+        </div>
+    </div>     
+</div>
+
+

@@ -1,0 +1,156 @@
+<div class="container-fluid main1">
+  <div class="row tabdiv1">
+    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">                                    
+        <h3>All Contracts History</h3>
+    </div>
+    <!-- <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6 btn3">
+       <button (click)="downloadpdf()" class="tradebtn1a">Export as PDF</button>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6 btn4">
+            <button (click)="downloadcsv()" class="tradebtn1a">Export in CSV</button>
+    </div> -->
+    <!-- <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12 btn4">
+      <button routerLink="/create" class="tradebtn1a">Create Order</button>
+  </div> -->
+
+  <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">                                   
+      <input class="CPinput1" type="text" id="myInput" style="margin: 15px" [(ngModel)]="description" (keyup)="search()" placeholder="Search.." title="Search">
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+      <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+        <option value=""  disabled>Items Per page</option>
+        <option values="5">5</option>
+        <option values="10">10</option>
+        <option values="15">15</option>
+      </select>
+    </div>
+</div>
+<div class="row tabdiv2">
+  <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">                                   
+  <table id="myTable" class="table table-bordered">
+      <thead>
+          <tr class="header">
+            <th>Contract Id</th>
+            <!-- <th>Contract Type</th> -->
+            <th>Seller/Buyer Address</th>
+            <!-- <th>Payment Method</th> -->
+            <th>Coins</th>
+            <!-- <th>Contract Price</th> -->
+            <th>Date</th>
+            <th>Request Status</th>
+            <th colspan="2">Action</th> 
+          </tr>
+      </thead>
+          <tbody id="myTable3" *ngFor = "let item of container | filter : 'user' : selectedName;   let i = index">
+          <tr>
+            <td (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong">{{item._id}}</td>
+        
+            <!-- <td (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong">{{item.transactionType | uppercase}}</td> -->
+            <td>
+              <div (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong" *ngIf="item.transactionType=='buy' && item.sender">{{item.senderAccount}}</div>
+              <div (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong" *ngIf="item.transactionType=='sell' && item.receiver">{{item.receiverAccount}}</div>
+              <div (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong" *ngIf="!item.receiver || !item.sender">No one to Trade</div>
+            </td>
+            <!-- <td (click)="showBankDetails(i)">{{item.tradeType | uppercase}}</td> -->
+            <td (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong">{{intToDecimal(item.coins)}}</td>
+            <!-- <td (click)="showBankDetails(i)">{{item.amount}}</td> -->
+            <td (click)="showDetails(item)"  data-toggle="modal" data-target="#exampleModalLong">{{item.createdAt.split('T')[0]}}</td>
+            <td (click)="showBankDetails(i)">{{item.status | uppercase}}</td>
+            <td>
+        <div *ngIf="item.status=='pending' || (item.status =='paid' && item.transactionType == 'sell'  ) ">
+            <!-- && item.transactionType =='buy' && item.creator == userIdCurrent -->
+        <!-- <select  (change)="change(i)" [(ngModel)]="action">
+                  <option value="" disabled>Select</option> 
+          <option value="Pending">Pending</option>
+          <option *ngIf="(item.transactionType=='sell' && item.receiver!=null)" value="Confirm">Confirm</option>
+          <option *ngIf="(item.transactionType=='sell' && item.receiver!=null)" value="Dispute">Dispute</option>
+          <option *ngIf="(item.transactionType=='buy' && item.sender!=null)" value="Paid">Paid</option>
+          <option *ngIf="(!(item.sender && item.receiver))" value="Cancel">Cancel</option>
+        </select> -->
+        </div>
+        <div *ngIf="item.status=='confirm'">
+          CONFIRMED
+      </div>
+        <div *ngIf="item.status=='dispute'">
+           DISPUTED
+        </div>
+        <div *ngIf="item.status=='cancel'">
+          CANCELLED
+        </div>
+        <div *ngIf="(item.status =='paid' && item.transactionType =='buy' ) ">
+          PAID
+        </div>
+
+        <!-- && item.creator == userIdCurrent && item.transactionType =='sell' -->
+        <!-- <td><button class="buychatbtn" placeholder="Chat" (click)="chat(i, $event)">Chat <span *ngIf="(item.isNotification && item.tempNotification)"><i class="fa fa-bell" style="font-size:18px;color:red"></i></span></button></td> -->
+        <td><button class="buychatbtn" placeholder="Details" (click)="showDetails(item)" data-toggle="modal" data-target="#exampleModalLong">Details </button></td>
+
+          </tr>
+          </tbody>
+        </table>
+        <div style="display:inline-block">
+          <ul class="navmainlist1" style="list-style:none;display:flex;">
+              <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+          </ul>
+      </div> <a (click)="pageChange()" class="nxtbtn">Next</a>
+        <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+</div>
+</div>
+
+</div>
+
+<!--Dilogue Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Contract Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div style="background-color: rgb(186, 236, 248); text-align:center" ><b>Contract Creator Details</b><br></div>
+
+      <div class="modal-body" >
+
+        <div *ngIf="selectedContract"><b>Contract Hash : {{(selectedContract.contractStatus).length>1?selectedContract?.contractStatus[1].contractHash:'Contract Not Accepted'}}</b><br></div>
+        <br>
+        <br>
+
+          <div><b>Contract Description : {{selectedContract?.remarks}}</b><br></div>
+       <br>
+           
+      <div><b>Contract Creator Uploaded Images</b><br></div>
+      <div id="content" *ngFor="let image of selectedContract?.picture">
+          <img [src]="baseurlip + '/' + image" alt="Georges" class="images" />          
+      </div>
+
+
+      <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Accepter Details</b><br></div>
+
+      <div><b>Name : {{selectedContract?.nameReciever}}</b><br></div>
+      <div><b>Contact : {{selectedContract?.contactReciever}}</b><br></div>
+      <div><b>Address : {{selectedContract?.addressReciever}}</b><br><br></div>
+
+      <div><b>Contract Description : {{selectedContract?.remarksReciever}}</b><br></div>
+
+
+      <div><b>Contract Acceptor Uploaded Images</b><br></div>
+      <div id="content" *ngFor="let image of selectedContract?.pictureReciever">
+          <img [src]="baseurlip + '/' + image" alt="Georges" class="images" />          
+      </div>
+
+      <div style="background-color: rgb(186, 236, 248); text-align:center"><b>Contract Details</b><br></div>
+     
+      <div><b>Contract Owner Address : {{selectedContract?.creator}}</b><br><br></div>
+      <div><b>Contract Status        : {{selectedContract?.status}}</b><br><br></div>
+      <div><b>Contract Expiry Date   : {{selectedContract?.contractDate}}</b><br><br></div>
+    </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>

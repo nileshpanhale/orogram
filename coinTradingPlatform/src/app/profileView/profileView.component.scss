@@ -1,0 +1,72 @@
+
+.navbar-brand {
+  position: relative;
+  padding: 10px 10px;
+}
+
+.navbar-brand>img {
+  position: absolute;
+  height: 100%;
+}
+
+.navbar-collapse {
+  padding: 10px 0px 10px 0px !important;
+}
+
+.navbar-nav {
+  margin-left: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-header {
+    padding-bottom: 20px;
+  }
+}
+
+.main1 {
+  margin-top: 90px;
+}
+
+.divhd1 {
+  text-align: center;
+  background-color: #eee;
+  margin: 0px;
+  padding: 15px;
+}
+
+.div1 {
+  padding-left: 0px;
+  padding-right: 0px;
+  border: 1px solid #000;
+}
+
+tr {
+  text-align: center;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+  border-top: 0px;
+}
+
+.btn2 {
+  float: right;
+}
+
+.formdiv {
+  padding: 20px 50px 20px 50px;
+}
+
+.img2 {
+  width: 60%;
+}
+
+.footer1 {
+  position: absolute;
+  bottom: 0;
+}
+

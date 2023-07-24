@@ -1,0 +1,119 @@
+<div class="container main1">
+
+  <div class="row">
+      <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3">
+          <button class="mbabtn1" data-toggle="modal" data-backdrop="static" data-target="#myModal3">Add Account</button>
+
+          <div class="modal fade" id="myModal3" role="dialog">
+              <form [formGroup]="form"  >
+                  <div class="modal-dialog">
+                  
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" (click)="close()">&times;</button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                        <p class="mbatxt5">Beneficiary</p> 
+                                              </div>
+                                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                        <input class="mbainput5" type="text" [formControl]="beneficiary" [ngClass]="{'has-error': (!beneficiary.valid && beneficiary.touched), 'has-success': (beneficiary.valid && beneficiary.touched)}">
+                                       <!-- <span *ngIf="!beneficiary.valid && beneficiary.touched" style="font-size:11px;color:red;float: left;" >Enter Beneficiary Name ( Minimum 5 & maximum 50 characters allowed)</span> <br>  -->
+                                    </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                  <p class="mbatxt5">Bank Name</p> 
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                  <input class="mbainput5" type="text" [formControl]="bankName" [ngClass]="{'has-error': (!bankName.valid && bankName.touched), 'has-success': (bankName.valid && bankName.touched)}">
+                                <!--  <span *ngIf="!bankName.valid && bankName.touched" style="font-size:11px;color:red;float: left;" >Enter a valid Bank Name ( Minimum 5 & maximum 50 characters allowed)</span> <br>  -->
+                                </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                <p class="mbatxt1">Account Number</p> 
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                                <input class="mbainput1" type="text" [formControl]="accountNumber" [ngClass]="{'has-error': (!accountNumber.valid && accountNumber.touched), 'has-success': (accountNumber.valid && accountNumber.touched)}" >
+                             <!--   <span *ngIf="!accountNumber.valid && accountNumber.touched" style="font-size:11px;color:red;float: left;" >Enter Numbers Only ( Minimum 5 & maximum 50 digits allowed)</span> <br>  -->
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <p class="mbatxt2">City</p> 
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <input class="mbainput2" type="text" [formControl]="city">
+                      <!--  <span *ngIf="!city.valid && city.touched" style="font-size:11px;color:red;float: left;" >Enter a valid City Name ( Minimum 5 & maximum 50 characters allowed)</span> <br>  -->
+
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <p class="mbatxt3">Swift Code</p> 
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <input class="mbainput3" type="text" [formControl]="swiftCode" [ngClass]="{'has-error': (!swiftCode.valid && swiftCode.touched), 'has-success': (swiftCode.valid && swiftCode.touched)}">
+                      <!--  <span *ngIf="!swiftCode.valid && swiftCode.touched" style="font-size:11px;color:red;float: left;" >Enter a swift code within 8 | 15 digit</span> <br>        -->
+                        </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <p class="mbatxt4">Country</p> 
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-center">
+                        <!-- <input class="mbainput4" type="text" [formControl]="country" [ngClass]="{'has-error': (!country.valid && country.touched), 'has-success': (country.valid && country.touched)}"> -->
+                        <select class="BCselect1" [formControl]="country">
+                            <option disabled value="">Select Country</option>
+                            <option  *ngFor="let item of collection">{{item.name}}</option>
+                        </select>
+                    <!--    <span *ngIf="!country.valid && country.touched" style="font-size:11px;color:red;float: left;" >Select a country</span> <br>        -->
+                    </div>
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                        <a><button class="mbabtn3" [disabled]="form.invalid"  data-dismiss="modal" (click)="onSubmit(form.value)" >Add Bank Account</button></a>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </form>
+                </div>
+                
+      </div>
+  </div>
+
+<div *ngIf="accountAddresses.length == 0" class="noData"> There is no record to show</div>
+
+  <div class="row" *ngIf="accountAddresses.length>0">
+      
+      <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-6 col-xs-offset-3 text-center" *ngFor="let item of accountAddresses">
+              
+          <table class="table mbacol1">
+              <tr>
+                  <td>Beneficiary:</td>
+                  <td>{{item.beneficiary}}</td>
+              </tr>
+              <tr>
+                  <td>Bank Name:</td>
+                  <td>{{item.bankName}}</td>
+              </tr>
+              <tr>  
+                      <td>Account Number:</td>
+                      <td>{{item.accountNumber}}</td>
+                  </tr>
+                  <tr>
+                          <td>City:</td>
+                          <td>{{item.city | uppercase}}</td>
+                      </tr>
+                      <tr>
+                              <td>Country:</td>
+                              <td>{{item.country  | uppercase}}</td>
+                          </tr>
+                          <tr>
+                                  <td>Swift Code:</td>
+                                  <td>{{item.swiftCode}}</td>
+                              </tr>
+                              
+          </table>
+          
+      
+      </div>
+  </div>
+
+  
+      
+</div>

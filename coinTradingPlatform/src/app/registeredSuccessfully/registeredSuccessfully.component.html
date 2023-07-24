@@ -1,0 +1,36 @@
+<section style="padding: 165px 200px 30px 200px;">
+  <div class="container-fluid" style="border: 1px solid #000;">
+    <div class="row" style="padding: 25px; text-align: center;">
+      <div class="col-lg-12">
+      </div>
+    </div>
+    <div class="row" style="padding: 25px; text-align: center; background-color: #f4bb09;">
+      <div class="col-lg-12">
+        <h1>Registration Successful-Please Download the Phrase</h1>
+        <h2>Do not Refresh or go back</h2>
+        <button (click)="downloadpdf()">Download phrase</button>
+    </div>
+    </div>
+    <div class="row" style="padding: 25px 25px 0px 25px;">
+      <div class="col-lg-12">
+        <!-- <p>Thanks for the registration. Please verify your email</p> -->
+        <p>Your 24 character secret key is:<br><b>{{secretkeyphrase}}</b><br> Please Keep this phrase safe with you in order to recover your account.</p>
+      </div>
+    </div><br>
+    <!-- <div class="row" style="padding: 25px;">
+      <div class="col-lg-10">
+        <p><strong>If you haven't received the email, do the following:</strong></p>
+        <ul type="disc">
+          <li>Make sure provided email address is correct.</li>
+          <li>Check spam or other folders.</li>
+          <li>Check the mail client works normally.</li>
+        </ul>
+      </div> -->
+      <div class="col-lg-2">
+        <a routerLink="/login">
+          <p style="position: absolute; float:right;bottom: 0; right: 0;">Click here to Login</p>
+        </a>
+      </div>
+    </div>
+  <!-- </div> -->
+</section>

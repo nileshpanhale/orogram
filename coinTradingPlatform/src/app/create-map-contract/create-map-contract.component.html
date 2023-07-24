@@ -1,0 +1,161 @@
+<app-header></app-header>
+<div class="container main1">
+  <!-- <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop:'true', backdropBorderRadius: '3px' }"></ngx-loading> -->
+
+  <div class="price-card">
+    <p>1 BTC/EUR : ${{ btcPrice }}</p>
+    <p>1 Orogram/EUR : ${{ bitoroPrice }}</p>
+    <p>1 Orogram/BTC : {{ bitorobtc }}</p>
+  </div>
+
+  <div>
+    <h3 class="heading1">Create New Map Contract</h3>
+    <!-- <a style="float: right" routerLink='/manage'><button>Add Bank Account</button></a> -->
+  </div>
+  <form [formGroup]="form" class="form-horizontal">
+    <div class="row COrow2">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p>Total No. of Coins</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p *ngIf="isLoading"><strong>Loading...</strong></p>
+        <p *ngIf="!isLoading">
+          <strong>{{ coinCount }}</strong>
+        </p>
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p><b>Search User for Contract</b></p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <!-- <pre class="card card-block card-header mb-3">Model: {{selected | json}} </pre> -->
+        <input
+          placeholder="Search user by User ID here"
+          [(ngModel)]="selected"
+          disabled
+          [ngModelOptions]="{ standalone: true }"
+          (keyup)="changeState()"
+          typeaheadOptionField="email"
+          class="form-control"
+        />
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p>Coins Required for Contract</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <input
+          class="COinput1"
+          type="number"
+          disabled
+          placeholder="Enter number of Coins"
+          [ngClass]="{
+            'has-error': !tradeCoin.valid && tradeCoin.touched,
+            'has-success': tradeCoin.valid && tradeCoin.touched
+          }"
+          [formControl]="tradeCoin"
+        />
+        <span *ngIf="!tradeCoin.valid && tradeCoin.touched" style="font-size: 11px; color: red"
+          >Enter Numbers Only</span
+        >
+        <!-- <span
+          *ngIf="form.value.tradeType == 'Sell' && form.value.tradeCoin * 0.04 > coinCount"
+          style="font-size: 11px; color: red"
+          >Insufficient Coins, Need Some more coins to hold</span
+        > -->
+        <span
+          *ngIf="form.value.tradeType == 'Buy' && form.value.tradeCoin + form.value.tradeCoin * 0.02 > coinCount"
+          style="font-size: 11px; color: red"
+          >Insufficient Coins, Need Some more coins to hold</span
+        >
+      </div>
+
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p>Contract Country</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <select
+          class="COselect2"
+          [ngClass]="{
+            'has-error': !country.valid && country.touched,
+            'has-success': country.valid && country.touched
+          }"
+          [formControl]="country"
+        >
+          <option value="" disabled>Select Country</option>
+          <option *ngFor="let item of collection">{{ item.name }}</option>
+        </select>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p>Type Of Contract</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <!-- <select 
+          class="COselect2"
+          
+          [ngClass]="{
+            'has-error': !tradeType.valid && tradeType.touched,
+            'has-success': tradeType.valid && tradeType.touched
+          }"
+          [formControl]="tradeType"
+        >
+          <option value="" disabled>Select Contract</option>
+          <option value="Buy">Buy</option>
+          
+        </select> -->
+        <input
+        class="COinput1"
+        type="number"
+        disabled
+        placeholder="Buy"
+        [ngClass]="{
+          'has-error': !tradeCoin.valid && tradeCoin.touched,
+          'has-success': tradeCoin.valid && tradeCoin.touched
+        }"
+        [formControl]="tradeType"
+      />
+      </div>
+      <!-- contract addition -->
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <p>Contract Expiry Days</p>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <input class="COinput1" type="text" placeholder="Enter number of Days" [formControl]="contractdate" />
+        <span *ngIf="!contractdate.valid && contractdate.touched" style="font-size: 11px; color: red"
+          >Enter Numbers Only</span
+        >
+        <!-- <input type="date" [min] = "today" [formControl]="contractdate" name="contractdate"> -->
+      </div>
+      <br />
+
+      <br />
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <p>Mention Contract Terms Here</p>
+        <!-- <textarea class="COtextarea1" rows="6" [formControl]="remarks"></textarea> -->
+        <div class="editableDiv" contenteditable="true" [formControl]="remarks">
+          <div class="row" style="margin: 0 15px">
+            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6">Total selected Area :</p>
+            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+              {{ (selectedLand.selected_area * bitoto_rate).toFixed(2) }}
+            </p>
+          </div>
+          <div *ngIf="selectedLand">
+            <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-left: 15px">    Point List :</p>
+            <div class="row" style="margin: 0 15px" *ngFor="let item of selectedLand.pointList">
+              <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></p>
+              <p class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ item.lat }},{{ item.lng }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+        <a>
+          <button class="CObtn4 sbbtn" (click)="submit(form.value)">Submit</button>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+<hr />
