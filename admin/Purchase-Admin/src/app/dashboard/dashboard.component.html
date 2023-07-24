@@ -1,0 +1,103 @@
+<!-- <div class="sidenav navbar-inverse">
+    <a href="#dashboard" style="font-size: 20px">Dashboard</a>
+    <a href="#trades" style="font-size: 20px">View Trades</a>
+    <a href="#transaction" style="font-size: 20px">View Transaction</a>
+    <a href="#send_token" style="font-size: 20px">Send Tokens</a>
+    <a href="#user_details" style="font-size: 20px">User Details</a>
+    <a href="#account_setting" style="font-size: 20px">Account Settings</a>
+    <a href="#new_user" style="font-size: 20px">Create New User</a>
+</div> -->
+
+<div class="content-wrapper main1">
+  <div class="media" style="padding: 20px;">
+    <div class="media-left">
+      <img src="../assets/images/img_avatar1.png" class="media-object" style="width:60px">
+    </div>
+    <div class="media-body">
+      <h2 class="media-heading">Welcome Admin</h2>
+      <a routerLink="/admin/account_setting" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}"
+        style="font-family:verdana; font-size:120%;">
+        <i class="fa fa-globe fa-fw"></i>Account Settings</a>
+    </div>
+  </div>
+
+  <div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 div1">
+      <div class="thumbnail">
+        <h2 class="divhd1">Trade Summary</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Total Trade Orders</td>
+              <td>{{tradeOrder}}</td>
+            </tr>
+            <tr>
+              <td>Total Buy Orders</td>
+              <td>{{buyOrder}}</td>
+            </tr>
+            <tr>
+              <td>Total Sell Orders</td>
+              <td>{{sellOrder}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <a><button class="btn1" (click)="tradeSummary()">View Details</button></a>
+
+      </div>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 div2">
+      <div class="thumbnail">
+        <h2 class="divhd2">User Summary</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Total Number of Users</td>
+              <td>{{totalUser}}</td>
+            </tr>
+            <tr>
+              <td>Total Number of Active Users</td>
+              <td>{{activeUser}}</td>
+            </tr>
+            <tr>
+              <td>Total Number of Deactive Users</td>
+              <td>{{deactiveUser}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <a><button class="btn2" (click)="userSummary()">View Details</button></a>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div>
+    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 div1">
+      <div class="thumbnail">
+        <h2 class="divhd3">Company Balance Summary</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>Total Available Tokens</td>
+              <td>{{(availableToken).toFixed(2)}}<img src="../../assets/images/orogram_logo.jpeg" width="25px"
+                  height="25px" /></td>
+              <!-- <td>{{getBalance(availableToken)}}</td> -->
+              <!-- <td>{{intToDecimal(availableToken)}}</td> -->
+            </tr>
+            <tr>
+              <td>Total Holded Tokens</td>
+              <td>{{(holdedToken).toFixed(2)}}<img src="../../assets/images/orogram_logo.jpeg" width="25px"
+                  height="25px" /></td>
+              <!-- <td>{{getBalance(holdedToken)}}</td> -->
+              <!-- <td>{{intToDecimal(holdedToken)}}</td> -->
+            </tr>
+        </table>
+
+        <a><button class="btn1" (click)="balanceSummary()">View Details</button></a>
+
+      </div>
+    </div>
+  </div>
+</div>

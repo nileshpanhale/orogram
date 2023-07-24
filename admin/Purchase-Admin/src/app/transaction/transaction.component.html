@@ -1,0 +1,252 @@
+<div class="content-wrapper main1">
+  <div class="row tabdiv1">
+    <div class="col-md-4 col-lg-4 col-sm-12 col-xs-12">
+      <h3>Crypto Purchase Transactions</h3>
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+      <a class="btn3"><button (click)="downloadpdf()">Export as PDF</button></a>
+      <a class="btn4"><button (click)="downloadcsv()">Export in CSV</button></a>
+    </div>
+    <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+      <input class="CPinput1" type="text" id="myInput" style="margin: 15px 0px" [(ngModel)]="description"
+        (keyup)="searchCall()" placeholder="Search by User Id" title="Search" />
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+      <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+        <option value="" disabled>Items Per page</option>
+        <option values="5">5</option>
+        <option values="10">10</option>
+        <option values="15">15</option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="count == 0" class="noData">There is no record to show</div>
+  <div class="row tabdiv2">
+    <div class="col-12" *ngIf="loading">
+      <div style="text-align: -webkit-center ;">
+        <div class="loader"></div>
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+      <table id="myTable" class="table table-bordered">
+        <thead>
+          <tr class="header">
+            <th (click)="sort('date')">
+              Transaction Date
+              <span class="glyphicon sort-icon" *ngIf="key == 'date'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th (click)="sort('id')">
+              User Id
+              <span class="glyphicon sort-icon" *ngIf="key == 'id'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th (click)="sort('id')">
+              User Account/Address
+              <span class="glyphicon sort-icon" *ngIf="key == 'id'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th (click)="sort('method')">
+              Payment Method
+              <span class="glyphicon sort-icon" *ngIf="key == 'method'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <!-- <th (click)="sort('method')">Account Detail
+                <span class="glyphicon sort-icon" *ngIf="key =='method'" 
+                [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>  
+              </th> -->
+            <th (click)="sort('amount')">
+              Amount(Fiat/BTC/Weight)
+              <span class="glyphicon sort-icon" *ngIf="key == 'amount'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th>Currency</th>
+
+            <th (click)="sort('status')">
+              Request Status
+              <span class="glyphicon sort-icon" *ngIf="key == 'status'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th (click)="sort('amount')">
+              Orogram received
+              <span class="glyphicon sort-icon" *ngIf="key == 'amount'" [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"></span>
+            </th>
+
+            <th>Details</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="myTable3" *ngFor="let item of container; let i = index">
+          <tr *ngIf="!item.isAdminPurchase">
+            <td>{{ item.createdAt | date }}</td>
+            <td>{{ item.senderId }}</td>
+
+            <td>
+              <div *ngIf="item.receiverAccount">{{ item.receiverAccount }}</div>
+              <div *ngIf="item.bankAccount">{{ item.bankAccount.number }}</div>
+              <div *ngIf="item.cash">{{ item.cash.address }}</div>
+              <div *ngIf="item.goldDetails">
+                {{ item.goldDetails.departureAddress }}
+              </div>
+            </td>
+
+            <td>{{ item.type | uppercase }}</td>
+
+            <!-- <td>Name:{{item.bankAccount.name}}<br/>Number:{{item.bankAccount.number}}<br/>Swift:{{item.bankAccount.swift}}</td> -->
+            <td>{{ item.amount }}</td>
+
+            <td>
+              <div *ngIf="item.cash">{{ item.cash.currency }}</div>
+              <div *ngIf="item.bankAccount">
+                {{ item.bankAccount.currency }}
+              </div>
+            </td>
+
+            <td>{{ item.status | uppercase }}</td>
+            <td>{{ item.coins }}<img src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" /></td>
+            <td (click)="popup(i)" class="cursor">
+              <a>View Purchase Transaction Details</a>
+            </td>
+            <td>
+              <select (change)="change(i, $event)" *ngIf="item.status != 'confirm' && item.status != 'cancel'">
+                <option value="" disabled>Select</option>
+                <option value="Confirm" *ngIf="item.status == 'paid' || item.status == 'Paid'">
+                  Confirm
+                </option>
+                <option value="Paid" *ngIf="item.status == 'pending' || item.status == 'Pending'">
+                  Paid
+                </option>
+                <option value="Pending" *ngIf="item.status == 'pending' || item.status == 'Pending'">
+                  Pending
+                </option>
+                <option value="Cancel" *ngIf="item.status == 'pending' || item.status == 'Pending'">
+                  Cancel
+                </option>
+              </select>
+              <span *ngIf="item.status == 'confirm'" style="color: green">
+                <b>CONFIRMED</b>
+              </span>
+              <span *ngIf="item.status == 'Cancel' || item.status == 'cancel'" style="color: red">
+                <b>CANCELLED</b>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="display">
+        <div class="backdrop"></div>
+      </div>
+      <!-- model to upload image -->
+      <div class="modal fade backdrop" id="myModal" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content" style="width: 800px">
+            <div class="modal-header">
+              <h4 class="modal-title">Accept Contract</h4>
+
+              <button type="button" class="close" data-dismiss="modal" (click)="close()">
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <label>Enter Payment Amount :</label>
+                  <input placeholder="BTC/Fiat amount" [(ngModel)]="coins" />
+                </div>
+
+                <!-- ng2 file upload here --------------------------------------- -->
+                <label class="custom-file-upload" for="file-upload">
+                  SelectFiles
+                </label>
+                <input id="file-upload" name="file" type="file" ng2FileSelect [uploader]="uploader" multiple />
+
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th width="50%">Name</th>
+                      <th>Size</th>
+                      <th>Progress</th>
+                      <th></th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                      <td>
+                        <strong>{{ item?.file?.name }}</strong>
+                      </td>
+                      <td *ngIf="uploader" nowrap>
+                        {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
+                      </td>
+                      <td *ngIf="uploader">
+                        <div class="progress" style="margin-bottom: 0">
+                          <div class="progress-bar" role="progressbar" [ngStyle]="{ width: item.progress + '%' }"></div>
+                        </div>
+                      </td>
+                      <td class="text-center">
+                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                          <span class="glyphicon glyphicon-trash"></span> Remove
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <br />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal" (click)="uploadImages()"
+                [disabled]="0 >= uploader.queue" [style.opacity]="0 >= uploader.queue ? 0.5 : 1">
+                Submit
+              </button>
+              <button type="button" class="btn btn-default nxtbtn" data-dismiss="modal" (click)="close()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: inline-block">
+        <ul class="navmainlist1" *ngIf="count > perPage" style="list-style: none; display: flex">
+          <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)"
+            [ngClass]="{ active: currentPage === pageNum }">
+            {{ pageNum }}&nbsp;&nbsp;
+          </li>
+        </ul>
+      </div>
+      <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a>
+      <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+    </div>
+  </div>
+</div>

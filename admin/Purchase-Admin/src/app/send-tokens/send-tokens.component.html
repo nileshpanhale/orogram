@@ -1,0 +1,255 @@
+<div class="container main1">
+  <div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="thumbnail div5">
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+            <h3 class="heading1">Send Coins</h3>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="address">Enter Wallet Address</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <input type="text" id="address" name="address" placeholder="Receiver Address.." [formControl]="address"
+                  [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                <div class="alert alert-danger" *ngIf="address.invalid && address.touched">
+                  <span>Enter Valid Address</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="tel">Enter No. of Coins</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <div><input type="tel" id="tel" name="tel" placeholder="No. of Coins.." [formControl]="noOfcoins"
+                    [ngClass]="{ 'is-invalid': submitted && f.noOfcoins.errors }"></div>
+                <div><span *ngIf="noOfcoins.invalid && noOfcoins.touched" style="color:red;font-size: 11px;">Enter
+                    numbers only</span></div>
+                <div><span *ngIf="adminBalance < form.value.noOfcoins" style="color: red;font-size: 11px">Coins
+                    Insufficient</span></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <label for="subject">Description</label>
+              </div>
+              <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                <textarea id="subject" name="subject" placeholder="Optional"
+                  style="max-height: 200px; resize: none; min-height: 172px;" [formControl]="remarks"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <button [disabled]="loading || form.invalid || (adminBalance < form.value.noOfcoins)"
+                style="float:right">Send</button>
+            </div>
+            <div class="col-12" *ngIf="loading">
+              <div style="text-align: -webkit-center;;">
+                <div class="loader"></div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row colsend">
+
+      <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">
+        <h3>Admin Transactions</h3>
+      </div>
+
+      <div class="col-md-4 col-lg-3 col-sm-6 col-xs-6 btn3">
+        <a><button (click)="downloadpdf()">Export as PDF</button></a>
+        <a><button (click)="downloadcsv()">Export in CSV</button></a>
+      </div>
+
+      <div class="col-md-3 col-lg-4 col-sm-6 col-xs-6 btn4">
+        <input class="CPinput1" type="text" id="myInput" [(ngModel)]="description"
+          placeholder="Search by Wallet Address/Description/Transaction Type" title="Search">
+      </div>
+
+
+      <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+        <select [(ngModel)]="perPage" (change)="perPageChange()" type="text" class="select1c">
+          <option value="" disabled>Items Per page</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div *ngIf="count == 0" class="noData"> There is no record to show</div>
+    <div class="row colsend" *ngIf="count > 0">
+      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+        <table id="myTable" class="table table-bordered">
+
+          <thead>
+            <tr class="header">
+              <th (click)="sort('walletaddress')">Wallet Address
+                <span class="glyphicon sort-icon" *ngIf="key =='walletaddress'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th>Description</th>
+              <th (click)="sort('date')">Date
+                <span class="glyphicon sort-icon" *ngIf="key =='date'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('txnType')">Transaction Type
+                <span class="glyphicon sort-icon" *ngIf="key =='txnType'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('noOfcoins')">No. of Coins
+                <span class="glyphicon sort-icon" *ngIf="key =='noOfcoins'"
+                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody id="myTable4">
+            <tr *ngFor="let i of container| customerEmailFilter:'sendToken':description">
+              <td>
+                <div>{{i.receiverAccount}}</div>
+                <!-- <div *ngIf="walletAddress == i.receiverAccount">{{i.senderAccount}}</div>
+                <div *ngIf="walletAddress == i.senderAccount">{{i.receiverAccount}}</div> -->
+              </td>
+              <td>{{i.remarks || "-"}}</td>
+              <td>{{(i.createdAt).split("T")[0]}}</td>
+              <!-- <td>
+                <div *ngIf="walletAddress == i.recipientId">Received</div>
+                <div *ngIf="walletAddress == i.senderId">Send</div>{{i.type | uppercase}}
+              </td> -->
+              <td>
+                <div *ngIf="i.type == 'coinTransfer'">Send</div>
+                <div *ngIf="i.type == 'directTransfer'">Received</div>
+              </td>
+              <td>{{(i.coins)}}<img src="../../assets/images/orogram_logo.jpeg" width="25px" height="25px" /></td>
+            </tr>
+          </tbody>
+
+        </table>
+
+        <div style="display:inline-block">
+          <ul class="navmainlist1" style="list-style:none;display:flex;" *ngIf="count > perPage">
+            <li class="navlist1" *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)"
+              [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</li>
+          </ul>
+        </div> <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a>
+        <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="container">
+  <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   
+              <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                  <h2 class="formhd">Send Coins</h2>
+                  <div class="row">
+                        <div class="col-4">
+                      <label > Enter Wallet Address</label> 
+                     </div>
+                      <div class="col-8">
+                              <input   type="text" placeholder="Enter Address" 
+                               [formControl]="address"
+                               [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+                required />
+                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                  <div *ngIf="f.address.errors.required">Wallet Address is required</div>
+              </div>
+                      </div>      <div class="col-4"> 
+                   <label> Enter No. of Coins </label> </div>
+                   <div class="col-8">
+                            <input type="number"  placeholder="Enter No of coins " 
+                              [formControl]="noOfcoins"
+                              [ngClass]="{ 'is-invalid': submitted && f.noOfcoins.errors }"
+                required />
+                <div *ngIf="submitted && f.noOfcoins.errors" class="invalid-feedback">
+                  <div *ngIf="f.noOfcoins.errors.required">Coins count is required</div>
+              </div>
+                          
+                            </div>      <div class="col-4"> 
+                        <label >Description</label>
+                    </div>
+                    <div class="col-8">
+                           <input placeholder="Optional" type="text" [formControl]="description">
+                    </div>
+                          <a><button [disabled]='!form.invalid'type="submit" >Send</button></a>
+                  </div>
+                        </form>
+
+      </div>
+  </div>
+
+  <div class="row">
+          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">                                    
+              <h3>Admin Transactions</h3>
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 btn3">
+              <a><button style="float: right;margin:15px 5px" (click)="downloadpdf()">Download PDF</button></a> 
+              
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3 btn4">
+                  <a><button (click)="downloadcsv()" style="float:right;margin:15px 5px">Export</button></a> 
+          </div>
+          <div class="col-md-3 col-lg-3 col-sm-6 col-xs-6">                                   
+              <input class="CPinput1" type="text" id="myInput" style="margin: 15px" [(ngModel)]="description" (keyup)="changed()" placeholder="Search.." title="Search">
+            </div>
+      </div>
+      <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">                                   
+              <table id="myTable" class="table table-bordered">
+              
+                      <tr>
+                          <th (click)="sort('walletaddress')">Wallet Address
+                              <span class="glyphicon sort-icon" *ngIf="key =='walletaddress'" 
+                                  [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+                                 </th>
+                                 <th (click)="sort('date')">Date
+                                    <span class="glyphicon sort-icon" *ngIf="key =='date'" 
+                                    [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+                                </th>
+                                <th (click)="sort('txnType')">Transaction Type
+                                    <span class="glyphicon sort-icon" *ngIf="key =='txnType'" 
+                                    [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+                                </th>
+                                <th (click)="sort('noOfcoins')">No. of Coins
+                                    <span class="glyphicon sort-icon" *ngIf="key =='noOfcoins'" 
+                                    [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span> 
+                                </th>
+                      </tr>
+                      <tr *ngFor="let i of container
+                       | orderBy: key : reverse 
+                       | filter : 'status' : selectedValue
+                       | paginate: { itemsPerPage: perPage, currentPage: p }">
+                        <td>{{i.walletaddress}}</td>
+                        <td>{{i.date}}</td>
+                        <td>{{i.txnType}}</td>
+                        <td>{{i.noOfcoins}}</td>
+                      </tr>
+        </table>
+                    
+
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    
+      </div>
+
+
+  </div>
+</div>
+
+ -->

@@ -1,0 +1,16 @@
+version: "3"
+services:
+  crypto_admin:
+    container_name: crypto_admin
+    build: .
+    #    command: bash -c "./script.sh"
+    networks:
+      - crypto_admin
+    volumes:
+      - ./:/var/www/html/
+    ports:
+      - "8085:80"
+#Docker Networks
+networks:
+  crypto_admin:
+    driver: bridge

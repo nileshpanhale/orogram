@@ -1,0 +1,72 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid text-center" style="padding: 16px;">
+    <a class="navbar-brand" href="#" style="width: 70px; height: auto;"><img style="width:100%; height: auto;"
+        src="../../assets/images/Untitled-1.png"></a>
+    <!-- <ul class="nav navbar-nav navbar-right nav1b">
+              
+            <li><a routerLink="/admin/dashboard">Home</a></li>
+            <li (click)="logout()"><a style="cursor: pointer;"><span class="glyphicon glyphicon-log-in" ></span> Logout</a></li>
+          </ul> -->
+    <h1 style="color: #f6c547;">Admin Portal</h1>
+  </div>
+
+</nav>
+
+<!-- <h2>Login Form</h2> -->
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" action="Main.html" *ngIf="login">
+  <div class="container div1" style="max-width:484px !important">
+    <div class="alert alert-danger" [hidden]="!isLoading" translate>
+      {{error}}
+    </div>
+    <label for="email"><b>Email</b></label>
+    <input type="text"
+      [ngClass]="{'has-error': (!email.valid && email.touched), 'has-success': (email.valid && email.touched)}"
+      [formControl]="email" placeholder="Enter Email" name="email">
+    <span *ngIf="email.invalid && email.touched" style="color:red;font-size: 11px">Invalid Email</span><br>
+    <label for="psw"><b>Password</b></label>
+    <input type="password"
+      [ngClass]="{'has-error': (!password.valid && password.touched), 'has-success': (password.valid && password.touched)}"
+      [formControl]="password" placeholder="Enter Password" name="psw">
+    <span *ngIf="password.invalid && password.touched" style="color:red;font-size: 11px">Invalid Password</span><br>
+    <label>
+      <input type="checkbox" name="remember"> Remember me
+    </label>
+
+    <span class="psw"><a class="hover" (click)="forgotPassword()">Forgot Password?</a></span>
+    <button type="submit" [disabled]="!form.valid">Login</button>
+  </div>
+</form>
+
+<!-- <form [formGroup]="otpForm" (ngSubmit)="otpSubmit(otpForm.value)" style="margin-top:138px !important" *ngIf="OTP">
+  <div class="container div1" style="width:484px !important">
+    <label for="email"><b>OTP</b></label>
+    <input [formControl]="otp" type="text" [ngClass]="{'has-error': (!otp.valid && otp.touched), 'has-success': (otp.valid && otp.touched)}" id="inputOTP" placeholder="Enter OTP">
+   
+    <button type="submit" style="width:30%" [disabled]="!otpForm.valid">Submit</button>
+    <button type="submit" style="width:40%;float: right;" (click)="resendOTP()">Resend OTP</button>
+  </div>
+</form> -->
+
+<!-- <form [formGroup]="fpForm" (ngSubmit)="fpSubmit(fpForm.value)" *ngIf="fpsw">
+  <div class="container div1" style="width:50%">
+    <label for="email"><b>Secret Key</b></label>
+    <input [formControl]="key" type="text" [ngClass]="{'has-error': (!key.valid && key.touched), 'has-success': (key.valid && key.touched)}" placeholder="Enter Key">
+    <span style="color:red;font-size: 11px" *ngIf = "key.touched && key.invalid">Invalid Key</span><br>
+    <label for="pwd"><b>Password</b></label>
+    <input [formControl]="resetPassword" type="password" [ngClass]="{'has-error': (!resetPassword.valid && resetPassword.touched), 'has-success': (resetPassword.valid && resetPassword.touched)}" placeholder="Enter Password">
+    <span style="color:red;font-size: 11px" *ngIf = "resetPassword.touched && resetPassword.invalid">Invalid Password</span><br>
+    <label for="pwd2"><b>Repeat Password</b></label>
+    <input type="password" [formControl]="resetPasswordRepeat" [ngClass]="{'has-error': (!resetPasswordRepeat.valid && resetPasswordRepeat.touched), 'has-success':(resetPasswordRepeat.valid && resetPasswordRepeat.touched)}" placeholder="Repeat Password">
+    <span style="color:red;font-size: 11px" *ngIf="resetPasswordRepeat.invalid && resetPasswordRepeat.touched">Invalid Password</span><br>
+    <span style="font-size:11px;color:red" *ngIf="(!fpForm.valid && (resetPassword.touched || resetPasswordRepeat.touched))"> Passwords don't Match</span><br>
+    <div  (setVerified) = "setVerifiedCaptcha($event)" googlerecaptcha [siteKey] = "sitekey" [theme] = 'theme' ></div>
+    
+    <button type="submit" [disabled]="!fpForm.valid || !isCaptcha" style="margin:22px 0px 0px 22px !important;float:right;width: 29%">Send</button>
+  </div>
+</form> -->
+
+<!-- <form [formGroup]="rpForm" (ngSubmit)="rpSubmit(form.value)" *ngIf="rpsw">
+  <div class="container div1" style="width:484px !important">
+        <button type="submit" [disabled]="!rpForm.valid" style="margin:22px 0px 0px 22px !important;float:right;width: 38%">Reset Password</button>
+  </div>
+</form> -->

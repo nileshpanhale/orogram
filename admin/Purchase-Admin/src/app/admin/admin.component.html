@@ -1,0 +1,220 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid text-center" style="padding: 16px">
+    <a
+      class="navbar-brand"
+      routerLink="/admin/dashboard"
+      style="width: 70px; height: auto"
+      ><img
+        style="width: 100%; height: auto"
+        src="../../assets/images/Untitled-1.png"
+    /></a>
+    <ul class="nav navbar-nav navbar-right nav1b">
+      <li>
+        <a
+          routerLink="/admin/dashboard"
+          routerLinkActive="active-link2"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Home</a
+        >
+      </li>
+      <!-- <li><a routerLink="/admin/notification" routerLinkActive="active-link2" [routerLinkActiveOptions]="{exact: true}">Notification</a></li> -->
+      <li (click)="logout()">
+        <a style="cursor: pointer"
+          ><span class="glyphicon glyphicon-log-in"></span> Logout</a
+        >
+      </li>
+    </ul>
+    <h1 class="adminHeading" style="color: #f6c547">Admin Portal</h1>
+  </div>
+</nav>
+
+<!-- <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" routerLink='/admin/dashboard'><img src="assets/images/argana.png"></a>
+      <div class="navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-right nav1b">
+            
+          <li><a routerLink="/admin/dashboard">Home</a></li>
+          <li (click)="logout()"><a style="cursor: pointer;"><span class="glyphicon glyphicon-log-in" ></span> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  </nav> -->
+
+<div class="sidenav navbar-inverse">
+  <!-- <li>
+          <a routerLinkActive="active" routerLink="'/home'"  style="font-family:verdana; font-size:120%;"><i class="fa fa-dashboard fa-fw"></i>Home</a>
+          </li> -->
+
+  <a
+    routerLink="/admin/dashboard"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-bar-chart-o fa-fw"></i>Dashboard</a
+  >
+
+  <a
+    routerLink="/admin/transaction"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-bar-chart-o fa-fw"></i>View All Purchases<span
+      [ngStyle]="{ display: purchaseNotification == 0 ? 'none' : 'inline' }"
+      class="label label-info"
+      >{{ purchaseNotification }}</span
+    ></a
+  >
+
+  <a
+    routerLink="/admin/transaction-sell"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-bar-chart-o fa-fw"></i>View All Sells<span
+      [ngStyle]="{ display: sellNotification == 0 ? 'none' : 'inline' }"
+      class="label label-info"
+      >{{ sellNotification }}</span
+    ></a
+  >
+
+  <a
+    routerLink="/admin/send_token"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Send Tokens</a
+  >
+
+  <a
+    routerLink="/admin/admin-purchase"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Purchase Coins</a
+  >
+
+  <a
+    routerLink="/admin/wallet-transaction"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Wallet Transactions</a
+  >
+
+  <a
+    routerLink="/admin/trades"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>View Trades<span
+      [ngStyle]="{ display: tradeNotification == 0 ? 'none' : 'inline' }"
+      class="label label-info"
+      >{{ tradeNotification }}</span
+    ></a
+  >
+
+  <a
+    routerLink="/admin/contracts"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>View Open Contracts<span
+      [ngStyle]="{ display: contractNotification == 0 ? 'none' : 'inline' }"
+      class="label label-info"
+      >{{ contractNotification }}</span
+    ></a
+  >
+
+  <a
+    routerLink="/admin/private-contracts"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>View Private Contracts<span
+      [ngStyle]="{
+        display: privatecontractNotification == 0 ? 'none' : 'inline'
+      }"
+      class="label label-info"
+      >{{ privatecontractNotification }}</span
+    ></a
+  >
+
+  <a
+  routerLink="/admin/land-contracts"
+  routerLinkActive="active-link"
+  [routerLinkActiveOptions]="{ exact: true }"
+  style="font-family: verdana; font-size: 120%"
+>
+  <i class="fa fa-globe fa-fw"></i>View Land Contracts<span
+    [ngStyle]="{
+      display: privatecontractNotification == 0 ? 'none' : 'inline'
+    }"
+    class="label label-info"
+    >{{ privatecontractNotification }}</span
+  ></a
+>
+
+  <a
+    routerLink="/admin/user_details"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>User Detail</a
+  >
+
+  <a
+    routerLink="/admin/vote"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Vote Users</a
+  >
+
+  <a
+    routerLink="/admin/account_setting"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Account Settings</a
+  >
+
+  <a
+    routerLink="/admin/verify_hash"
+    routerLinkActive="active-link"
+    [routerLinkActiveOptions]="{ exact: true }"
+    style="font-family: verdana; font-size: 120%"
+  >
+    <i class="fa fa-globe fa-fw"></i>Verify Tx-Hash</a
+  >
+
+  <div *ngIf="role == 'admin'">
+    <a
+      routerLink="/admin/new_user"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+      style="font-family: verdana; font-size: 120%"
+    >
+      <i class="fa fa-globe fa-fw"></i>Create New User</a
+    >
+  </div>
+</div>
+
+<div id="page-wrapper" class="content1a">
+  <router-outlet></router-outlet>
+</div>

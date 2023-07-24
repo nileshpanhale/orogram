@@ -1,0 +1,173 @@
+<div class="container main1">
+  <div class="row tabdiv1" style="text-align: center">
+    <img id="profileImage" [src]="profileBaseUrl + picture" alt="" />
+    <div>
+      <input type="file" (change)="onFileChange($event)" #fileInput style="display: none" />
+      <button (click)="fileInput.click()">
+        {{ picture ? "Change profile picture" : "Upload profile
+        picture" }}
+      </button>
+    </div>
+  </div>
+  <!-- <div class="row tabdiv1" style="text-align: center">
+      <input type="file" (change)="onFileChange($event)" #fileInput style="display: none" />
+      <button (click)="fileInput.click();">{{picture?'Change profile picture': 'Upload profile picture'}}</button>
+  </div>   -->
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="thumbnail div5">
+        <table class="table table-centered text-center">
+          <tbody>
+            <tr>
+              <td>
+                <strong>Email Id</strong>
+              </td>
+              <td>
+                <strong>{{ emailId }}</strong>
+                <!-- <a href="">Change Email</a></td> -->
+                <!-- <a> -->
+                <button class="btn2" (click)="changeEmail()">
+                  Change Email
+                </button>
+                <!-- </a> -->
+                <div *ngIf="changedEmaildiv">
+                  <form [formGroup]="form" action="Main.html">
+                    <input type="text" [ngClass]="{
+                        'has-error': !email.valid && email.touched,
+                        'has-success': email.valid && email.touched
+                      }" [formControl]="email" placeholder="Enter Email" name="email" />
+                    <button class="btn2" (click)="onSubmit(form.value)" [disabled]="!form.valid" type="submit">
+                      Confirm
+                    </button>
+                  </form>
+                </div>
+                <div *ngIf="changedEmailres">Your email is updated</div>
+              </td>
+            </tr>
+
+            <tr>
+              <td><strong>Role</strong></td>
+              <td>
+                <strong>{{ role | uppercase }}</strong>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Password</strong></td>
+              <td>
+                <strong>Last updated ({{ lastChanged.split("T")[0] }})</strong>
+                <!-- <a href="/changepassword">Change Password</a> -->
+                <button class="btn2" (click)="onSubmitChangepasswd()" type="submit">
+                  Change Password</button><br /><br />
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div *ngIf="Changepasswddiv">
+                  <form [formGroup]="formPassword">
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <label>Current password</label>
+                        <input type="password" [ngClass]="{
+                            'has-error':
+                              !originalPassword.valid &&
+                              originalPassword.touched,
+                            'has-success':
+                              originalPassword.valid && originalPassword.touched
+                          }" [formControl]="originalPassword" placeholder="Current Password" name="opsw" /><br />
+                        <span *ngIf="
+                            originalPassword.invalid && originalPassword.touched
+                          " style="color: red; font-size: 11px">Invalid Password</span>
+                      </div>
+                      <div class="col-lg-4">
+                        &nbsp;<label>New password</label>
+                        <input type="password" [ngClass]="{
+                            'has-error': !password.valid && password.touched,
+                            'has-success': password.valid && password.touched
+                          }" [formControl]="password" placeholder="New Password" name="psw" /><br />
+                        <span *ngIf="password.invalid && password.touched" style="color: red; font-size: 11px">Invalid
+                          Password</span><br /><br />
+                      </div>
+                      <div class="col-lg-4"></div>
+                      <label>Confirm password</label>
+                      <input type="password" [ngClass]="{
+                          'has-error':
+                            !repeatPassword.valid && repeatPassword.touched,
+                          'has-success':
+                            repeatPassword.valid && repeatPassword.touched
+                        }" [formControl]="repeatPassword" placeholder="Repeat Password" name="rpsw" /><br />
+                      <span *ngIf="repeatPassword.invalid && repeatPassword.touched"
+                        style="color: red; font-size: 11px">Invalid Password</span><br />
+                      <span *ngIf="
+                          passwords.invalid &&
+                          repeatPassword.touched && password.touched
+                        " style="color: red; font-size: 11px">Password Don't Match</span>
+                    </div>
+                    <button class="btn2" (click)="onConfirm(formPassword.value)" [disabled]="!formPassword.valid"
+                      type="submit">
+                      Confirm
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="role == 'admin'">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="thumbnail div5 table-responsive">
+        <h3 class="text-center">Update Account Information</h3>
+        <table class="table text-center">
+          <tbody>
+            <tr>
+              <td>
+                <strong>Admin Account Details</strong>
+              </td>
+              <td>
+                <div>
+                  <form [formGroup]="accountForm" action="Main.html">
+                    <textarea rows="7" cols="40" [formControl]="accountName" placeholder="Enter account details here"
+                      name="accountName" required><br>
+                      <span style="color: red; font-size: 11px;" *ngIf="accountName.invalid && accountName.touched">Enter valid Account Details</span>
+                      </textarea>
+                  </form>
+                </div>
+
+              </td>
+            </tr>
+            <button class="btn2" [disabled]="accountForm.invalid" (click)="onSubmitAccount(accountForm.value)"
+              type="submit">
+              Update
+            </button>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <h3 class="hd3" style="text-align: center">
+        Crypto Purchase Transactions
+      </h3>
+      <div class="thumbnail div6">
+        <table class="table text-center">
+          <tbody>
+            <tr>
+              <td>Users</td>
+              <td><a routerLink="/admin/user_details">User Listing</a></td>
+              <td>
+                <div *ngIf="role == 'admin'">
+                  <a routerLink="/admin/new_user">Create New User</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

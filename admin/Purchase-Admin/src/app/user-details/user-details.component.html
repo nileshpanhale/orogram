@@ -1,0 +1,243 @@
+<div class="container-fluid main1">
+  <div class="row tabdiv1">
+    <div class="col-md-2 col-lg-2 col-sm-12 col-xs-12">
+      <h3>User Details</h3>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3 btn3">
+      <a><button (click)="downloadpdf()">Export as PDF</button></a>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3 btn4">
+      <a><button (click)="downloadcsv()">Export in CSV</button></a>
+    </div>
+    <div class="col-md-4 col-lg-4 col-sm-6 col-xs-6">
+      <input
+        class="CPinput1"
+        type="text"
+        id="myInput"
+        style="margin: 15px"
+        [(ngModel)]="description"
+        (keyup)="search()"
+        placeholder="Search by UniqueId/Wallet Address/Role/Email"
+        title="Search"
+      />
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-6 col-xs-6">
+      <select
+        [(ngModel)]="perPage"
+        (change)="perPageChange()"
+        type="text"
+        class="select1c"
+      >
+        <option value="" disabled>Items Per page</option>
+        <option values="5">5</option>
+        <option values="10">10</option>
+        <option values="15">15</option>
+      </select>
+    </div>
+  </div>
+  <!-- <div *ngIf="count == 0" class="noData"> There is no record to show</div> -->
+
+  <!-- <div class="row tabdiv2" *ngIf="count > 0"> -->
+  <div class="row tabdiv2">
+    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive">
+      <table id="myTable" class="table table-bordered">
+        <thead>
+          <tr class="header">
+            <th (click)="sort('image')">
+              Image
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'image'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('id')">
+              Unique Id
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'id'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('id')">
+              Wallet address
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'address'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('type')">
+              User Type
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'type'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('role')">
+              Role
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'role'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('date')">
+              Date Added
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'date'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('status')">
+              Status
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'status'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('email')">
+              Email ID
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'email'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th (click)="sort('phone')">
+              Contact Number
+              <span
+                class="glyphicon sort-icon"
+                *ngIf="key == 'phone'"
+                [ngClass]="{
+                  'glyphicon-chevron-up': reverse,
+                  'glyphicon-chevron-down': !reverse
+                }"
+              ></span>
+            </th>
+            <th>User Documents</th>
+            <th>Account Details</th>
+            <th>Wallet Details</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody
+          id="myTable3"
+          *ngFor="
+            let item of container
+              | customerEmailFilter: 'userDetails':description
+              | filter: 'user':selectedName;
+            let i = index
+          "
+        >
+          <tr>
+            <td>
+              <img
+                [src]="baseurlip + '/assets/images/' + item.picture"
+                width="160"
+                height="160"
+                alt="Profile image not added yet"
+              />
+            </td>
+            <!--<td>{{item.picture}}</td>-->
+            <td>{{ item.userId }}</td>
+            <td>{{ item.account.address }}</td>
+            <td>{{ item.role | filterUser | uppercase }}</td>
+            <td>{{ item.role }}</td>
+            <td>{{ item.createdAt.split("T")[0] }}</td>
+            <td>{{ item.isActive | filterStatus }}</td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.mobile }}</td>
+            <td>
+              <a
+                class="btn"
+                style="
+                  border-radius: 5px;
+                  font-size: 13px;
+                  background-color: #f8c546;
+                "
+                (click)="popDocs(i)"
+                ><b>User Documents</b></a
+              >
+            </td>
+            <td>
+              <a
+                class="btn"
+                style="
+                  border-radius: 5px;
+                  font-size: 13px;
+                  background-color: #f8c546;
+                "
+                (click)="popup(i)"
+                ><b>Account Details</b></a
+              >
+            </td>
+            <td>
+              <a
+                class="btn"
+                style="
+                  border-radius: 5px;
+                  font-size: 13px;
+                  background-color: #f8c546;
+                "
+                (click)="walletPop(i)"
+                ><b>Account balance</b></a
+              >
+            </td>
+
+            <select [(ngModel)]="action" (change)="change(i)">
+              <option value="" disabled>Select</option>
+              <option value="Active">Active</option>
+              <option value="Deactive">Deactive</option>
+            </select>
+          </tr>
+        </tbody>
+      </table>
+      <div style="display: inline-block">
+        <ul
+          class="navmainlist1"
+          *ngIf="count > perPage"
+          style="list-style: none; display: flex"
+        >
+          <li
+            class="navlist1"
+            *ngFor="let pageNum of pageNumbers"
+            (click)="pageChange(pageNum)"
+            [ngClass]="{ active: currentPage === pageNum }"
+          >
+            {{ pageNum }}&nbsp;&nbsp;
+          </li>
+        </ul>
+      </div>
+      <a (click)="pageChange()" class="nxtbtn" *ngIf="count > perPage">Next</a>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
