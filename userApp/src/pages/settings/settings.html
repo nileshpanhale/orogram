@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons start style="order: 1">
+      <button ion-button icon-only color="secondary" menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <span>Settings</span>
+    </ion-title>
+    
+    <ion-buttons end>
+      <notification></notification>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list padding>
+    <!-- <ion-item>
+      <ion-label>Push Notifications</ion-label>
+      <ion-toggle (ionChange)="pushNotificationChange($event)" [(ngModel)]="pushNotificationStatus"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Email Notifications</ion-label>
+      <ion-toggle (ionChange)="emailNotificationChange($event)" [(ngModel)]="emailNotificationStatus"></ion-toggle>
+    </ion-item> -->
+    <ion-item (click)="logout()">
+      <ion-label>Logout</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

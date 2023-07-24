@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>
+      <span>Enter Email</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form padding (ngSubmit)="submitForm()" [formGroup]="verify">
+    <ion-item>
+      <ion-label floating>Enter your email address</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="error" no-lines color="danger">
+      Email not registered
+    </ion-item>
+
+    <ion-item text-center>
+      <button ion-button large type="submit" block [disabled]="!verify.valid">Submit</button>
+    </ion-item>
+
+    <ion-item *ngIf="message" no-lines>
+      Email sent. please check. <br />
+      If you haven't received the email, <br/> do the following: <br/>
+
+      - Make sure provided email <br/> address is correct. <br/>
+
+      - Check spam or other folders. <br/>
+
+      - Check the mail client works <br/> normally. <br/>
+
+      - Click again on Submit <br/>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button clear (click)="gotoLoginPage($event)"> Goto Login page </button>
+    </ion-item>
+  </form>
+
+</ion-content>

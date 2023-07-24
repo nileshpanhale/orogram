@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons start style="order: 1">
+      <button ion-button icon-only color="secondary" menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <span>Profile</span>
+    </ion-title>
+    
+    <ion-buttons end>
+      <notification></notification>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <div style="position: relative;">
+      <img [src]="profile.picture">
+    </div>
+
+    <ion-item>
+      <ion-icon name="at" item-start large></ion-icon>
+      <h2>{{profile.email}}</h2>
+    </ion-item>
+
+    <form (ngSubmit)="submitForm()" [formGroup]="profileForm">
+      <ion-item>
+        <ion-icon name="person" item-start large></ion-icon>
+        <h2 *ngIf="!editMode">{{profile.firstName + ' ' +profile.lastName || 'your name'}}</h2>
+        <ion-input *ngIf="editMode" type="text" placeholder="Name" formControlName="name"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-icon name="call" item-start large></ion-icon>
+        <h2 *ngIf="!editMode">{{profile.mobile || 'your mobile number'}}</h2>
+        <ion-input *ngIf="editMode" type="text" placeholder="Mobile number" formControlName="mobile"></ion-input>
+      </ion-item>
+<!--       
+      <ion-item>
+        <ion-icon name="happy" item-start large></ion-icon>
+        <h2 *ngIf="!editMode">{{profile.dob || 'your date of birth'}}</h2>
+        <ion-input *ngIf="editMode" type="text" placeholder="D.O.B" formControlName="dob"></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-icon name="briefcase" item-start large></ion-icon>
+        <h2 *ngIf="!editMode">{{profile.profession || 'your profession'}}</h2>
+        <ion-input *ngIf="editMode" type="text" placeholder="Profession" formControlName="profession"></ion-input>
+      </ion-item> -->
+
+    <ion-row>
+      <ion-col offset-8 *ngIf="!editMode" col-2>
+        <button ion-button icon-start clear large (click)="setEditMode(true)">
+          Edit
+        </button>
+      </ion-col>
+      <ion-col offset-4 col-3 *ngIf="editMode">
+        <button ion-button icon-start clear large type="submit">
+          <div>Save</div>
+        </button>
+      </ion-col>
+      <ion-col col-3 *ngIf="editMode">
+        <button ion-button icon-start clear large (click)="setEditMode(false)">
+          <div>Cancel</div>
+        </button>
+      </ion-col>
+    </ion-row>
+    
+    </form>
+
+  </ion-card>
+</ion-content>

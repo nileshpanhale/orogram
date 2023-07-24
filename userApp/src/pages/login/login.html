@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>
+      <span>Login</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form padding (ngSubmit)="submitForm()" [formGroup]="login">
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="isFirstTimeLogin">
+      <ion-label floating>Passphrase</ion-label>
+      <ion-input type="text" ></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="error" no-lines color="danger">
+      {{error}}
+    </ion-item>
+    <ion-item text-center no-lines>
+      <button ion-button large type="submit" block [disabled]="!login.valid">Submit</button>
+    </ion-item>
+    <ion-item *ngIf="emailUnverified">
+      <span ion-button clear (click)="gotoVerifyEmailPage($event)">Resend verify email.</span>
+    </ion-item>
+    <ion-item>
+      <span ion-button clear (click)="gotoSignup($event)">doesn't have an account? Click here</span>
+    </ion-item>
+
+  </form>
+
+</ion-content>

@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons start style="order: 1">
+      <button ion-button icon-only color="secondary" menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <span>Transaction</span>
+    </ion-title>
+    
+    <ion-buttons end>
+      <notification></notification>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<br>
+
+<ion-content >
+  <!-- <select class="CPselect1" style="margin:15px" [(ngModel)]="status" placeholder="Select" (change)="statusChange()">
+    <option value=""  selected>--Select your option--</option>
+    <option value="confirm">Confirm</option>
+    <option value="pending">Pending</option>
+  </select> -->
+  <div >
+  <select [(ngModel)]="perPage" (change)="perPageChange()">
+      <option value=""  disabled>Items Per page</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+  </select>
+  
+  <button (click)="getTransactions()">Refresh</button><br>
+  </div>
+  <div>
+      <a *ngFor="let pageNum of pageNumbers" (click)="pageChange(pageNum)" [ngClass]="{active:currentPage === pageNum}">{{pageNum}}&nbsp;&nbsp;</a> 
+      <a (click)="pageChange()">Next</a> 
+  </div> 
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-md-6 col-lg-4 col-xl-3 *ngFor="let n of transactions">
+        <ion-card >
+          <ion-card-content>
+           <ion-item>
+              <h2>
+                <div><b>Date:</b> {{n.timestamp? dataService.fullTimestamp(n.timestamp): '-'}}</div>
+                <div>
+                 
+                  <div *ngIf="userService.walletAddress == n.senderId">
+                      <b>Type:</b>  <span class="sent">Sent</span>
+                    </div>
+                    <div *ngIf="userService.walletAddress == n.recipientId">
+                        <b>Type:</b> <span class="receive">Received</span>
+                    </div>
+                </div>
+                <!-- <div><b>Amount:</b> {{n.amount}}</div> -->
+                <div *ngIf="userService.walletAddress == n.senderId">
+                  <b>Receiver: </b> <p>{{n.recipientId}}</p>
+                </div>
+                <div *ngIf="userService.walletAddress == n.recipientId">
+                  <b>Sender: </b> <p>{{n.senderId}} </p>
+                </div>
+                <div><b>Coins: </b> {{n.amount? dataService.correctCoins(n.amount): '-' }}</div>
+              </h2>
+              <p>{{n.time}}</p>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  
+  </ion-grid>
+</ion-content>
+<ion-content *ngIf="transactions == 0">
+    <ion-card >
+        <ion-card-content >
+            <div style="text-align: center"><span >No Transactions</span></div>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

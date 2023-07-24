@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>
+      <span>Signup</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form padding (ngSubmit)="submitForm()" [formGroup]="register">
+    <ion-item>
+      <ion-label floating>First name</ion-label>
+      <ion-input type="text" formControlName="firstName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Last name</ion-label>
+      <ion-input type="text" formControlName="lastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Mobile number (With country code)</ion-label>
+      <ion-input type="text" formControlName="mobile"></ion-input>
+    </ion-item>
+
+    <!-- <ion-item>
+        <ion-toggle checked="true" formControlName="verifyMobile"></ion-toggle>
+        <ion-label>Verify mobile</ion-label>
+    </ion-item> -->
+    
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+     <ion-item>
+      <ion-label floating>Confirm password</ion-label>
+      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+    </ion-item>
+
+    <ion-item no-lines>
+      <ion-toggle checked="false" formControlName="acceptedTerms"></ion-toggle>
+      <ion-label>I agree to Terms and Conditions</ion-label>
+    </ion-item>
+
+    <ion-item *ngFor="let e of error" color="danger">
+      <p>{{e}}</p>
+    </ion-item>
+    <ion-item text-center no-lines>
+      <button ion-button large type="submit" block [disabled]="!register.valid">Submit</button>
+    </ion-item>
+
+    <ion-item>
+      <span ion-button clear (click)="gotoLogin($event)">already have an account? Click here</span>
+    </ion-item>
+
+  </form>
+
+</ion-content>
