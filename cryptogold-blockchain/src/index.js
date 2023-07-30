@@ -4,12 +4,12 @@ const Web3 = require('web3');
 const ETx = require('ethereumjs-tx').Transaction;
 // const Common = require('ethereumjs-tx').default;
 const Common = require('@ethereumjs/common').default;
-const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:9001'));
+const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'));
 
 /**
  * @dev deployed contract address and ABI on network
  */
-const contractAddr = '0x791c74772aBCE409d62827000a9a4b4843695Ee4';
+const contractAddr = '0xd6Fd1a0e6208C208F406F3c6BD3e80F686D82D73';
 const contractABI = [
   {
     "inputs": [],
@@ -329,7 +329,7 @@ const contractABI = [
 /**
  * @dev account address and private key from which we deploy smart contract
  */
-const owner = "0xa1AC6ae647Bdd7F67208D156b86262405b307BFb";
+const owner = "0xE92029AD77CcA3E58A85491c496756fe25924f28";
 
 /**
  * @dev deployed contract instance
