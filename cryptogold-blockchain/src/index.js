@@ -9,7 +9,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:8545'));
 /**
  * @dev deployed contract address and ABI on network
  */
-const contractAddr = '0xd6Fd1a0e6208C208F406F3c6BD3e80F686D82D73';
+const contractAddr = '0x3ACFd844406632C6C0eF7F95fBD805598876f27B';
 const contractABI = [
   {
     "inputs": [],
