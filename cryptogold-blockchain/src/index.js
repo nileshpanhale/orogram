@@ -375,6 +375,7 @@ async function checkBal(account) {
   let bal = await contract.methods.balanceOf(account).call();
   bal = Math.trunc(bal);
   bal = bal / (10 ** 8);
+  console.log("Orogram balance of user is : ", bal);
   return bal;
 
 };
