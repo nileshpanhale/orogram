@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("./Token.sol");
+const tokenMigrations = artifacts.require("./Token.sol");
 
 module.exports = function (deployer) {
-    deployer.deploy(Migrations);
+    deployer.deploy(tokenMigrations);
 };

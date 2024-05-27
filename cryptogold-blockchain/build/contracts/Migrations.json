@@ -53,7 +53,7 @@
   "sourceMap": "66:352:1:-;;;113:10;90:33;;;;;;;;;;;;;;;;;;;;66:352;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:352:1;;;;;;;",
   "deployedSourceMap": "66:352:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;66:352:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;127:36;;;:::i;:::-;;;;;;;;;;;;;;;;;;;90:33;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;313:103;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;313:103:1;;;;;;;;;;;;;;;;;:::i;:::-;;127:36;;;;:::o;90:33::-;;;;;;;;;;;;;:::o;313:103::-;225:5;;;;;;;;;;;211:19;;:10;:19;;;196:101;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;402:9;375:24;:36;;;;313:103;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity >=0.4.22 <0.9.0;\n\ncontract Migrations {\n  address public owner = msg.sender;\n  uint public last_completed_migration;\n\n  modifier restricted() {\n    require(\n      msg.sender == owner,\n      \"This function is restricted to the contract's owner\"\n    );\n    _;\n  }\n\n  function setCompleted(uint completed) public restricted {\n    last_completed_migration = completed;\n  }\n}\n",
-  "sourcePath": "/home/vikaskaushik/Desktop/cryptogold/cryptogold-blockchain/contracts/Migrations.sol",
+  "sourcePath": "/home/metaearthshop/crypto/cryptogold-blockchain/contracts/Migrations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Migrations.sol",
     "exportedSymbols": {
@@ -924,6 +924,12 @@
       "address": "0x2AD97B6Afe7864877056170c82FBb4501605Db05",
       "transactionHash": "0xd9f6cdf3044dd6f3a8938749ff68a17d3c584fb5bea4530b6914bf42a9dd9980"
     },
+    "2024": {
+      "events": {},
+      "links": {},
+      "address": "0x62C108Ad4cFeA2849Dde76d437e7ee38537D31a3",
+      "transactionHash": "0x74ed2082b4ca7aa9a6694150dc2857ebe3fa814c031da350bfacf27b2ad6269b"
+    },
     "5777": {
       "events": {},
       "links": {},
@@ -931,8 +937,8 @@
       "transactionHash": "0x621d37cfc9802ce17ca204c70779c3d07cb5959f6a664bce3fa9d4338b3212c1"
     }
   },
-  "schemaVersion": "3.4.7",
-  "updatedAt": "2023-07-05T15:42:39.053Z",
+  "schemaVersion": "3.4.16",
+  "updatedAt": "2024-05-26T11:58:28.876Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

@@ -14,7 +14,7 @@ module.exports = {
   mongo: {
     uri: process.env.NODE_ENV === 'test'
       ? process.env.MONGO_URI_TESTS
-      : process.env.MONGO_URI,
+      : process.env.MONGO_URI_NEW,  
   },
   logs: process.env.NODE_ENV === 'production' ? 'combined' : 'dev',
   sendVerificationMail: false,
@@ -25,7 +25,7 @@ module.exports = {
   uploadImagePath: './assets/images',
   url: process.env.URL,
   blockchain: {
-    baseUrl: "http://127.0.0.1:8545",
+    baseUrl: "http://127.0.0.1:9001",
     getBalance: "/contract/balance/:account", // Send wallet address
     getAccount: "/api/accounts?address=", // Send wallet address
     getDelegate: "/api/delegates?limit=", //Send the total count of delegates

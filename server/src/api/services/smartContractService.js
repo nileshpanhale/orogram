@@ -7,7 +7,7 @@ const provider = new Web3.providers.HttpProvider("http://127.0.0.1:9001");
 // const provider = new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/0eefca2527d44b9589a544d7f403b067");
 var web3 = new Web3(provider);
 
-var contractAddress = '0x4eb7581059a4D7460EDC01354047817b28757b4e';
+var contractAddress = '0x8588bdec18ca792b88ee7a22a7A7e86A31463F62';
 const abi = [
 	{
 		"anonymous": false,
@@ -323,7 +323,7 @@ const abi = [
 ];
 var accounts = web3.eth.accounts;
 var contractInstance = new web3.eth.Contract(abi, contractAddress);
-const common = Common.custom({ chainId: 2023 });
+const common = Common.custom({ chainId: 2024 });
 
 var Action = ["NEW", "CONFIRM", "PENDING", "PAID", "CANCEL", "DISPUTE", "ACCEPT"];
 

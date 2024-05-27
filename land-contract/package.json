@@ -1,8 +1,8 @@
 {
-  "name": "cryptogold-blockchain",
+  "name": "land-contract",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "contractAPI.js",
   "directories": {
     "test": "test"
   },
@@ -13,12 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@ethereumjs/common": "^2.6.4",
-    "@ethereumjs/tx": "^3.4.0",
     "ethereumjs-tx": "^2.1.2",
-    "express": "^4.17.2",
-    "mongoose": "^6.1.7",
-    "nodemon": "^2.0.15",
-    "truffle": "^5.11.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.4.0",
     "web3": "^1.7.0"
   }
 }

@@ -12,7 +12,7 @@ module.exports = {
     development: {
       host: "127.0.0.1",
       port: 9001,
-      network_id: "2023",
+      network_id: "2024",
       gas : 3000000
     }
 
