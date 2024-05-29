@@ -493,9 +493,10 @@ exports.walletTransactions = async (req, res, next) => {
         transactions = await Transactions.list(queryObj);
         count = transactions.length;
       }
-    return res.status(httpStatus.OK).send({ count: count, transfers: block })
+	    console.log("data check : ", count, block);
+   // return res.status(httpStatus.OK).send({ count: count, transfers: block })
     })
-    // return res.status(httpStatus.OK).send({ count: count, transfers: block })
+     return res.status(httpStatus.OK).send({ count: count, transfers: block })
   } catch (err) {
     next(err);
   }
