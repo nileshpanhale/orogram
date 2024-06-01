@@ -27,7 +27,8 @@ let self = this;
  * Create contract
  */
 exports.saveTransaction = async (req, res, next) => {
-    try {
+console.log("check parameters : ", req.body);
+	try {
 
         let type = null;
         let user = null;
@@ -824,6 +825,8 @@ exports.getTradesHistory = async (req, res, next) => {
         queryObj['page'] = req.query.page ? parseInt(req.query.page) : 1;
         queryObj['perPage'] = req.query.perPage ? parseInt(req.query.perPage) : 10;
         let count;
+	let check = await Transaction.find();
+	    console.log(check);
         Transaction.find(queryObj['query'], (err, result) => {
             console.log("transactions : ", result)
             count = result.length
@@ -1182,10 +1185,13 @@ exports.getUserSearch = async (req, res, next) => {
         console.log("users search data", req.params.query);
 
         var regex = new RegExp(req.params.query);
+	    let users = await User.find({email:regex});
+	    console.log("check user : ", users);
+	    return res.send(users);
 
-        return User.find({ email: regex }, function (err, q) {
-            return res.send(q);
-        });
+        //return User.find({ email: regex }, function (err, q) {
+          //  return res.send(q);
+        //});
 
 
     } catch (error) {
