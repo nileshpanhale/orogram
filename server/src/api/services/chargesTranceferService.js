@@ -713,6 +713,7 @@ module.exports.releaseHoldTradeCharges = async function releaseHoldTradeCharges(
 
     let creator = await User.findById(holdedTrade.creatorId);
     let accepter = await User.findById(holdedTrade.accepterId);
+	let accepterCoin;
     let admin1 = await User.findOne({ role: 'admin1' });
 
     let creatorCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, creator.ethPublicKey, holdedTrade.creatorHoldedCoins);
@@ -730,10 +731,12 @@ module.exports.releaseHoldTradeCharges = async function releaseHoldTradeCharges(
         let newTRX = await TRX.save();
     }
 
-    let accepterCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, accepter.ethPublicKey, holdedTrade.accepterHoldedCoins);
+	if(accepter != null) {
+    accepterCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, accepter.ethPublicKey, holdedTrade.accepterHoldedCoins);
+	}
     holdtran = await HoldCoinsTrade.updateMany({ transactionId: tranId }, { $set: { holdedCoins: 0, accepterHoldedCoins: 0 } });
 
-    if (holdedTrade.accepterHoldedCoins != 0) {
+    if (holdedTrade.accepterHoldedCoins != 0 && accepter != null) {
         TRX = new blkTRX({
             type: 'coinTransfer',
             status: 'cancel',
