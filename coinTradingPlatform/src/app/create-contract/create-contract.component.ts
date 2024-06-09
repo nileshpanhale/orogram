@@ -227,8 +227,8 @@ export class CreateContractComponent implements OnInit {
                         ethPrivate: this.ethPrivate,
                         ethPublic: this.ethPublic,
                         isContract: this.isContract,
-                        lat:coords.lat,
-                        lng:coords.lng
+                        lat: 31.630628,
+                        lng: -7.990161
                     }
                 }
                 if (values.tradeType == "Sell") {
@@ -246,8 +246,8 @@ export class CreateContractComponent implements OnInit {
                         ethPrivate: this.ethPrivate,
                         ethPublic: this.ethPublic,
                         isContract: this.isContract,
-                        lat:coords.lat,
-                        lng:coords.lng
+                        lat: 31.630628,
+                        lng: -7.990161
                     }
                 }
 
