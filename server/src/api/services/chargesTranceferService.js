@@ -368,13 +368,15 @@ module.exports.holdCharges = async function HoldCharges(modeoftran, tranId, user
 module.exports.releaseHoldCharges = async function ReleaseHoldCharges(tranId) {
 
     let holded = await HoldCoins.findOne({ transactionId: tranId });
-
+	console.log("/////////////////////////////////////////////");
+	console.log("check holded transaction details : ", holded);
     let holdtran;
-    let seller = await User.findById(holded.sellerUserId);
-    let buyer = await User.findById(holded.buyerUserId);
+    //let seller = await User.findById(holded.sellerUserId);
+    //let buyer = await User.findById(holded.buyerUserId);
     let admin1 = await User.findOne({ role: 'admin1' });
 
-    if (seller) {
+    if (holded.sellerUserId) {
+	let seller = await User.findById(holded.sellerUserId);
         let sellerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, seller.ethPublicKey, holded.sellerHoldedCoins);
         holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { sellerHoldedCoins: 0, holdedCoins: 0 } });
 
@@ -393,7 +395,8 @@ module.exports.releaseHoldCharges = async function ReleaseHoldCharges(tranId) {
         }
     }
 
-    if (buyer) {
+    if (holded.buyerUserId) {
+	let buyer = await User.findById(holded.buyerUserId);
         let buyerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, buyer.ethPublicKey, holded.buyerHoldedCoins);
         holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { buyerHoldedCoins: 0, holdedCoins: 0 } });
 
