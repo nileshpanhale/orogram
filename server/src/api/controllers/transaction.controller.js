@@ -329,6 +329,7 @@ exports.updateStatus = async (req, res, next) => {
         let user = req.user;
         let adminfee = 0;
         let transaction = await Transaction.findById(req.params.id);
+	    console.log("transaction details : ", transaction);
 
         if (req.user._id + '' == transaction.receiver + '' && user.role != 'admin' && transaction.status == 'confirm') {
             return res.status(httpStatus.UNAUTHORIZED).send({ message: "You are not allowed to update status" });

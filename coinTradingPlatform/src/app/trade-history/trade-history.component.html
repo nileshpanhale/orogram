@@ -116,7 +116,7 @@
                   <option *ngIf="((item.transactionType=='buy' && item.status=='pending')  && item.sender!=null)"
                     value="Paid">Paid</option>
                   <!-- <option *ngIf="(!(item.sender || item.receiver) && (item.transactionType=='sell' && item.status=='pending'))" value="Cancel">Cancel</option> -->
-                  <option *ngIf="((item.transactionType=='sell' && item.status=='pending' && item.receiver == null))"
+                  <option *ngIf="( (item.transactionType=='buy' || item.transactionType=='sell') && item.status=='pending' && (item.sender == null || item.receiver == null) )"
                     value="Cancel">Cancel</option>
                 </select>
               </div>

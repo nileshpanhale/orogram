@@ -367,63 +367,65 @@ module.exports.holdCharges = async function HoldCharges(modeoftran, tranId, user
 //Release coins from holded account ------------------
 module.exports.releaseHoldCharges = async function ReleaseHoldCharges(tranId) {
 
-    let holded = await HoldCoins.findOne({ transactionId: tranId });
-	console.log("/////////////////////////////////////////////");
-	console.log("check holded transaction details : ", holded);
-    let holdtran;
-    //let seller = await User.findById(holded.sellerUserId);
-    //let buyer = await User.findById(holded.buyerUserId);
-    let admin1 = await User.findOne({ role: 'admin1' });
+    try {
+        let holded = await HoldCoins.findOne({ transactionId: tranId });
+        console.log("/////////////////////////////////////////////");
+        console.log("check holded transaction details : ", holded);
+        let holdtran;
+        let admin1 = await User.findOne({ role: 'admin1' });
 
-    if (holded.sellerUserId) {
-	let seller = await User.findById(holded.sellerUserId);
-        let sellerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, seller.ethPublicKey, holded.sellerHoldedCoins);
-        holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { sellerHoldedCoins: 0, holdedCoins: 0 } });
+        if (holded != null && holded.sellerUserId != null) {
+            let seller = await User.findById(holded.sellerUserId);
+            let sellerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, seller.ethPublicKey, holded.sellerHoldedCoins);
+            holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { sellerHoldedCoins: 0, holdedCoins: 0 } });
 
-        if (holded.sellerHoldedCoins != 0) {
-            let TRX = new blkTRX({
-                type: 'coinTransfer',
-                status: 'cancel',
-                coins: holded.sellerHoldedCoins,
-                senderWallet: admin1.account.address,
-                receiverWallet: seller.account.address,
-                transactionId: sellerCoin.transactionHash
-            });
-            let newTRX = await TRX.save();
+            if (holded.sellerHoldedCoins != 0) {
+                let TRX = new blkTRX({
+                    type: 'coinTransfer',
+                    status: 'cancel',
+                    coins: holded.sellerHoldedCoins,
+                    senderWallet: admin1.account.address,
+                    receiverWallet: seller.account.address,
+                    transactionId: sellerCoin.transactionHash
+                });
+                let newTRX = await TRX.save();
 
-            let trans = await Transaction.findByIdAndUpdate(tranId, { transactionId: sellerCoin.transactionHash, status: 'cancel' });
-        }
-    }
-
-    if (holded.buyerUserId) {
-	let buyer = await User.findById(holded.buyerUserId);
-        let buyerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, buyer.ethPublicKey, holded.buyerHoldedCoins);
-        holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { buyerHoldedCoins: 0, holdedCoins: 0 } });
-
-        if (holded.buyerHoldedCoins != 0) {
-            TRX = new blkTRX({
-                type: 'coinTransfer',
-                status: 'cancel',
-                coins: holded.buyerHoldedCoins,
-                senderWallet: admin1.account.address,
-                receiverWallet: buyer.account.address,
-                transactionId: buyerCoin.transactionHash
-            });
-            newTRX = await TRX.save();
-
-            let trans = await Transaction.findByIdAndUpdate(tranId, { transactionId: buyerCoin.transactionHash, status: 'cancel' });
+                let trans = await Transaction.findByIdAndUpdate(tranId, { transactionId: sellerCoin.transactionHash, status: 'cancel' });
+            }
         }
 
-    }
+        if (holded != null && holded.buyerUserId != null) {
+            let buyer = await User.findById(holded.buyerUserId);
+            let buyerCoin = await index.Transfer(admin1.ethPublicKey, admin1.ethPrivateKey, buyer.ethPublicKey, holded.buyerHoldedCoins);
+            holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { buyerHoldedCoins: 0, holdedCoins: 0 } });
 
-    // let holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { sellerHoldedCoins: 0, buyerHoldedCoins: 0, holderUserId: 0, holdedCoins: 0 } });
+            if (holded.buyerHoldedCoins != 0) {
+                TRX = new blkTRX({
+                    type: 'coinTransfer',
+                    status: 'cancel',
+                    coins: holded.buyerHoldedCoins,
+                    senderWallet: admin1.account.address,
+                    receiverWallet: buyer.account.address,
+                    transactionId: buyerCoin.transactionHash
+                });
+                newTRX = await TRX.save();
 
-    if (holdtran != null) {
-        return true;
-    }
-    else {
-        console.log("No transaction found");
-        return false;
+                let trans = await Transaction.findByIdAndUpdate(tranId, { transactionId: buyerCoin.transactionHash, status: 'cancel' });
+            }
+
+        }
+
+        // let holdtran = await HoldCoins.updateMany({ transactionId: tranId }, { $set: { sellerHoldedCoins: 0, buyerHoldedCoins: 0, holderUserId: 0, holdedCoins: 0 } });
+
+        if (holdtran != null) {
+            return true;
+        }
+        else {
+            console.log("No transaction found");
+            return false;
+        }
+    } catch (err) {
+        console.log(err);
     }
 }
 
